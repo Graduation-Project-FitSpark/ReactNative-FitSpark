@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 
 export const signInStyles = StyleSheet.create({
   container: {
+    marginTop: 30,
     flex: 1,
     backgroundColor: "#fff",
   },
