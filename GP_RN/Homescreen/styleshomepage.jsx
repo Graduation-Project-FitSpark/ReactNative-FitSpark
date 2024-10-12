@@ -9,13 +9,21 @@ export const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   welcom: {
-    marginBottom: 5, // Reduce or remove margin to reduce gap
-    paddingHorizontal: 10,
+    marginTop: 5,
+    marginBottom: 10, // Reduce or remove margin to reduce gap
+    paddingHorizontal: 20,
     paddingVertical: 5, // Reduce vertical padding if needed
   },
   name: {
     fontSize: 20,
     fontWeight: "bold",
+  },
+  namedate: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  date: {
+    marginTop: 4,
   },
   scrollContainer: {
     paddingHorizontal: 10,

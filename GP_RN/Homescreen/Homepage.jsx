@@ -8,8 +8,10 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Ring from "./RingProgress.jsx";
-
+import Quiz from "./Quizcomponenthomepage.jsx";
+import Section from "./Gotosection.jsx";
 import { styles } from "./styleshomepage";
+import axios from "axios";
 
 // Define window dimensions
 const windowWidth = Dimensions.get("window").width;
@@ -26,16 +28,18 @@ const data = [
 ];
 
 // App Component
-const home = () => {
+const Home = () => {
   const scrollViewRef = useRef(null);
   const [scrollDirection, setScrollDirection] = useState("right");
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  // Calculate the width of each card based on the window width
+  const [userData, setUserData] = useState({
+    name: "unknown",
+  });
   const cardWidth = windowWidth * 0.8;
 
-  // ScrollView auto-scroll effect
   useEffect(() => {
+    setUserData({ name: "ahmed" }); //عشاير هون انت بس بتستدعي الاسم  من داتا بيس وبتدبدلها مكان النيم ل
+
     const interval = setInterval(() => {
       let newIndex = currentIndex;
 
@@ -60,11 +64,22 @@ const home = () => {
     return () => clearInterval(interval);
   }, [currentIndex, scrollDirection, cardWidth]);
 
+  // Get current date
+  const date = new Date().toLocaleDateString("en-GB", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+
   return (
     <View style={styles.container}>
       <View style={styles.welcom}>
         <Text>Good Morning 🔥</Text>
-        <Text style={styles.name}>Mahmoud Arafat</Text>
+        <View style={styles.namedate}>
+          <Text style={styles.name}>{userData.name}</Text>
+          <Text style={styles.date}>{date}</Text>
+        </View>
       </View>
 
       <ScrollView
@@ -87,9 +102,6 @@ const home = () => {
                 <Text style={styles.cardText}>{item.phrase}</Text>
                 <Text style={styles.cardSubtitle}>See more</Text>
               </View>
-              <TouchableOpacity style={styles.buttonContainer}>
-                <Text style={styles.playIcon}>▶</Text>
-              </TouchableOpacity>
             </ImageBackground>
           </View>
         ))}
@@ -98,8 +110,9 @@ const home = () => {
       {/* Ring component */}
       <Ring />
       {/* Menubar component without NavigationContainer */}
+      <Section />
     </View>
   );
 };
 
-export default home;
+export default Home;

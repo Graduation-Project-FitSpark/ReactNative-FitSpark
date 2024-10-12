@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { View, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons"; // Import the icon library
 import Homepage from "./Homepage.jsx";
-
+import Navigationdrawer from "./Navigationdrawer.jsx";
 // Screens for the menu items
 function HomeScreen() {
   return <Homepage />;
@@ -26,11 +26,7 @@ function Calendar() {
 }
 
 function Bars() {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      {/* Bars Screen Content */}
-    </View>
-  );
+  return <Navigationdrawer />;
 }
 
 const Tab = createBottomTabNavigator();

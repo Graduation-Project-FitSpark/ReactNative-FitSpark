@@ -7,13 +7,15 @@ import Homescreen from "./Homescreen/Homepage.jsx";
 import Menubar from "./Homescreen/Menubar.jsx";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import Notification from "./Homescreen/Notificationspage.jsx";
+import Navigationdrawer from "./Homescreen/Navigationdrawer.jsx";
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Authentication">
+      <Stack.Navigator initialRouteName="SignIn">
         <Stack.Screen
           name="Menubar"
           component={Menubar}
@@ -32,6 +34,16 @@ export default function App() {
         <Stack.Screen
           name="Authentication"
           component={Authentication}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Notification"
+          component={Notification}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Navigationdrawer"
+          component={Navigationdrawer}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
