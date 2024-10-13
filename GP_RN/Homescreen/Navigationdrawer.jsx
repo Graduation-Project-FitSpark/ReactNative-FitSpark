@@ -46,7 +46,10 @@ const Navigationdrawer = () => {
           <Text style={styles.menuItem}>Notifications</Text>
         </TouchableOpacity>
         <View style={styles.hr} />
-        <TouchableOpacity style={styles.menuItemContainer}>
+        <TouchableOpacity
+          style={styles.menuItemContainer}
+          onPress={() => navigation.navigate("Awards")}
+        >
           <IconIonicons name="medal" size={24} color="#000" />
           <Text style={styles.menuItem}>Awards</Text>
         </TouchableOpacity>
@@ -136,15 +139,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    padding: 10,
+    padding: 5,
     backgroundColor: "#f0f0f0",
     borderRadius: 10,
-    marginTop: 7,
+    marginTop: 20,
   },
   button: {
-    marginHorizontal: 10,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    marginHorizontal: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
   },
   icon: {
     marginRight: 10,

@@ -80,4 +80,7 @@ export const styles = StyleSheet.create({
     fontSize: 30,
     color: "#fff",
   },
+  arrow: {
+    fontSize: 18,
+  },
 });

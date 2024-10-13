@@ -9,6 +9,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Notification from "./Homescreen/Notificationspage.jsx";
 import Navigationdrawer from "./Homescreen/Navigationdrawer.jsx";
+import Awards from "./Homescreen/Awards.jsx";
 
 const Stack = createStackNavigator();
 
@@ -44,6 +45,11 @@ export default function App() {
         <Stack.Screen
           name="Navigationdrawer"
           component={Navigationdrawer}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Awards"
+          component={Awards}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

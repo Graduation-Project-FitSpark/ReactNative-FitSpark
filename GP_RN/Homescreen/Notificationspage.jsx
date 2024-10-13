@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import IconIonicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 
@@ -43,34 +43,44 @@ function Notificationspage() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <IconIonicons
-          name="chevron-back-outline"
-          size={24}
-          color="#000"
-          style={styles.icon}
-          onPress={() => navigation.goBack()}
-        />
-        <Text style={styles.textheader}>Notifications</Text>
-      </View>
-
-      {notifications.map((item) => (
-        <View key={item.id} style={styles.outer}>
-          <View style={styles.outertem2}>
-            <Text style={styles.item2}>2mago</Text>
-          </View>
-          <View style={styles.outeritem}>
-            <Text style={styles.item}>{item.name}</Text>
-          </View>
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        showsHorizontalScrollIndicator={false}
+        decelerationRate="fast"
+        scrollEnabled={true}
+      >
+        <View style={styles.header}>
+          <IconIonicons
+            name="chevron-back-outline"
+            size={24}
+            color="#000"
+            style={styles.icon}
+            onPress={() => navigation.goBack()}
+          />
+          <Text style={styles.textheader}>Notifications</Text>
         </View>
-      ))}
+
+        {notifications.map((item) => (
+          <View key={item.id} style={styles.outer}>
+            <View style={styles.outertem2}>
+              <Text style={styles.item2}>2mago</Text>
+            </View>
+            <View style={styles.outeritem}>
+              <Text style={styles.item}>{item.name}</Text>
+            </View>
+          </View>
+        ))}
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  scrollContainer: {
     padding: 20,
+    width: "100%",
+  },
+  container: {
     backgroundColor: "#fff",
     width: "100%",
     height: "100%",

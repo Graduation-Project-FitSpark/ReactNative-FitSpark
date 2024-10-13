@@ -100,7 +100,9 @@ const Home = () => {
             >
               <View style={styles.textContainer}>
                 <Text style={styles.cardText}>{item.phrase}</Text>
-                <Text style={styles.cardSubtitle}>See more</Text>
+                <Text style={styles.cardSubtitle}>
+                  See more <Text style={styles.arrow}>&gt;</Text>
+                </Text>
               </View>
             </ImageBackground>
           </View>
