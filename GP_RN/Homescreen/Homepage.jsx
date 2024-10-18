@@ -13,10 +13,8 @@ import Section from "./Gotosection.jsx";
 import { styles } from "./styleshomepage";
 import axios from "axios";
 
-// Define window dimensions
 const windowWidth = Dimensions.get("window").width;
 
-// Sample data for cards
 const data = [
   {
     id: "1",
@@ -64,7 +62,6 @@ const Home = () => {
     return () => clearInterval(interval);
   }, [currentIndex, scrollDirection, cardWidth]);
 
-  // Get current date
   const date = new Date().toLocaleDateString("en-GB", {
     weekday: "long",
     day: "numeric",
@@ -109,9 +106,9 @@ const Home = () => {
         ))}
       </ScrollView>
 
-      {/* Ring component */}
+      {}
       <Ring />
-      {/* Menubar component without NavigationContainer */}
+      {}
       <Section />
     </View>
   );

@@ -10,49 +10,64 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Notification from "./Homescreen/Notificationspage.jsx";
 import Navigationdrawer from "./Homescreen/Navigationdrawer.jsx";
 import Awards from "./Homescreen/Awards.jsx";
+import Iteamshop from "./Homescreen/Iteamshop.jsx";
+import Cart from "./Homescreen/Cart.jsx";
+import MyProvider from "./MyProvider";
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="SignIn">
-        <Stack.Screen
-          name="Menubar"
-          component={Menubar}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="SignIn"
-          component={SignIn}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="SignUp"
-          component={SignUp}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Authentication"
-          component={Authentication}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Notification"
-          component={Notification}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Navigationdrawer"
-          component={Navigationdrawer}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Awards"
-          component={Awards}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <MyProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Menubar">
+          <Stack.Screen
+            name="Menubar"
+            component={Menubar}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="SignIn"
+            component={SignIn}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="SignUp"
+            component={SignUp}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Authentication"
+            component={Authentication}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Notification"
+            component={Notification}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Navigationdrawer"
+            component={Navigationdrawer}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Awards"
+            component={Awards}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Iteamshop"
+            component={Iteamshop}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Cart"
+            component={Cart}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </MyProvider>
   );
 }

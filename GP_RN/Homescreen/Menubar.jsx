@@ -1,26 +1,23 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { View, StyleSheet } from "react-native";
-import Icon from "react-native-vector-icons/Ionicons"; // Import the icon library
+import Icon from "react-native-vector-icons/Ionicons";
 import Homepage from "./Homepage.jsx";
 import Navigationdrawer from "./Navigationdrawer.jsx";
-// Screens for the menu items
+import Store from "./Shop.jsx";
+
 function HomeScreen() {
   return <Homepage />;
 }
 
 function Shop() {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      {/* Shop Screen Content */}
-    </View>
-  );
+  return <Store />;
 }
 
 function Calendar() {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      {/* Calendar Screen Content */}
+      {}
     </View>
   );
 }
@@ -38,7 +35,6 @@ export default function Menubar() {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          // Choose icons based on the route name
           if (route.name === "Homescreen") {
             iconName = focused ? "home" : "home-outline";
           } else if (route.name === "bars") {
@@ -49,12 +45,11 @@ export default function Menubar() {
             iconName = focused ? "storefront" : "storefront-outline";
           }
 
-          // Return the icon component
           return <Icon name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: "#1c1b29", // Active icon color
-        tabBarInactiveTintColor: "#fff", // Inactive icon color
-        tabBarActiveBackgroundColor: "#b2f200", // Background color for active tab
+        tabBarActiveTintColor: "#1c1b29",
+        tabBarInactiveTintColor: "#fff",
+        tabBarActiveBackgroundColor: "#b2f200",
         // Rounded tab bar style
         tabBarItemStyle: {
           borderRadius: 15,
@@ -62,7 +57,7 @@ export default function Menubar() {
           tabBarShowLabel: true,
         },
         tabBarStyle: styles.tabBar,
-        tabBarShowLabel: false, // Hides the label
+        tabBarShowLabel: false,
       })}
     >
       <Tab.Screen
@@ -98,7 +93,7 @@ const styles = StyleSheet.create({
     right: 16,
     height: 60,
     backgroundColor: "#1c1b29",
-    borderRadius: 30, // Rounded tab bar
+    borderRadius: 30,
     paddingHorizontal: 10,
   },
   tabBarLabel: {

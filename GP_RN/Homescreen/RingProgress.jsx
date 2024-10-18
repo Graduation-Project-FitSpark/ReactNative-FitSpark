@@ -3,10 +3,8 @@ import { View, Text, StyleSheet, Dimensions } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 import GoogleFit, { Scopes } from "react-native-google-fit";
 
-// Define window dimensions
 const windowWidth = Dimensions.get("window").width;
 
-// Ring Progress Component
 const RingProgress = ({
   radius = 100,
   color = "red",
@@ -26,7 +24,7 @@ const RingProgress = ({
           cx={radius}
           cy={radius}
           r={circleRadius}
-          stroke="#e6e6e6" // Background ring color
+          stroke="#e6e6e6"
           strokeWidth={strokeWidth}
           fill="none"
         />
@@ -46,15 +44,13 @@ const RingProgress = ({
   );
 };
 
-// Main Screen Component
 const ExampleScreen = () => {
   const [progress, setProgress] = useState(0);
   const [steps, setSteps] = useState(0);
   const [distance, setDistance] = useState(0);
-  const goalCalories = 380; // Replace with your goal
+  const goalCalories = 380;
 
   useEffect(() => {
-    // Initialize Google Fit
     const options = {
       scopes: [
         Scopes.FITNESS_ACTIVITY_READ,
@@ -68,7 +64,6 @@ const ExampleScreen = () => {
         if (authResult.success) {
           console.log("Google Fit Authorization Success");
 
-          // Fetch calories burned
           GoogleFit.getDailyCalorieSamples({
             startDate: new Date(
               new Date().setDate(new Date().getDate() - 7)
@@ -79,7 +74,6 @@ const ExampleScreen = () => {
             setProgress(calories / goalCalories);
           });
 
-          // Fetch steps
           GoogleFit.getDailyStepCountSamples({
             startDate: new Date(
               new Date().setDate(new Date().getDate() - 7)
@@ -90,7 +84,6 @@ const ExampleScreen = () => {
             setSteps(totalSteps);
           });
 
-          // Fetch distance
           GoogleFit.getDailyDistanceSamples({
             startDate: new Date(
               new Date().setDate(new Date().getDate() - 7)
@@ -138,7 +131,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
-    backgroundColor: "#000", // Assuming a dark background
+    backgroundColor: "#000",
     marginHorizontal: 10,
     borderRadius: 15,
     overflow: "hidden",

@@ -10,9 +10,9 @@ export const styles = StyleSheet.create({
   },
   welcom: {
     marginTop: 5,
-    marginBottom: 10, // Reduce or remove margin to reduce gap
+    marginBottom: 10,
     paddingHorizontal: 20,
-    paddingVertical: 5, // Reduce vertical padding if needed
+    paddingVertical: 5,
   },
   name: {
     fontSize: 20,
@@ -27,8 +27,8 @@ export const styles = StyleSheet.create({
   },
   scrollContainer: {
     paddingHorizontal: 10,
-    paddingBottom: 0, // Ensure no padding at the bottom
-    marginBottom: 0, // Ensure there is no bottom margin
+    paddingBottom: 0,
+    marginBottom: 0,
   },
   card: {
     width: windowWidth * 0.8,

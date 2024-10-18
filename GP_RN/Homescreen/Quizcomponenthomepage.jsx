@@ -53,13 +53,13 @@ const styles = StyleSheet.create({
     height: "100%",
     paddingBottom: 20,
     paddingTop: 10,
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Add a background to make shadow visible
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.2,
     shadowRadius: 8,
     elevation: 8,
-    borderRadius: 10, // Match the shape to ensure consistent rounding
+    borderRadius: 10,
   },
   titleText: {
     fontSize: 24,
