@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import {
   View,
   TextInput,
@@ -37,6 +39,7 @@ const SignIn = ({ navigation }) => {
       const data = await response.json();
       if (data.message) {
         const { Email } = data.user;
+        await AsyncStorage.setItem("username", username);
         navigation.navigate("Authentication", {
           username: username,
           Email: Email,
