@@ -12,6 +12,8 @@ import {
 import { Picker } from "@react-native-picker/picker";
 import URL from "../enum";
 import staystrong from "../img/StayStrong.png";
+import * as ImagePicker from "expo-image-picker";
+import { manipulateAsync } from "expo-image-manipulator";
 const SignUp = ({ navigation }) => {
   const [step, setStep] = useState(1);
   const [username, setUsername] = useState("");
@@ -34,6 +36,68 @@ const SignUp = ({ navigation }) => {
   const [classType, setClassType] = useState("");
   const [activityLevel, setActivityLevel] = useState("");
   const [image, setImage] = useState("");
+  const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
+  const pickImage = async () => {
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!permissionResult.granted) {
+      alert("Permission is required to access photos.");
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.5,
+    });
+
+    if (!result.canceled && result.assets && result.assets.length > 0) {
+      const selectedImageUri = result.assets[0].uri;
+      setUploadedImageUrl(selectedImageUri);
+      const manipResult = await manipulateAsync(selectedImageUri, [
+        { resize: { width: 300, height: 300 } },
+      ]);
+      const imageBase64 = await fetch(manipResult.uri)
+        .then((res) => res.blob())
+        .then((blob) => blobToBase64(blob));
+
+      setImage(imageBase64);
+    }
+  };
+
+  const blobToBase64 = (blob) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result.split(",")[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+
+  const uploadImage = async (imageBase64, username) => {
+    try {
+      console.log(imageBase64, username);
+      const response = await fetch(`${URL}/uploadProfileImgRouter`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          img: imageBase64,
+          username: username,
+        }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        console.log("Image uploaded successfully:", data);
+      } else {
+        console.error("Error uploading image:", data.error);
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  };
 
   const handleNextStep = async () => {
     if (step === 1) {
@@ -72,7 +136,7 @@ const SignUp = ({ navigation }) => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const commonData = {
       Username: username,
       Email: email,
@@ -138,6 +202,7 @@ const SignUp = ({ navigation }) => {
         console.error("Error registering:", error);
         Alert.alert("Error", "Something went wrong during registration");
       });
+    await uploadImage(image, username);
   };
 
   const renderStep1 = () => (
@@ -233,12 +298,12 @@ const SignUp = ({ navigation }) => {
             value={location}
             onChangeText={setLocation}
           />
+          <Text style={styles.label}>Select Gender</Text>
           <Picker
             selectedValue={gender}
             onValueChange={(itemValue) => setGender(itemValue)}
             style={styles.picker}
           >
-            <Picker.Item label="Select Gender" value="" />
             <Picker.Item label="Male" value="Male" />
             <Picker.Item label="Female" value="Female" />
           </Picker>
@@ -281,7 +346,7 @@ const SignUp = ({ navigation }) => {
 
           <TextInput
             style={styles.input}
-            placeholder="Expression Date"
+            placeholder="Date YYYY-MM-DD"
             value={expirationDate}
             onChangeText={setExpressionDate}
           />
@@ -301,20 +366,43 @@ const SignUp = ({ navigation }) => {
                 onChangeText={setHeight}
                 keyboardType="numeric"
               />
-              <TextInput
-                style={styles.input}
-                placeholder="Class Type"
-                value={classType}
-                onChangeText={setClassType}
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Activity Level"
-                value={activityLevel}
-                onChangeText={setActivityLevel}
-              />
+              <Text style={styles.label}>Select Class Type</Text>
+              <Picker
+                selectedValue={classType}
+                onValueChange={(itemValue) => setClassType(itemValue)}
+                style={styles.picker}
+              >
+                <Picker.Item label="Cardio" value="Cardio" />
+                <Picker.Item label="Strength" value="Strength" />
+              </Picker>
+              <Text style={styles.label}>Select Activity Level</Text>
+              <Picker
+                selectedValue={activityLevel}
+                onValueChange={(itemValue) => setActivityLevel(itemValue)}
+                style={styles.picker}
+              >
+                <Picker.Item label="Normal" value="Normal" />
+                <Picker.Item label="Fat" value="Fat" />
+                <Picker.Item label="Very Fat" value="Very Fat" />
+              </Picker>
             </>
           )}
+
+          <View style={styles.imageUploadContainer}>
+            <Text style={styles.label}>Upload Profile Image</Text>
+            <TouchableOpacity
+              style={styles.imageUploadButton}
+              onPress={pickImage}
+            >
+              <Text style={styles.imageUploadButtonText}>Upload Image</Text>
+            </TouchableOpacity>
+            {image && (
+              <Image
+                source={{ uri: uploadedImageUrl }}
+                style={styles.profileImage}
+              />
+            )}
+          </View>
 
           <TouchableOpacity
             style={styles.submitButton}
@@ -335,6 +423,28 @@ const SignUp = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  imageUploadContainer: {
+    alignItems: "left",
+    marginVertical: 10,
+  },
+  imageUploadButton: {
+    backgroundColor: "#1c1b29",
+    padding: 10,
+    borderRadius: 15,
+    marginBottom: 10,
+    marginTop: 10,
+  },
+  imageUploadButtonText: {
+    color: "#fff",
+    textAlign: "center",
+  },
+  profileImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginTop: 10,
+  },
+
   submitButton: {
     backgroundColor: "#1c1b29",
     padding: 15,

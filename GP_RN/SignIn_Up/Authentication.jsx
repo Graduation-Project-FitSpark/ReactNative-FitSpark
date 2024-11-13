@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import {
   View,
   Text,
@@ -9,12 +10,13 @@ import {
 } from "react-native";
 import axios from "axios";
 import URL from "../enum";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Authentication({ route }) {
   const { Email } = route.params;
   const [verificationCode, setVerificationCode] = useState("");
   const [verificationCodeSended, setVerificationCodeSended] = useState("");
-
+  const navigation = useNavigation();
   useEffect(() => {
     sendVerificationCode();
   }, []);
@@ -37,7 +39,7 @@ export default function Authentication({ route }) {
 
   const handleVerify = () => {
     if (verificationCode === verificationCodeSended) {
-      Alert.alert("Success!", "Verification code is valid!");
+      navigation.navigate("QuizP1");
     } else {
       Alert.alert("Error", "Verification code is invalid!");
     }
