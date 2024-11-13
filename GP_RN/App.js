@@ -13,8 +13,6 @@ import SuccessScreen from "./Quiz/SuccessScreen.jsx";
 import Authentication from "./SignIn_Up/Authentication.jsx";
 import SelectCoach from "./Coaches_Specialist_Selecting/SelectCoach.jsx";
 import SelectSpecialist from "./Coaches_Specialist_Selecting/SelectSpecialist.jsx";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import WalkingCalMap from "./Walking_Calories/WalkingCalMap.jsx";
 import WalkingUsingPhone from "./Walking_Calories/WalkingUsingPhone.jsx";
 import SelectingPage from "./Walking_Calories/SelectingPage.jsx";
@@ -40,111 +38,98 @@ const Stack = createStackNavigator();
 
 export default function App() {
   return (
-<MyProvider>
-    <QuizProvider>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="SignUp">
-          <Stack.Screen name="SignIn" component={SignIn} />
-          <Stack.Screen name="SignUp" component={SignUp} />
-          <Stack.Screen name="Authentication" component={Authentication} />
-          <Stack.Screen name="QuizP1" component={QuizP1} />
-          <Stack.Screen name="QuizP2" component={QuizP2} />
-          <Stack.Screen name="QuizP3" component={QuizP3} />
-          <Stack.Screen name="QuizP4" component={QuizP4} />
-          <Stack.Screen name="QuizP5" component={QuizP5} />
-          <Stack.Screen name="QuizP6" component={QuizP6} />
-          <Stack.Screen name="SuccessScreen" component={SuccessScreen} />
-          <Stack.Screen name="SelectCoach" component={SelectCoach} />
-          <Stack.Screen name="SelectSpecialist" component={SelectSpecialist} />
-          <Stack.Screen name="WalkingCalMap" component={WalkingCalMap} />
-          <Stack.Screen name="SelectingPage" component={SelectingPage} />
-          <Stack.Screen name="PushUps" component={PushUps} />
-          <Stack.Screen name="ChinUps" component={ChinUps} />
-          <Stack.Screen
-            name="SelectStrengthTrain"
-            component={SelectStrengthTrain}
-          />
-
-          <Stack.Screen
-            name="WalkingUsingPhone"
-            component={WalkingUsingPhone}
-          />
-      
-
-    
-          <Stack.Screen
-            name="Menubar"
-            component={Menubar}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="SignIn"
-            component={SignIn}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="SignUp"
-            component={SignUp}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Authentication"
-            component={Authentication}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Notification"
-            component={Notification}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Navigationdrawer"
-            component={Navigationdrawer}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Awards"
-            component={Awards}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Iteamshop"
-            component={Iteamshop}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Cart"
-            component={Cart}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Workout"
-            component={Workout}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Exercise"
-            component={Exercise}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="StartExercise"
-            component={StartExercise}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Counttostart"
-            component={Counttostart}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Foodplan"
-            component={Foodplan}
-            options={{ headerShown: false }}
+    <MyProvider>
+      <QuizProvider>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Menubar">
+            <Stack.Screen name="SignIn" component={SignIn} />
+            <Stack.Screen name="SignUp" component={SignUp} />
+            <Stack.Screen name="Authentication" component={Authentication} />
+            <Stack.Screen name="QuizP1" component={QuizP1} />
+            <Stack.Screen name="QuizP2" component={QuizP2} />
+            <Stack.Screen name="QuizP3" component={QuizP3} />
+            <Stack.Screen name="QuizP4" component={QuizP4} />
+            <Stack.Screen name="QuizP5" component={QuizP5} />
+            <Stack.Screen name="QuizP6" component={QuizP6} />
+            <Stack.Screen name="SuccessScreen" component={SuccessScreen} />
+            <Stack.Screen name="SelectCoach" component={SelectCoach} />
+            <Stack.Screen
+              name="SelectSpecialist"
+              component={SelectSpecialist}
             />
-        </Stack.Navigator>
+            <Stack.Screen name="WalkingCalMap" component={WalkingCalMap} />
+            <Stack.Screen name="SelectingPage" component={SelectingPage} />
+            <Stack.Screen name="PushUps" component={PushUps} />
+            <Stack.Screen name="ChinUps" component={ChinUps} />
+            <Stack.Screen
+              name="SelectStrengthTrain"
+              component={SelectStrengthTrain}
+            />
+
+            <Stack.Screen
+              name="WalkingUsingPhone"
+              component={WalkingUsingPhone}
+            />
+
+            <Stack.Screen
+              name="Menubar"
+              component={Menubar}
+              options={{ headerShown: false }}
+            />
+
+            <Stack.Screen
+              name="Notification"
+              component={Notification}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Navigationdrawer"
+              component={Navigationdrawer}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Awards"
+              component={Awards}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Iteamshop"
+              component={Iteamshop}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Cart"
+              component={Cart}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Workout"
+              component={Workout}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Exercise"
+              component={Exercise}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="StartExercise"
+              component={StartExercise}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Counttostart"
+              component={Counttostart}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Foodplan"
+              component={Foodplan}
+              options={{ headerShown: false }}
+            />
+          </Stack.Navigator>
         </NavigationContainer>
       </QuizProvider>
-      </MyProvider>
+    </MyProvider>
   );
 }
