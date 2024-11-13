@@ -36,7 +36,6 @@ const Navigationdrawer = () => {
           <IconIonicons name="person" size={24} color="#000" />
           <Text style={styles.menuItem}>Your Profile</Text>
         </TouchableOpacity>
-        <View style={styles.hr} />
 
         <TouchableOpacity
           style={styles.menuItemContainer}
@@ -45,7 +44,7 @@ const Navigationdrawer = () => {
           <IconIonicons name="notifications" size={24} color="#000" />
           <Text style={styles.menuItem}>Notifications</Text>
         </TouchableOpacity>
-        <View style={styles.hr} />
+
         <TouchableOpacity
           style={styles.menuItemContainer}
           onPress={() => navigation.navigate("Awards")}
@@ -53,22 +52,28 @@ const Navigationdrawer = () => {
           <IconIonicons name="medal" size={24} color="#000" />
           <Text style={styles.menuItem}>Awards</Text>
         </TouchableOpacity>
-        <View style={styles.hr} />
-        <TouchableOpacity style={styles.menuItemContainer}>
+
+        <TouchableOpacity
+          style={styles.menuItemContainer}
+          onPress={() => navigation.navigate("Workout")}
+        >
           <IconIonicons name="barbell" size={24} color="#000" />
           <Text style={styles.menuItem}>Workout</Text>
         </TouchableOpacity>
-        <View style={styles.hr} />
-        <TouchableOpacity style={styles.menuItemContainer}>
+
+        <TouchableOpacity
+          style={styles.menuItemContainer}
+          onPress={() => navigation.navigate("Foodplan")}
+        >
           <IconIonicons name="leaf" size={24} color="#000" />
           <Text style={styles.menuItem}>Meals</Text>
         </TouchableOpacity>
-        <View style={styles.hr} />
+
         <TouchableOpacity style={styles.menuItemContainer}>
           <IconIonicons name="help-circle" size={24} color="#000" />
           <Text style={styles.menuItem}>FAQ</Text>
         </TouchableOpacity>
-        <View style={styles.hr} />
+
         <TouchableOpacity
           style={styles.menuItemContainer}
           onPress={() => navigation.navigate("SignIn")}
@@ -76,19 +81,6 @@ const Navigationdrawer = () => {
           <IconIonicons name="log-out" size={24} color="#000" />
           <Text style={styles.menuItem}>Logout</Text>
         </TouchableOpacity>
-      </View>
-      <View style={styles.account}>
-        {["facebook", "whatsapp"].map((name, index) => (
-          <IconFontAwesome.Button
-            key={index}
-            name={name}
-            backgroundColor={name === "whatsapp" ? "#25D366" : "#3b5998"}
-            iconStyle={styles.icon}
-            style={styles.button}
-          >
-            {name.charAt(0).toUpperCase() + name.slice(1)}
-          </IconFontAwesome.Button>
-        ))}
       </View>
     </View>
   );
@@ -123,6 +115,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     padding: 10,
+    marginBottom: 15,
   },
   menuItem: {
     fontSize: 18,

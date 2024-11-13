@@ -13,7 +13,11 @@ import Awards from "./Homescreen/Awards.jsx";
 import Iteamshop from "./Homescreen/Iteamshop.jsx";
 import Cart from "./Homescreen/Cart.jsx";
 import MyProvider from "./MyProvider";
-
+import Workout from "./Homescreen/Activities/Workout";
+import Exercise from "./Homescreen/Activities/Exercise";
+import StartExercise from "./Homescreen/Activities/StartExercise";
+import Counttostart from "./Homescreen/Activities/Counttostart";
+import Foodplan from "./Homescreen/Meals/Foodplan";
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -64,6 +68,31 @@ export default function App() {
           <Stack.Screen
             name="Cart"
             component={Cart}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Workout"
+            component={Workout}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Exercise"
+            component={Exercise}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="StartExercise"
+            component={StartExercise}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Counttostart"
+            component={Counttostart}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Foodplan"
+            component={Foodplan}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

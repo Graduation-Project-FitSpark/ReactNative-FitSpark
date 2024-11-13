@@ -10,6 +10,7 @@ import {
 import Ring from "./RingProgress.jsx";
 import Quiz from "./Quizcomponenthomepage.jsx";
 import Section from "./Gotosection.jsx";
+import Inoutwalking from "./Inoutwalking.jsx";
 import { styles } from "./styleshomepage";
 import axios from "axios";
 
@@ -78,7 +79,6 @@ const Home = () => {
           <Text style={styles.date}>{date}</Text>
         </View>
       </View>
-
       <ScrollView
         ref={scrollViewRef}
         horizontal
@@ -105,11 +105,13 @@ const Home = () => {
           </View>
         ))}
       </ScrollView>
-
       {}
       <Ring />
       {}
+      <Inoutwalking />
+      {}
       <Section />
+      {/*هون يا سييكشن يا كويز زي ما قلتلك بالدسكورد من فوق في امبورت يا للكويز يا للسكشن */}
     </View>
   );
 };

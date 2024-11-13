@@ -11,19 +11,20 @@ import {
 } from "react-native";
 import IconIonicons from "react-native-vector-icons/Ionicons";
 import Seaction from "./Seaction.jsx";
-
+import { useNavigation } from "@react-navigation/native";
 function Shop() {
   const [text, onChangeText] = React.useState("");
-  const [selectedCategory, setSelectedCategory] = React.useState("Nike");
-  const [selectedprice, setSelectedprice] = React.useState(15);
+  const [selectedCategory, setSelectedCategory] = React.useState("Protein");
+  const [selectedanme, setSelectedname] = React.useState(15);
   const [shouldFind, setShouldFind] = React.useState(1);
+  const [sherchtext, setsherchtext] = React.useState("");
+  const navigation = useNavigation();
   const [categories, setCategories] = useState([
     "Protein", //هون في شرح تفصيلي
-    "Pre-Workout", //1-لازم نعمل كمان تيبل التيبل لازم تحتوي على الاقسام وبكون بمخزن فيها الالي دي واسم القسم
-    "Vitamins & Wellness", // بعد ما تعمل التيبل اخذف كل الي موجود في الاريي عشان تعرف ليه هيك بدي اعمل ابعتلي
-    "Healthy Weight",
-    "Clothing & Equipment",
-    "Protein Bar",
+    "Pre workout", //1-لازم نعمل كمان تيبل التيبل لازم تحتوي على الاقسام وبكون بمخزن فيها الالي دي واسم القسم
+    "Vitamins", // بعد ما تعمل التيبل اخذف كل الي موجود في الاريي عشان تعرف ليه هيك بدي اعمل ابعتلي
+    "Equipment",
+    "Protein bar",
   ]);
   useEffect(() => {
     //هون بتاخد كل الموجود في تيبل الجديدة وبتعملها ست
@@ -32,8 +33,7 @@ function Shop() {
     setCategories(newCategories);
   }, []);
   _handleSubmitEditing = (text) => {
-    const integerNumber = parseInt(text, 10);
-    setSelectedprice(integerNumber);
+    setSelectedname(text.charAt(0).toUpperCase() + text.slice(1));
     setShouldFind(0);
   };
 
@@ -44,15 +44,21 @@ function Shop() {
           <TextInput
             style={styles.input}
             value={text}
-            onChangeText={(text) => onChangeText(text)}
+            onChangeText={(text) => {
+              onChangeText(text);
+              setsherchtext(text);
+            }}
             placeholder="Find shoes"
             placeholderTextColor="#999"
-            onSubmitEditing={(event) =>
-              this._handleSubmitEditing(event.nativeEvent.text)
-            }
+            onSubmitEditing={() => this._handleSubmitEditing(sherchtext)}
           />
           <View style={styles.iconContainer}>
-            <IconIonicons name="search-outline" size={20} color="#fff" />
+            <IconIonicons
+              name="search-outline"
+              size={20}
+              color="#fff"
+              onPress={() => this._handleSubmitEditing(sherchtext)}
+            />
           </View>
         </View>
         <View style={styles.categoriescart}>
@@ -62,6 +68,7 @@ function Shop() {
             size={30}
             color="gray"
             style={styles.iconcart}
+            onPress={() => navigation.navigate("Cart")}
           />
         </View>
         <ScrollView
@@ -91,7 +98,7 @@ function Shop() {
 
         <Seaction
           seactionname={selectedCategory}
-          price={selectedprice}
+          name={selectedanme}
           find={shouldFind}
         />
       </View>

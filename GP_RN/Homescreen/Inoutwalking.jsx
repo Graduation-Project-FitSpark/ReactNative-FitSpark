@@ -6,25 +6,26 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from "react-native";
-import qizeimg from "../img/quizeimg.jpg";
+import qizeimg from "../img/walking.webp";
 import { useNavigation } from "@react-navigation/native";
-const Qize = () => {
+const Inoutwalking = () => {
   const navigation = useNavigation();
   return (
     <View style={styles.qizeouterView}>
       <ImageBackground source={qizeimg} resizeMode="cover" style={styles.image}>
-        <View style={styles.qizeinerView}>
-          <Text style={styles.titleText}>Fitness Quiz</Text>
-          <Text style={styles.subtitleText}>
-            Challenge yourself and make your life better 💪
-          </Text>
+        <View style={styles.overlay}>
+          <View style={styles.header}>
+            <Text style={styles.icons}>⚡⚡⚡</Text>
+            <TouchableOpacity
+              style={styles.startButton}
+              onPress={() => navigation.navigate("SignIn")} // هون بدل السابن ان حط تاعت  صفحة المشي
+            >
+              <Text style={styles.startText}>Start</Text>
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.title}>Endurance improvement program</Text>
+          <Text style={styles.details}>10km • 3548kcal • 120min</Text>
         </View>
-        <TouchableOpacity
-          style={styles.buttonContainer}
-          onPress={() => navigation.navigate("SignIn")} // هون بروح على صفحة الكويز بدل sginin حط تاعت الكويز
-        >
-          <Text style={styles.playIcon}>▶</Text>
-        </TouchableOpacity>
       </ImageBackground>
     </View>
   );
@@ -40,10 +41,8 @@ const styles = StyleSheet.create({
   qizeouterView: {
     borderRadius: 15,
 
-    height: 120,
+    height: 100,
     margin: 10,
-
-    marginBottom: 100,
   },
   qizeinerView: {
     paddingLeft: 10,
@@ -87,6 +86,43 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: "#fff",
   },
+  overlay: {
+    width: "100%",
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  icons: {
+    color: "white",
+    fontSize: 16,
+  },
+  startButton: {
+    height: 30,
+    backgroundColor: "red",
+    borderRadius: 20,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+  },
+  startText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  title: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+    marginTop: 10,
+  },
+  details: {
+    color: "white",
+    fontSize: 14,
+    marginTop: 5,
+  },
 });
 
-export default Qize;
+export default Inoutwalking;

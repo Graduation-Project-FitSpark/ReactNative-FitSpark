@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import IconIonicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
-const Seaction = ({ seactionname, price, find }) => {
+const Seaction = ({ seactionname, name, find }) => {
   const navigation = useNavigation();
   const [sakeItems, setSakeItems] = useState([
     //هلا هون بتمسح كل اشي
@@ -15,14 +15,14 @@ const Seaction = ({ seactionname, price, find }) => {
     },
     {
       ID_Sale: 2,
-      Salee_Name: "Pre-Workout",
+      Salee_Name: "Pre workout",
       Price: 22,
       Quantity: 5,
       Description: "A smooth and rich sake, perfect for pairing with seafood.",
     },
     {
       ID_Sale: 3,
-      Salee_Name: "Vitamins&Wellness",
+      Salee_Name: "Vitamins",
       Price: 18,
       Quantity: 8,
       Description: "A premium sake with floral aroma and a crisp finish.",
@@ -41,7 +41,7 @@ const Seaction = ({ seactionname, price, find }) => {
       ...sakeItems,
       {
         ID_Sale: 5,
-        Salee_Name: "Pre-Workout",
+        Salee_Name: "Pre workout",
         Price: 100,
         Quantity: 5,
         Description: "mahmoud is better then ahmad , ahmad is hmar ",
@@ -107,7 +107,7 @@ const Seaction = ({ seactionname, price, find }) => {
       <Text>No sake found with the name {seactionname}</Text>
     );
   } else {
-    const filteredItems = sakeItems.filter((item) => item.Price === price);
+    const filteredItems = sakeItems.filter((item) => item.Salee_Name === name);
 
     let elements = [];
     for (let i = 0; i < filteredItems.length; i += 2) {

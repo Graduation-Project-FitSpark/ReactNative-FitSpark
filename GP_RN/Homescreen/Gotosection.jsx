@@ -21,7 +21,7 @@ const Section = () => {
         </View>
         <TouchableOpacity
           style={styles.buttonContainer}
-          onPress={() => navigation.navigate("SignIn")}
+          onPress={() => navigation.navigate("Workout")}
         >
           <Text style={styles.playIcon}>▶</Text>
         </TouchableOpacity>
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     height: 120,
     margin: 10,
 
-    marginBottom: 100,
+    marginBottom: 90,
   },
   qizeinerView: {
     paddingLeft: 10,
