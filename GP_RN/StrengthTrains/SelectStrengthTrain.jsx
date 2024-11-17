@@ -16,7 +16,7 @@ const SelectStrengthTrain = () => {
         onPress={() => navigation.navigate("PushUps")}
       >
         <Image
-          source={require("../img/PushUps.jpeg")} // Update path as needed
+          source={require("../img/PushUps.jpeg")} 
           style={styles.image}
           resizeMode="cover"
         />
@@ -76,8 +76,8 @@ const styles = StyleSheet.create({
     left: 0,
     width: "100%",
     height: "100%",
-    backgroundColor: "rgba(0, 0, 0, 0.4)", // Full overlay with shadow effect
-    justifyContent: "flex-end", // Align the text at the bottom
+    backgroundColor: "rgba(0, 0, 0, 0.4)", 
+    justifyContent: "flex-end", 
     padding: 10,
   },
   buttonText: {

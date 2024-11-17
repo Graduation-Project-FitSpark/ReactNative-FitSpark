@@ -24,7 +24,7 @@ const SuccessScreen = () => {
     ).start();
 
     const timer = setTimeout(() => {
-      navigation.navigate("SignIn");
+      navigation.navigate("Menubar");
     }, 5000);
 
     return () => clearTimeout(timer);

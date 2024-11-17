@@ -187,6 +187,7 @@ Don't give me any justification—just provide the JSON result so I can use it i
       });
 
       console.log("Success Sending and finishing!");
+      navigation.navigate("SuccessScreen");
     } catch (error) {
       console.error("Error fetching data:", error);
     }

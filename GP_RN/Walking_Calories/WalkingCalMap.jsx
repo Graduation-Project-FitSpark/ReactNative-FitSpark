@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import MapView, { Marker, Polyline } from "react-native-maps";
 import * as Location from "expo-location";
-
+import URL from "../enum";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const WalkingCalMap = () => {
   const [location, setLocation] = useState(null);
   const [walking, setWalking] = useState(false);
@@ -96,6 +98,24 @@ const WalkingCalMap = () => {
 
   const stopWalking = () => {
     setWalking(false);
+    const updateCaloriesAndSteps = async () => {
+      const trainerId = await AsyncStorage.getItem("ID");
+      try {
+        const response = await axios.post(`${URL}/updateCalorieSteps`, {
+          trainerId: trainerId,
+          steps: steps,
+          calories: calories,
+          distance: totalDistance,
+        });
+
+        if (response.status === 200 || response.status === 201) {
+          console.log(response.data.message);
+        }
+      } catch (error) {
+        console.error("Error updating calories and steps:", error);
+      }
+    };
+    updateCaloriesAndSteps();
   };
 
   return (
