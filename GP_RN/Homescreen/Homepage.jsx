@@ -13,6 +13,8 @@ import Section from "./Gotosection.jsx";
 import Inoutwalking from "./Inoutwalking.jsx";
 import { styles } from "./styleshomepage";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import URL from "../enum.js";
 
 const windowWidth = Dimensions.get("window").width;
 
@@ -34,11 +36,49 @@ const Home = () => {
   const [userData, setUserData] = useState({
     name: "unknown",
   });
+  const [showSection, setShowSection] = useState(false);
   const cardWidth = windowWidth * 0.8;
 
   useEffect(() => {
-    setUserData({ name: "ahmed" }); //عشاير هون انت بس بتستدعي الاسم  من داتا بيس وبتدبدلها مكان النيم ل
+    const fetchTrainerDetails = async () => {
+      try {
+        const username = await AsyncStorage.getItem("username");
+        setUserData({ name: username });
 
+        const trainerResponse = await axios.post(`${URL}/getTrainerDetails`, {
+          username,
+        });
+
+        const trainerID = trainerResponse.data.trainer.ID_Trainer;
+        await AsyncStorage.setItem("ID", trainerID);
+
+        if (trainerID) {
+          const userResultResponse = await fetch(`${URL}/ifUserResultExsists`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ ID_Trainer: trainerID }),
+          });
+
+          const userResultData = await userResultResponse.json();
+          console.log(userResultData.exists);
+
+          if (userResultData.exists === true) {
+            setShowSection(true);
+          } else {
+            setShowSection(false);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching trainer or user result details:", error);
+      }
+    };
+
+    fetchTrainerDetails();
+  }, []);
+
+  useEffect(() => {
     const interval = setInterval(() => {
       let newIndex = currentIndex;
 
@@ -110,8 +150,7 @@ const Home = () => {
       {}
       <Inoutwalking />
       {}
-      <Section />
-      {/*هون يا سييكشن يا كويز زي ما قلتلك بالدسكورد من فوق في امبورت يا للكويز يا للسكشن */}
+      {showSection ? <Section /> : <Quiz />}
     </View>
   );
 };

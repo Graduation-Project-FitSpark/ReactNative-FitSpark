@@ -4,7 +4,7 @@ import {
   Text,
   StyleSheet,
   ImageBackground,
-  TouchableOpacity,
+  TouchableOpacity, 
 } from "react-native";
 import qizeimg from "../img/walking.webp";
 import { useNavigation } from "@react-navigation/native";
@@ -18,7 +18,7 @@ const Inoutwalking = () => {
             <Text style={styles.icons}>⚡⚡⚡</Text>
             <TouchableOpacity
               style={styles.startButton}
-              onPress={() => navigation.navigate("SignIn")} // هون بدل السابن ان حط تاعت  صفحة المشي
+              onPress={() => navigation.navigate("PhysicalTrains")}
             >
               <Text style={styles.startText}>Start</Text>
             </TouchableOpacity>

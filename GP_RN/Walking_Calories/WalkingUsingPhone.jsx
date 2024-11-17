@@ -10,6 +10,10 @@ import {
 import { Pedometer } from "expo-sensors";
 import Svg, { Circle } from "react-native-svg";
 import Icon from "react-native-vector-icons/FontAwesome";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import { train } from "@tensorflow/tfjs";
+import URL from "../enum";
 const CircularProgress = ({
   radius,
   strokeWidth,
@@ -77,11 +81,11 @@ const WalkingUsingPhone = () => {
         const newSteps = Number((result.steps / 10).toFixed(1));
         setSteps((prevSteps) => prevSteps + newSteps);
 
-        const stepLength = 0.8; // Average step length in meters
-        const distanceWalked = newSteps * stepLength; // Distance in meters
+        const stepLength = 0.8;
+        const distanceWalked = newSteps * stepLength;
         setDistance((prevDistance) => prevDistance + distanceWalked);
 
-        const caloriesBurnedPerStep = 0.04; // Estimated calories burned per step
+        const caloriesBurnedPerStep = 0.04;
         const newCalories = newSteps * caloriesBurnedPerStep;
         setCalories((prevCalories) => prevCalories + newCalories);
       });
@@ -100,13 +104,31 @@ const WalkingUsingPhone = () => {
 
   const startWalking = () => {
     setWalking(true);
-    setSteps(0); // Reset steps
-    setDistance(0); // Reset distance
-    setCalories(0); // Reset calories
+    setSteps(0);
+    setDistance(0);
+    setCalories(0);
   };
 
   const stopWalking = () => {
     setWalking(false);
+    const updateCaloriesAndSteps = async () => {
+      const trainerId = await AsyncStorage.getItem("ID");
+      try {
+        const response = await axios.post(`${URL}/updateCalorieSteps`, {
+          trainerId: trainerId,
+          steps: steps,
+          calories: calories,
+          distance: distance,
+        });
+
+        if (response.status === 200 || response.status === 201) {
+          console.log(response.data.message);
+        }
+      } catch (error) {
+        console.error("Error updating calories and steps:", error);
+      }
+    };
+    updateCaloriesAndSteps();
   };
 
   return (

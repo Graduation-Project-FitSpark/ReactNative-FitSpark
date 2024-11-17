@@ -12,12 +12,15 @@ import { useNavigation } from "@react-navigation/native";
 import IconIonicons from "react-native-vector-icons/Ionicons";
 import { format, addDays, subDays } from "date-fns";
 import notraining from "../../img/notraining.png";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import URL from "../../enum.js";
 function Workout() {
-  let cal = 5;
-  let steps = 99;
-  let maxsteps = 2000;
-  let meters = 23;
+  let maxsteps = 10000;
+
+  const [cal, setCal] = useState(0);
+  const [steps, setSteps] = useState(0);
+  const [meters, setMeters] = useState(0);
   const today = new Date();
   const navigation = useNavigation();
   const date = new Date();
@@ -25,89 +28,63 @@ function Workout() {
   const formattedDate = date.toLocaleDateString("en-US", {
     weekday: "long",
   });
+  const [todayPlan, settodayPlan] = useState([]);
+  const [trineday, settrineday] = useState([]);
 
-  const [todayPlan, settodayPlan] = useState([
-    {
-      id: 1,
-      name: "Push Up",
-      description:
-        "The lower abdomen and hips are the most difficult areas of the body to reduce when we are on a diet. Even so, in this area, especially the legs as a whole, you can reduce weight even if you don't use tools.",
-      goal: "100 Push up a day",
-      progress: 45,
-      imageUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSv8DHqz8RFaA8jEqtRODUG6o9WQktS0RX_Q&s",
-      videolink:
-        "https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4",
-      cal: 95,
-    },
-    {
-      id: 2,
-      name: "Sit Up",
-      description:
-        "The lower abdomen and hips are the most difficult areas of the body to reduce when we are on a diet. Even so, in this area, especially the legs as a whole, you can reduce weight even if you don't use tools.",
-      goal: "20 Sit up a day",
-      progress: 75,
-      imageUrl: "https://example.com/sit_up_image.jpg",
-      videolink: "https://youtu.be/N_wrRF_j3iY?si=ey26qU0waYUNtEcR",
-      cal: 45,
-    },
-    {
-      id: 3,
-      name: "Knee Push Up",
-      description: "Beginner",
-      goal: "50 Knee Push up a day",
-      progress: 60,
-      imageUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSv8DHqz8RFaA8jEqtRODUG6o9WQktS0RX_Q&s",
-      videolink: "https://youtu.be/N_wrRF_j3iY?si=ey26qU0waYUNtEcR",
-      cal: 33,
-    },
-    {
-      id: 4,
-      name: "Squats",
-      description: "Intermediate",
-      goal: "100 Squats a day",
-      progress: 30,
-      imageUrl: "https://example.com/squats_image.jpg",
-      videolink: "https://youtu.be/N_wrRF_j3iY?si=ey26qU0waYUNtEcR",
-      cal: 55,
-    },
-    {
-      id: 5,
-      name: "Lunges",
-      description: "Beginner",
-      goal: "50 Lunges a day",
-      progress: 40,
-      imageUrl: "https://example.com/lunges_image.jpg",
-      videolink: "https://youtu.be/N_wrRF_j3iY?si=ey26qU0waYUNtEcR",
-      cal: 45,
-    },
-    {
-      id: 6,
-      name: "Plank",
-      description: "Intermediate",
-      goal: "5 Minutes Plank",
-      progress: 80,
-      imageUrl: "https://example.com/plank_image.jpg",
-      videolink: "https://youtu.be/N_wrRF_j3iY?si=ey26qU0waYUNtEcR",
-    },
-    {
-      id: 8,
-      name: "Mountain Climbers",
-      description: "Advanced",
-      goal: "200 Mountain Climbers",
-      progress: 50,
-      imageUrl: "https://example.com/mountain_climbers_image.jpg",
-      videolink: "https://youtu.be/N_wrRF_j3iY?si=ey26qU0waYUNtEcR",
-      cal: 45,
-    },
-  ]);
+  useEffect(() => {
+    const fetchTodayCalories = async () => {
+      try {
+        const ID = await AsyncStorage.getItem("ID");
 
-  const [trineday] = useState([
-    { ID_Trains: [1, 3], Day_Of_Week: "Monday" },
-    { ID_Trains: [2], Day_Of_Week: "Tuesday" },
-    { ID_Trains: [6, 4, 8], Day_Of_Week: "Wednesday" },
-  ]);
+        const response = await axios.post(`${URL}/getTodayCalories`, {
+          trainerId: ID,
+        });
+        const { Calories, Steps, Distance } = response.data;
+
+        setCal(Calories);
+        setSteps(Steps);
+        setMeters(Distance);
+        console.log("Calories:", Calories);
+        console.log("Steps:", Steps);
+        console.log("Distance (Meters):", Distance);
+      } catch (error) {
+        console.error("Error fetching today's calories:", error);
+      }
+    };
+
+    const fetchWorks = async () => {
+      try {
+        const ID = await AsyncStorage.getItem("ID");
+        const response = await axios.post(`${URL}/getWorks`);
+        const works = response.data.map((work) => ({
+          id: work.id,
+          name: work.name,
+          description: work.description,
+          goal: work.goal,
+          progress: Math.floor(Math.random() * 100),
+          imageUrl: work.imageUrl,
+          videolink: work.videolink,
+          cal: work.cal,
+        }));
+        settodayPlan(works);
+
+        const trainerResponse = await fetch(`${URL}/getTrainerWorks`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ trainerId: ID }),
+        });
+        const result = await trainerResponse.json();
+        settrineday(result);
+      } catch (error) {
+        console.error("Error fetching data:", error.message);
+      }
+    };
+
+    fetchWorks();
+    fetchTodayCalories();
+  }, []);
 
   const [data, setData] = useState([
     {
@@ -173,7 +150,7 @@ function Workout() {
           : { ...item, isSelected: false }
       )
     );
-  }, [formattedDate, todayPlan]);
+  }, [formattedDate, todayPlan, trineday]);
 
   const selectDay = (selectedDay) => {
     setData((prevData) =>

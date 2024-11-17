@@ -17,7 +17,6 @@ function StartExercise({ route }) {
   const [time, setTime] = useState(0);
 
   useEffect(() => {
-    console.log("Video data in StartExercise:", videolink);
     const updateProgress = setInterval(async () => {
       if (video.current) {
         const status = await video.current.getStatusAsync();
@@ -116,7 +115,7 @@ function StartExercise({ route }) {
         <Video
           ref={video}
           source={{
-            uri: videolink,
+            uri: `${videolink}`,
           }}
           style={styles.video}
           useNativeControls

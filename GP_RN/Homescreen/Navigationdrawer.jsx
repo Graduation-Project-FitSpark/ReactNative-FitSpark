@@ -4,7 +4,9 @@ import logo from "../img/logo.png";
 import IconIonicons from "react-native-vector-icons/Ionicons";
 import IconFontAwesome from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import URL from "../enum";
+import axios from "axios";
 const Navigationdrawer = () => {
   const navigation = useNavigation();
 
@@ -15,7 +17,28 @@ const Navigationdrawer = () => {
   });
 
   useEffect(() => {
-    setUserData({ name: "ahmed", email: "aaa@gmail.com" }); // عشاير هون انت بس بتستدعي الاسم و الايميل من داتا بيس وبتدبدلها مكان النيم  والصورة و  الايميل
+    const fetchUserData = async () => {
+      try {
+        const username = await AsyncStorage.getItem("username");
+        const email = await AsyncStorage.getItem("Email");
+
+        const response = await axios.post(`${URL}/getProfileImage`, {
+          username,
+        });
+
+        if (response.data.imageUrl) {
+          setUserData({
+            name: username,
+            email: email,
+            img: response.data.imageUrl,
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching profile image:", error);
+      }
+    };
+
+    fetchUserData();
   }, []);
 
   return (

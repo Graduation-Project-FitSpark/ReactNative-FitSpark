@@ -3,84 +3,91 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { Accelerometer } from "expo-sensors";
 import Svg, { Circle } from "react-native-svg";
 import Icon from "react-native-vector-icons/FontAwesome";
-
-// Import trainer images
+import URL from "../enum";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import trainerDown from "../assets/pushdown.png";
 import trainerUp from "../assets/pushup.png";
 
 const PushUps = () => {
-  // State variables
   const [pushUpCount, setPushUpCount] = useState(0);
   const [calories, setCalories] = useState(0);
   const [currentY, setCurrentY] = useState(0);
   const [previousY, setPreviousY] = useState(0);
-  const [isMovingDown, setIsMovingDown] = useState(true); // Start position: pushed down
-  const [tracking, setTracking] = useState(false); // Tracking state
-  const Y_THRESHOLD = 0.3; // Threshold for detecting movement
+  const [isMovingDown, setIsMovingDown] = useState(true);
+  const [tracking, setTracking] = useState(false);
+  const Y_THRESHOLD = 0.3;
 
-  // Effect for subscribing to accelerometer updates
   useEffect(() => {
     let subscription;
     if (tracking) {
       subscription = Accelerometer.addListener(({ y }) => {
         setCurrentY(y);
       });
-      Accelerometer.setUpdateInterval(100); // Update interval for accelerometer
+      Accelerometer.setUpdateInterval(100);
     }
-    return () => subscription?.remove(); // Cleanup subscription on unmount
+    return () => subscription?.remove();
   }, [tracking]);
 
-  // Effect for counting push-ups based on accelerometer data
   useEffect(() => {
     if (previousY !== 0 && tracking) {
-      // Detect if moving down
       if (currentY > previousY + Y_THRESHOLD && !isMovingDown) {
         setIsMovingDown(true);
       }
-      // Detect if moving up
       if (currentY < previousY - Y_THRESHOLD && isMovingDown) {
         setIsMovingDown(false);
-        setPushUpCount(pushUpCount + 1); // Increment push-up count
-        setCalories(calories + 0.3); // Increment calories burned
+        setPushUpCount(pushUpCount + 1);
+        setCalories(calories + 0.3);
 
-        // Reset position to "pushed down" after a delay
         setTimeout(() => {
           setIsMovingDown(true);
         }, 1500);
       }
     }
-    setPreviousY(currentY); // Update previousY to currentY
+    setPreviousY(currentY);
   }, [currentY, previousY, isMovingDown, tracking]);
 
-  // Toggle tracking state
   const toggleTracking = () => {
     if (tracking) {
-      setTracking(false); // Stop tracking
+      setTracking(false);
+      const updateCaloriesAndSteps = async () => {
+        const trainerId = await AsyncStorage.getItem("ID");
+        try {
+          const response = await axios.post(`${URL}/updateCalorieSteps`, {
+            trainerId: trainerId,
+            steps: pushUpCount,
+            calories: calories,
+            distance: 0,
+          });
+
+          if (response.status === 200 || response.status === 201) {
+            console.log(response.data.message);
+          }
+        } catch (error) {
+          console.error("Error updating calories and steps:", error);
+        }
+      };
+      updateCaloriesAndSteps();
     } else {
-      setTracking(true); // Start tracking
-      setPushUpCount(0); // Reset count
-      setCalories(0); // Reset calories
-      setIsMovingDown(true); // Reset position to pushed down
+      setTracking(true);
+      setPushUpCount(0);
+      setCalories(0);
+      setIsMovingDown(true);
     }
   };
 
-  // Calculate progress for the circular progress indicators
   const calculateCircleProgress = (value, maxValue) => {
-    return (value / maxValue) * 100; // Calculate percentage
+    return (value / maxValue) * 100;
   };
 
-  // Select trainer image based on the current position
   const trainerImage = isMovingDown ? trainerDown : trainerUp;
 
   return (
     <View style={styles.container}>
-      {/* Display the trainer image dynamically */}
       <Image source={trainerImage} style={styles.trainerImage} />
 
-      {/* Card displaying push-up count and calories */}
       <View style={styles.card}>
         <View style={styles.row}>
-          {/* Push-up count circle */}
           <View style={styles.circleContainer}>
             <Svg height="100" width="100">
               <Circle
@@ -116,7 +123,6 @@ const PushUps = () => {
             <Text style={styles.circleLabel}>Push-Ups</Text>
           </View>
 
-          {/* Calories burned circle */}
           <View style={styles.circleContainer}>
             <Svg height="100" width="100">
               <Circle
@@ -149,7 +155,6 @@ const PushUps = () => {
         </View>
       </View>
 
-      {/* Start/Stop button */}
       <TouchableOpacity
         style={[
           styles.button,
@@ -165,7 +170,6 @@ const PushUps = () => {
   );
 };
 
-// Styles for the components
 const styles = StyleSheet.create({
   container: {
     flex: 1,

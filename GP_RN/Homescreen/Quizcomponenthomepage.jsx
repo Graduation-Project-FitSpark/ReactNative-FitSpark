@@ -21,7 +21,7 @@ const Qize = () => {
         </View>
         <TouchableOpacity
           style={styles.buttonContainer}
-          onPress={() => navigation.navigate("SignIn")} // هون بروح على صفحة الكويز بدل sginin حط تاعت الكويز
+          onPress={() => navigation.navigate("QuizP1")}
         >
           <Text style={styles.playIcon}>▶</Text>
         </TouchableOpacity>

@@ -34,6 +34,7 @@ import Exercise from "./Homescreen/Activities/Exercise";
 import StartExercise from "./Homescreen/Activities/StartExercise";
 import Counttostart from "./Homescreen/Activities/Counttostart";
 import Foodplan from "./Homescreen/Meals/Foodplan";
+import PhysicalTrains from "./Homescreen/PhysicalTrains.jsx";
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -41,7 +42,8 @@ export default function App() {
     <MyProvider>
       <QuizProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Menubar">
+          <Stack.Navigator initialRouteName="SignIn">
+            <Stack.Screen name="PhysicalTrains" component={PhysicalTrains} />
             <Stack.Screen name="SignIn" component={SignIn} />
             <Stack.Screen name="SignUp" component={SignUp} />
             <Stack.Screen name="Authentication" component={Authentication} />

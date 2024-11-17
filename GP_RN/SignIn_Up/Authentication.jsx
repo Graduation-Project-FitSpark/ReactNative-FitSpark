@@ -39,7 +39,7 @@ export default function Authentication({ route }) {
 
   const handleVerify = () => {
     if (verificationCode === verificationCodeSended) {
-      navigation.navigate("QuizP1");
+      navigation.navigate("Menubar");
     } else {
       Alert.alert("Error", "Verification code is invalid!");
     }

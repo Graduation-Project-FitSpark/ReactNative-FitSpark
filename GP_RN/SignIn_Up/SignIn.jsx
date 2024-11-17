@@ -40,6 +40,8 @@ const SignIn = ({ navigation }) => {
       if (data.message) {
         const { Email } = data.user;
         await AsyncStorage.setItem("username", username);
+        await AsyncStorage.setItem("Email", Email);
+
         navigation.navigate("Authentication", {
           username: username,
           Email: Email,

@@ -3,18 +3,20 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { Accelerometer } from "expo-sensors";
 import Svg, { Circle } from "react-native-svg";
 import Icon from "react-native-vector-icons/FontAwesome";
-
-import trainerDown from "../assets/chindown.png"; // Update image for chin-ups
-import trainerUp from "../assets/chinup.png"; // Update image for chin-ups
+import URL from "../enum";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import trainerDown from "../assets/chindown.png";
+import trainerUp from "../assets/chinup.png";
 
 const ChinUps = () => {
   const [chinUpCount, setChinUpCount] = useState(0);
   const [calories, setCalories] = useState(0);
   const [y, setY] = useState(0);
   const [prevY, setPrevY] = useState(0);
-  const [isMovingDown, setIsMovingDown] = useState(true); // Start pushed down
+  const [isMovingDown, setIsMovingDown] = useState(true);
   const [tracking, setTracking] = useState(false);
-  const Y_THRESHOLD = 0.3; // 30 cm threshold for chin-ups
+  const Y_THRESHOLD = 0.3;
 
   useEffect(() => {
     let subscription;
@@ -35,9 +37,8 @@ const ChinUps = () => {
       if (y < prevY - Y_THRESHOLD && isMovingDown) {
         setIsMovingDown(false);
         setChinUpCount(chinUpCount + 1);
-        setCalories(calories + 0.4); // Slightly different calorie burn for chin-ups
+        setCalories(calories + 0.4);
 
-        // Set a timeout to switch back to "pushed down" after 500ms
         setTimeout(() => {
           setIsMovingDown(true);
         }, 1500);
@@ -49,11 +50,29 @@ const ChinUps = () => {
   const toggleTracking = () => {
     if (tracking) {
       setTracking(false);
+      const updateCaloriesAndSteps = async () => {
+        const trainerId = await AsyncStorage.getItem("ID");
+        try {
+          const response = await axios.post(`${URL}/updateCalorieSteps`, {
+            trainerId: trainerId,
+            steps: chinUpCount,
+            calories: calories,
+            distance: 0,
+          });
+
+          if (response.status === 200 || response.status === 201) {
+            console.log(response.data.message);
+          }
+        } catch (error) {
+          console.error("Error updating calories and steps:", error);
+        }
+      };
+      updateCaloriesAndSteps();
     } else {
       setTracking(true);
       setChinUpCount(0);
       setCalories(0);
-      setIsMovingDown(true); // Reset position to pushed down when starting
+      setIsMovingDown(true);
     }
   };
 
@@ -61,12 +80,10 @@ const ChinUps = () => {
     return (value / maxValue) * 100;
   };
 
-  // Determine the image based on chin-up position
   const trainerImage = isMovingDown ? trainerDown : trainerUp;
 
   return (
     <View style={styles.container}>
-      {/* Dynamic Trainer Image */}
       <Image source={trainerImage} style={styles.trainerImage} />
       <View style={styles.card}>
         <View style={styles.row}>
@@ -164,8 +181,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   trainerImage: {
-    width: 150, // Adjust size as needed
-    height: 150, // Adjust size as needed
+    width: 150,
+    height: 150,
     marginBottom: 20,
   },
   card: {

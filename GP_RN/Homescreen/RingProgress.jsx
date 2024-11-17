@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 import GoogleFit, { Scopes } from "react-native-google-fit";
+import URL from "../enum";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "@react-navigation/native";
+
+import axios from "axios";
 
 const windowWidth = Dimensions.get("window").width;
 
@@ -50,60 +55,52 @@ const ExampleScreen = () => {
   const [distance, setDistance] = useState(0);
   const goalCalories = 380;
 
-  useEffect(() => {
-    const options = {
-      scopes: [
-        Scopes.FITNESS_ACTIVITY_READ,
-        Scopes.FITNESS_ACTIVITY_WRITE,
-        Scopes.FITNESS_LOCATION_READ,
-      ],
-    };
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchData = async () => {
+        try {
+          const ID = await AsyncStorage.getItem("ID");
+          console.log(ID);
 
-    GoogleFit.authorize(options)
-      .then((authResult) => {
-        if (authResult.success) {
-          console.log("Google Fit Authorization Success");
+          const createOrUpdateTodayEntry = async () => {
+            try {
+              await axios.post(`${URL}/updateCalorieSteps`, {
+                trainerId: ID,
+                calories: 0,
+                steps: 0,
+                distance: 0,
+              });
+              console.log("Today's entry ensured in database");
 
-          GoogleFit.getDailyCalorieSamples({
-            startDate: new Date(
-              new Date().setDate(new Date().getDate() - 7)
-            ).toISOString(),
-            endDate: new Date().toISOString(),
-          }).then((res) => {
-            const calories = res.reduce((acc, day) => acc + day.calorie, 0);
-            setProgress(calories / goalCalories);
-          });
+              await fetchTodayCalories();
+            } catch (error) {
+              console.error("Error ensuring today's entry:", error);
+            }
+          };
 
-          GoogleFit.getDailyStepCountSamples({
-            startDate: new Date(
-              new Date().setDate(new Date().getDate() - 7)
-            ).toISOString(),
-            endDate: new Date().toISOString(),
-          }).then((res) => {
-            const totalSteps = res.reduce((acc, day) => acc + day.steps, 0);
-            setSteps(totalSteps);
-          });
+          const fetchTodayCalories = async () => {
+            try {
+              const response = await axios.post(`${URL}/getTodayCalories`, {
+                trainerId: ID,
+              });
+              const { Calories, Steps, Distance } = response.data;
+              setProgress(Calories / goalCalories);
+              setSteps(Steps);
+              setDistance(Distance);
+            } catch (error) {
+              console.error("Error fetching today's calories:", error);
+            }
+          };
 
-          GoogleFit.getDailyDistanceSamples({
-            startDate: new Date(
-              new Date().setDate(new Date().getDate() - 7)
-            ).toISOString(),
-            endDate: new Date().toISOString(),
-          }).then((res) => {
-            const totalDistance = res.reduce(
-              (acc, day) => acc + day.distance,
-              0
-            );
-            setDistance(totalDistance);
-          });
-        } else {
-          console.log("Google Fit Authorization Failed:", authResult.message);
+          await createOrUpdateTodayEntry();
+        } catch (error) {
+          console.error("Error in useEffect:", error);
         }
-      })
-      .catch(() => {
-        console.log("Google Fit Authorization Error");
-      });
-  }, []);
+      };
+
+      fetchData();
+    }, [])
+  );
 
   return (
     <View style={styles.screenContainer}>
