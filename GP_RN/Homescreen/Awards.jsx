@@ -2,67 +2,50 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import IconIonicons from "react-native-vector-icons/Ionicons";
 import { ProgressBar, MD3Colors } from "react-native-paper";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import URL from "../enum";
 const Award = ({ navigation }) => {
   const [Awardspoint, setAwardspoint] = useState(200);
-  const [Awards, setAwards] = useState([
-    //عشاير هون بتخذف كل اشي وبتعملها ست من فنكشن يوس ايفكت
-    { point: 20, photo: require("../img/point/20.png"), name: "Fitness Titan" },
-    {
-      point: 40,
-      photo: require("../img/point/40.png"),
-      name: " Strength Champion",
-    },
-    { point: 60, photo: require("../img/point/60.png"), name: " Power Icon" },
-    {
-      point: 80,
-      photo: require("../img/point/80.png"),
-      name: "   Endurance Legend",
-    },
-    {
-      point: 100,
-      photo: require("../img/point/100.png"),
-      name: " Prime Athlete",
-    },
-    {
-      point: 120,
-      photo: require("../img/point/120.png"),
-      name: " Vitality Hero",
-    },
-    {
-      point: 150,
-      photo: require("../img/point/150.png"),
-      name: "Peak Performer  ",
-    },
-    {
-      point: 170,
-      photo: require("../img/point/170.png"),
-      name: "  Muscle Maverick",
-    },
-    {
-      point: 200,
-      photo: require("../img/point/200.png"),
-      name: " Flex Master",
-    },
-  ]);
-
+  const [Awards, setAwards] = useState([]);
+  const imageMapping = {
+    "../img/point/20.png": require("../img/point/20.png"),
+    "../img/point/40.png": require("../img/point/40.png"),
+    "../img/point/60.png": require("../img/point/60.png"),
+    "../img/point/80.png": require("../img/point/80.png"),
+    "../img/point/100.png": require("../img/point/100.png"),
+    "../img/point/120.png": require("../img/point/120.png"),
+    "../img/point/150.png": require("../img/point/150.png"),
+    "../img/point/170.png": require("../img/point/170.png"),
+    "../img/point/200.png": require("../img/point/200.png"),
+    "../img/point/250.png": require("../img/point/250.png"),
+  };
   useEffect(() => {
-    // عشاير هون انت بس بتستدعي اسماء باث مع رقم البوينت الي موجودة في داتا بيس ث النيم  وبتعملها ست
-    const newAwards = {
-      point: 250,
-      photo: require("../img/point/250.png"),
-      name: "Core Conqueror",
+    const fetchPoints = async () => {
+      try {
+        try {
+          const response = await axios.get(`${URL}/getAwards`);
+          const awards = response.data.awards.map((item) => ({
+            ...item,
+            photo: imageMapping[item.photo],
+          }));
+          setAwards(awards);
+        } catch (error) {
+          console.error("Error fetching awards:", error);
+        }
+        const trainerId = await AsyncStorage.getItem("ID");
+        const response = await axios.post(`${URL}/getPoints`, {
+          trainerId: trainerId,
+        });
+        if (response.status === 200) {
+          setAwardspoint(response.data.points);
+        }
+      } catch (error) {
+        console.error("Error fetching points:", error);
+      }
     };
 
-    setAwards((prevNotifications) => {
-      const exists = prevNotifications.some(
-        (notification) => notification.point === newAwards.point
-      );
-
-      if (!exists) {
-        return [...prevNotifications, newAwards];
-      }
-      return prevNotifications;
-    });
+    fetchPoints();
   }, []);
 
   const pointAwards = () => {

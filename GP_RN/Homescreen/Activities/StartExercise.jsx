@@ -4,7 +4,9 @@ import { Video } from "expo-av";
 import Slider from "@react-native-community/slider";
 import IconIonicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
-
+import URL from "../../enum";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 function StartExercise({ route }) {
   const navigation = useNavigation();
   const { videolink, cal } = route.params;
@@ -15,30 +17,46 @@ function StartExercise({ route }) {
   const [position, setPosition] = useState(0);
   const [duration, setDuration] = useState(0);
   const [time, setTime] = useState(0);
+  const [pointsIncremented, setPointsIncremented] = useState(false);
 
   useEffect(() => {
     const updateProgress = setInterval(async () => {
       if (video.current) {
         const status = await video.current.getStatusAsync();
+
         setPosition(status.positionMillis);
         setDuration(status.durationMillis);
-        if (time === 0 && status.durationMillis > 0) {
-          setTime(Math.floor(status.durationMillis / 1000));
+
+        if (status.durationMillis > 0) {
+          const remainingTime = Math.floor(
+            (status.durationMillis - status.positionMillis) / 1000
+          );
+          setTime(remainingTime);
+        }
+
+        if (
+          status.positionMillis >= status.durationMillis &&
+          status.durationMillis > 0 &&
+          !pointsIncremented
+        ) {
+          setPointsIncremented(true);
+          handleVideoWatched();
         }
       }
     }, 1000);
 
     return () => clearInterval(updateProgress);
-  }, []);
+  }, [video, pointsIncremented]);
 
   useEffect(() => {
-    if (time > 0) {
+    if (time > 0 && isPlaying) {
       const countdownInterval = setInterval(() => {
-        setTime((prevTime) => prevTime - 1);
+        setTime((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
       }, 1000);
+
       return () => clearInterval(countdownInterval);
     }
-  }, [time]);
+  }, [time, isPlaying]);
 
   const togglePlayPause = async () => {
     if (video.current) {
@@ -84,6 +102,23 @@ function StartExercise({ route }) {
   const percentageCompleted = duration
     ? ((position / duration) * 100).toFixed(0)
     : 0;
+
+  const handleVideoWatched = async () => {
+    try {
+      const trainerId = await AsyncStorage.getItem("ID");
+
+      await axios.post(`${URL}/updatePoints`, {
+        trainerId: trainerId,
+        pointsToAdd: 2,
+      });
+
+      await axios.post(`${URL}/updateWatched`, {
+        trainerId: trainerId,
+      });
+    } catch (error) {
+      console.error("Error updating points or watched videos:", error);
+    }
+  };
 
   return (
     <View style={styles.container}>

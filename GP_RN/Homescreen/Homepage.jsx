@@ -15,6 +15,8 @@ import { styles } from "./styleshomepage";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import URL from "../enum.js";
+import { useFocusEffect } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
 const windowWidth = Dimensions.get("window").width;
 
@@ -30,6 +32,7 @@ const data = [
 
 // App Component
 const Home = () => {
+  const navigation = useNavigation();
   const scrollViewRef = useRef(null);
   const [scrollDirection, setScrollDirection] = useState("right");
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -39,44 +42,83 @@ const Home = () => {
   const [showSection, setShowSection] = useState(false);
   const cardWidth = windowWidth * 0.8;
 
-  useEffect(() => {
-    const fetchTrainerDetails = async () => {
-      try {
-        const username = await AsyncStorage.getItem("username");
-        setUserData({ name: username });
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchTrainerDetails = async () => {
+        try {
+          const username = await AsyncStorage.getItem("username");
+          setUserData({ name: username });
 
-        const trainerResponse = await axios.post(`${URL}/getTrainerDetails`, {
-          username,
-        });
-
-        const trainerID = trainerResponse.data.trainer.ID_Trainer;
-        await AsyncStorage.setItem("ID", trainerID);
-
-        if (trainerID) {
-          const userResultResponse = await fetch(`${URL}/ifUserResultExsists`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ ID_Trainer: trainerID }),
+          const trainerResponse = await axios.post(`${URL}/getTrainerDetails`, {
+            username,
           });
 
-          const userResultData = await userResultResponse.json();
-          console.log(userResultData.exists);
+          const trainerID = trainerResponse.data.trainer.ID_Trainer;
+          await AsyncStorage.setItem("ID", trainerID);
 
-          if (userResultData.exists === true) {
-            setShowSection(true);
-          } else {
-            setShowSection(false);
+          if (trainerID) {
+            const userResultResponse = await fetch(
+              `${URL}/ifUserResultExsists`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ ID_Trainer: trainerID }),
+              }
+            );
+
+            const userResultData = await userResultResponse.json();
+            console.log(userResultData.exists);
+
+            if (userResultData.exists === true) {
+              setShowSection(true);
+            } else {
+              setShowSection(false);
+            }
           }
-        }
-      } catch (error) {
-        console.error("Error fetching trainer or user result details:", error);
-      }
-    };
 
-    fetchTrainerDetails();
-  }, []);
+          try {
+            const coachResponse = await axios.post(
+              `${URL}/checkCoachResponse`,
+              {
+                trainerId: trainerID,
+              }
+            );
+
+            const specialistResponse = await axios.post(
+              `${URL}/checkSpecialistResponse`,
+              {
+                trainerId: trainerID,
+              }
+            );
+
+            if (coachResponse.data.Accepted === "R") {
+              const response = await axios.post(`${URL}/deleteCoach`, {
+                trainerId: trainerID,
+              });
+              navigation.navigate("SelectCoach");
+            } //
+            if (specialistResponse.data.Accepted === "R") {
+              const response = await axios.post(`${URL}/deleteSpecialist`, {
+                trainerId: trainerID,
+              });
+              navigation.navigate("SelectSpecialist");
+            }
+          } catch (err) {
+            console.error("Error checking status:", err);
+          }
+        } catch (error) {
+          console.error(
+            "Error fetching trainer or user result details:",
+            error
+          );
+        }
+      };
+
+      fetchTrainerDetails();
+    }, [])
+  );
 
   useEffect(() => {
     const interval = setInterval(() => {

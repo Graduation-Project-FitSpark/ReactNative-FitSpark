@@ -2,43 +2,34 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import IconIonicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import URL from "../enum";
 
 function Notificationspage() {
   const navigation = useNavigation();
-  const [notifications, setNotifications] = useState([
-    //هاي عبارة عن ارري ليست لم تبلش هون اخذف كل الي جوها واستخدم فنكشن يوسافكيت
-
-    {
-      id: "1",
-      name: "Hey there, fitness warrior! 💪 Every step, every rep, every drop of ",
-    },
-    {
-      id: "2",
-      name: "Hey there, fitness warrior! 💪 Every step, every rep, every drop of",
-    },
-    {
-      id: "3",
-      name: "sweat brings you closer to a stronger, healthier you. Keep pushing,",
-    },
-    { id: "4", name: "keep showing up, because you’re unstoppable!" },
-    { id: "5", name: "Grapes" },
-  ]);
+  const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    // هون بتعمل زي فكرة فور لوب و بتاخذ كل النوتفيكشن من داتا بيس وتعمبها ست نوتفيكشن
+    const fetchNotifications = async () => {
+      const username = await AsyncStorage.getItem("username");
+      try {
+        const response = await axios.post(`${URL}/getNotifications`, {
+          Msg_To: username,
+        });
 
-    const newNotification = { id: "6", name: "Ahmed" };
+        const data = response.data.notifications.map((item) => ({
+          id: item.Date,
+          name: item.Description,
+        }));
 
-    setNotifications((prevNotifications) => {
-      const exists = prevNotifications.some(
-        (notification) => notification.id === newNotification.id
-      );
-
-      if (!exists) {
-        return [...prevNotifications, newNotification];
+        setNotifications(data);
+      } catch (error) {
+        console.error("Error fetching notifications:", error);
       }
-      return prevNotifications;
-    });
+    };
+
+    fetchNotifications();
   }, []);
 
   return (
@@ -63,7 +54,7 @@ function Notificationspage() {
         {notifications.map((item) => (
           <View key={item.id} style={styles.outer}>
             <View style={styles.outertem2}>
-              <Text style={styles.item2}>2mago</Text>
+              <Text style={styles.item2}>{item.id}</Text>
             </View>
             <View style={styles.outeritem}>
               <Text style={styles.item}>{item.name}</Text>

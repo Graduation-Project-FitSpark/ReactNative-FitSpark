@@ -113,6 +113,8 @@ const WalkingUsingPhone = () => {
     setWalking(false);
     const updateCaloriesAndSteps = async () => {
       const trainerId = await AsyncStorage.getItem("ID");
+      const pointsToAdd = Math.floor(steps / 50);
+
       try {
         const response = await axios.post(`${URL}/updateCalorieSteps`, {
           trainerId: trainerId,
@@ -123,6 +125,12 @@ const WalkingUsingPhone = () => {
 
         if (response.status === 200 || response.status === 201) {
           console.log(response.data.message);
+        }
+        if (pointsToAdd > 0) {
+          await axios.post(`${URL}/updatePoints`, {
+            trainerId: trainerId,
+            pointsToAdd: pointsToAdd,
+          });
         }
       } catch (error) {
         console.error("Error updating calories and steps:", error);

@@ -8,7 +8,8 @@ import {
   StyleSheet,
 } from "react-native";
 import URL from "../enum";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 const SelectCoach = ({ navigation }) => {
   const [coaches, setCoaches] = useState([]);
   const [selectedCoachId, setSelectedCoachId] = useState(null);
@@ -31,12 +32,38 @@ const SelectCoach = ({ navigation }) => {
     setSelectedCoachId(id);
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (selectedCoachId) {
       const selectedCoach = coaches.find(
         (coach) => coach.ID_Coach === selectedCoachId
       );
-      navigation.navigate("SelectSpecialist", { selectedCoach });
+      setSelectedCoachId(selectedCoachId);
+      const ID_Trainer = await AsyncStorage.getItem("ID");
+      const ID_Coach = selectedCoachId;
+      const Accepted = "P";
+      try {
+        const response = await axios.post(`${URL}/insertCoachTrainer`, {
+          ID_Trainer,
+          ID_Coach,
+          Accepted,
+        });
+
+        if (response.status === 200) {
+          alert("Sending Request to Coach Sucessfully!");
+        } else {
+          alert("Error: " + response.data.message);
+        }
+      } catch (error) {
+        console.error("Error inserting data:", error);
+        alert("Failed to insert data");
+      }
+      const currentRoute = navigation.getState();
+      const previousRoute = currentRoute.routes[currentRoute.index - 1]?.name;
+      if (previousRoute === "SuccessScreen") {
+        navigation.navigate("SelectSpecialist");
+      } else {
+        navigation.navigate("Menubar");
+      }
     }
   };
 
@@ -69,6 +96,14 @@ const SelectCoach = ({ navigation }) => {
         >
           Age: {item.Age}
         </Text>
+        <Text
+          style={[
+            styles.coachExperience,
+            item.ID_Coach === selectedCoachId && styles.selectedText,
+          ]}
+        >
+          Years of Experience: {item.YearsOfExperience}
+        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -85,7 +120,7 @@ const SelectCoach = ({ navigation }) => {
         keyExtractor={(item) => item.ID_Coach}
       />
       <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
-        <Text style={styles.nextButtonText}>Next</Text>
+        <Text style={styles.nextButtonText}>Submit</Text>
       </TouchableOpacity>
     </View>
   );
@@ -102,6 +137,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     alignSelf: "center",
   },
+  coachExperience: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#666",
+  },
+
   headerText: {
     fontSize: 18,
     fontWeight: "bold",

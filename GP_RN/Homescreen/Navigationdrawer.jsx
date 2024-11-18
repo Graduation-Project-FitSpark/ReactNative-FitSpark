@@ -54,7 +54,7 @@ const Navigationdrawer = () => {
       <View style={styles.menuContainer}>
         <TouchableOpacity
           style={styles.menuItemContainer}
-          onPress={() => navigation.navigate("//")}
+          onPress={() => navigation.navigate("Profile")}
         >
           <IconIonicons name="person" size={24} color="#000" />
           <Text style={styles.menuItem}>Your Profile</Text>

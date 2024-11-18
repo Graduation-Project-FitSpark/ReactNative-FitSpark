@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ScrollView,
   TouchableOpacity,
@@ -10,58 +10,39 @@ import {
 import { FontAwesome } from "@expo/vector-icons";
 import IconIonicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+import URL from "../../enum";
 export default function RecipeCard({ route }) {
   const navigation = useNavigation();
   const { id, name, details, img, min, cal } = route.params;
+  const [ingredients, setingredients] = useState([]);
 
-  const [ingredients, setingredients] = useState([
-    // هلا هاي عشان شو مكونات هاي الوجبة الي اختارها اليوزر صح انها مش موجودة بال داتا بيس بس لم توصلها راجعني
-    {
-      id: "1",
-      name: "Bun",
-      image: "https://cdn-icons-png.flaticon.com/512/3075/3075977.png",
-    },
-    {
-      id: "2",
-      name: "Lettuce",
-      image: "https://cdn-icons-png.flaticon.com/512/1515/1515746.png",
-    },
-    {
-      id: "3",
-      name: "Tomato",
-      image: "https://cdn-icons-png.flaticon.com/512/1046/1046750.png",
-    },
-    {
-      id: "4",
-      name: "Cheese",
-      image: "https://cdn-icons-png.flaticon.com/512/1998/1998670.png",
-    },
-    {
-      id: "5",
-      name: "Beef Patty",
-      image: "https://cdn-icons-png.flaticon.com/512/3075/3075978.png",
-    },
-    {
-      id: "6",
-      name: "Onion",
-      image: "https://cdn-icons-png.flaticon.com/512/4156/4156144.png",
-    },
-    {
-      id: "7",
-      name: "Pickles",
-      image: "https://cdn-icons-png.flaticon.com/512/3061/3061345.png",
-    },
-    {
-      id: "8",
-      name: "Ketchup",
-      image: "https://cdn-icons-png.flaticon.com/512/3050/3050227.png",
-    },
-    {
-      id: "9",
-      name: "Mustard",
-      image: "https://cdn-icons-png.flaticon.com/512/3050/3050254.png",
-    },
-  ]);
+  useEffect(() => {
+    const fetchIngredients = async () => {
+      try {
+        const response = await fetch(`${URL}/getIngradients`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ foodName: name }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setingredients(data);
+        } else {
+          console.log("Failed to fetch ingredients");
+        }
+      } catch (error) {
+        console.error("Error fetching ingredients:", error);
+      }
+    };
+
+    if (name) {
+      fetchIngredients();
+    }
+  }, [name]);
 
   return (
     <View style={styles.container}>
@@ -72,7 +53,7 @@ export default function RecipeCard({ route }) {
         <View style={styles.imgcontainer}>
           <Image
             source={{
-              uri: "https://png.pngtree.com/png-clipart/20221001/ourmid/pngtree-fast-food-big-ham-burger-png-image_6244235.png",
+              uri: img,
             }}
             style={styles.image}
           />
@@ -94,7 +75,7 @@ export default function RecipeCard({ route }) {
           </View>
           <View style={styles.statItem}>
             <FontAwesome name="list-ul" size={18} color="#333" />
-            <Text style={styles.statText}>05 Ing</Text>
+            <Text style={styles.statText}>05 Ing</Text> ///////////Need to fill
           </View>
         </View>
         <View style={styles.ingredients}>

@@ -8,7 +8,8 @@ import {
   StyleSheet,
 } from "react-native";
 import URL from "../enum";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 const SelectSpecialist = ({ navigation }) => {
   const [specialists, setSpecialists] = useState([]);
   const [selectedSpecialistId, setSelectedSpecialistId] = useState(null);
@@ -31,12 +32,29 @@ const SelectSpecialist = ({ navigation }) => {
     setSelectedSpecialistId(id);
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (selectedSpecialistId) {
       const selectedSpecialist = specialists.find(
         (specialist) => specialist.ID_Specialist === selectedSpecialistId
       );
-      navigation.navigate("NextPage", { selectedSpecialist });
+      try {
+        const ID_Trainer = await AsyncStorage.getItem("ID");
+        const ID_Specialist = selectedSpecialistId;
+        const Accepted = "P";
+        const response = await axios.post(`${URL}/insertSpecialistTrainer`, {
+          ID_Trainer,
+          ID_Specialist,
+          Accepted,
+        });
+
+        console.log(
+          "Sending Request to Specialist Sucessfully!",
+          response.data
+        );
+      } catch (error) {
+        console.error("Error inserting data:", error.response.data);
+      }
+      navigation.navigate("Menubar");
     }
   };
 
@@ -70,6 +88,14 @@ const SelectSpecialist = ({ navigation }) => {
         >
           Age: {item.Age}
         </Text>
+        <Text
+          style={[
+            styles.specialistExperience,
+            item.ID_Specialist === selectedSpecialistId && styles.selectedText,
+          ]}
+        >
+          Years of Experience: {item.YearsOfExperience}
+        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -86,7 +112,7 @@ const SelectSpecialist = ({ navigation }) => {
         keyExtractor={(item) => item.ID_Specialist}
       />
       <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
-        <Text style={styles.nextButtonText}>Next</Text>
+        <Text style={styles.nextButtonText}>Submit</Text>
       </TouchableOpacity>
     </View>
   );
@@ -97,6 +123,12 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
+  specialistExperience: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#666",
+  },
+
   headerText: {
     fontSize: 18,
     fontWeight: "bold",

@@ -24,7 +24,7 @@ const SuccessScreen = () => {
     ).start();
 
     const timer = setTimeout(() => {
-      navigation.navigate("Menubar");
+      navigation.navigate("SelectCoach");
     }, 5000);
 
     return () => clearTimeout(timer);

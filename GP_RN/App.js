@@ -36,6 +36,7 @@ import Counttostart from "./Homescreen/Activities/Counttostart";
 import Foodplan from "./Homescreen/Meals/Foodplan";
 import PhysicalTrains from "./Homescreen/PhysicalTrains.jsx";
 import Detelsfoode from "./Homescreen/Meals/Detelsfoode";
+import Profile from "./Homescreen/Profile.jsx";
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -133,6 +134,11 @@ export default function App() {
             <Stack.Screen
               name="Detelsfoode"
               component={Detelsfoode}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Profile"
+              component={Profile}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>
