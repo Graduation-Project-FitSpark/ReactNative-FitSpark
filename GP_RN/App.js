@@ -37,6 +37,9 @@ import Foodplan from "./Homescreen/Meals/Foodplan";
 import PhysicalTrains from "./Homescreen/PhysicalTrains.jsx";
 import Detelsfoode from "./Homescreen/Meals/Detelsfoode";
 import Profile from "./Homescreen/Profile.jsx";
+import Calendar from "./Homescreen/Calender.jsx";
+import GoToGym from "./Homescreen/GoToGym.jsx";
+import SignToGym from "./Homescreen/SignToGym.jsx";
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -139,6 +142,21 @@ export default function App() {
             <Stack.Screen
               name="Profile"
               component={Profile}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Calendar"
+              component={Calendar}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="GoToGym"
+              component={GoToGym}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="SignToGym"
+              component={SignToGym}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>

@@ -143,8 +143,8 @@ const WalkingUsingPhone = () => {
     <SafeAreaView style={styles.container}>
       <ScrollView
         contentContainerStyle={styles.scrollContainer}
-        showsVerticalScrollIndicator={false} // Hide vertical scroll indicator
-        showsHorizontalScrollIndicator={false} // Hide horizontal scroll indicator
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
       >
         <CircularProgress
           radius={90}

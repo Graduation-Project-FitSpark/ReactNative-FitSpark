@@ -9,11 +9,15 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
+import Slider from "@react-native-community/slider";
 import { Picker } from "@react-native-picker/picker";
 import URL from "../enum";
 import staystrong from "../img/StayStrong.png";
 import * as ImagePicker from "expo-image-picker";
 import { manipulateAsync } from "expo-image-manipulator";
+import MapView, { Marker } from "react-native-maps";
+import * as FirebaseMessaging from "expo-firebase-messaging";
+
 const SignUp = ({ navigation }) => {
   const [step, setStep] = useState(1);
   const [username, setUsername] = useState("");
@@ -25,7 +29,12 @@ const SignUp = ({ navigation }) => {
   const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [age, setAge] = useState("");
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState({
+    latitude: 37.78825,
+    longitude: -122.4324,
+  });
+  const [isSelected, setIsSelected] = useState(false);
+
   const [yearsOfExperience, setYearsOfExperience] = useState("");
   const [gender, setGender] = useState("");
   const [cvc, setCvc] = useState("");
@@ -35,8 +44,12 @@ const SignUp = ({ navigation }) => {
   const [height, setHeight] = useState("");
   const [classType, setClassType] = useState("");
   const [activityLevel, setActivityLevel] = useState("");
+  const [activityLevelNumber, setActivityLevelNumber] = useState(0);
+
+  const activityLabels = ["Normal", "Fat", "Very Fat"];
   const [image, setImage] = useState("");
   const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
+
   const pickImage = async () => {
     const permissionResult =
       await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -76,7 +89,6 @@ const SignUp = ({ navigation }) => {
 
   const uploadImage = async (imageBase64, username) => {
     try {
-      console.log(imageBase64, username);
       const response = await fetch(`${URL}/uploadProfileImgRouter`, {
         method: "POST",
         headers: {
@@ -137,6 +149,8 @@ const SignUp = ({ navigation }) => {
   };
 
   const handleSubmit = async () => {
+    const newLocation = `[${location.latitude},${location.longitude}]`;
+
     const commonData = {
       Username: username,
       Email: email,
@@ -145,7 +159,7 @@ const SignUp = ({ navigation }) => {
       Last_Name: lastName,
       Phone_Number: phoneNumber,
       Age: age,
-      Location: location,
+      Location: newLocation,
       Gender: gender,
       Card_Number: cardNumber,
       Expression_Date: expirationDate,
@@ -156,6 +170,14 @@ const SignUp = ({ navigation }) => {
     let endpoint = "";
 
     if (type === "Trainer") {
+      if (activityLevelNumber == 0) {
+        setActivityLevel("Normal");
+      } else if (activityLevelNumber == 1) {
+        setActivityLevel("Fat");
+      } else {
+        setActivityLevel("Very Fat");
+      }
+
       additionalData = {
         Weight: weight,
         Height: height,
@@ -163,6 +185,8 @@ const SignUp = ({ navigation }) => {
         Activity_Level: activityLevel,
         Image: image,
       };
+      console.log(location);
+
       endpoint = `${URL}/signUpTrainer`;
     } else if (type === "Coach") {
       additionalData = {
@@ -182,7 +206,7 @@ const SignUp = ({ navigation }) => {
       Points: 0,
     };
 
-    console.log("Submitting Data: ", finalData);
+    console.log("Submitting Data: ", activityLevel);
 
     fetch(endpoint, {
       method: "POST",
@@ -203,6 +227,23 @@ const SignUp = ({ navigation }) => {
         Alert.alert("Error", "Something went wrong during registration");
       });
     await uploadImage(image, username);
+    try {
+      const token = await FirebaseMessaging.getExpoPushTokenAsync();
+      console.log("FCM Token:", token);
+      const response = await fetch(`${URL}/uploadToken`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          token: token,
+          username: username,
+          type: type.toLowerCase(),
+        }),
+      });
+    } catch (error) {
+      console.error("Error getting token:", error);
+    }
   };
 
   const renderStep1 = () => (
@@ -251,6 +292,16 @@ const SignUp = ({ navigation }) => {
   );
 
   const renderStep2 = () => {
+    const handleMapPress = (e) => {
+      const newLocation = {
+        latitude: e.nativeEvent.coordinate.latitude,
+        longitude: e.nativeEvent.coordinate.longitude,
+      };
+
+      setLocation(newLocation);
+      setIsSelected(true);
+    };
+
     if (type === "Trainer" || type === "Coach" || type === "Specialist") {
       return (
         <View>
@@ -292,12 +343,19 @@ const SignUp = ({ navigation }) => {
             onChangeText={setAge}
             keyboardType="numeric"
           />
-          <TextInput
-            style={styles.input}
-            placeholder="Location"
-            value={location}
-            onChangeText={setLocation}
-          />
+          <Text style={styles.label}>Map On Your Location</Text>
+          <MapView
+            style={{ height: 300 }}
+            onPress={handleMapPress}
+            initialRegion={{
+              latitude: 37.78825,
+              longitude: -122.4324,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}
+          >
+            {isSelected && <Marker coordinate={location} />}
+          </MapView>
           <Text style={styles.label}>Select Gender</Text>
           <Picker
             selectedValue={gender}
@@ -376,15 +434,25 @@ const SignUp = ({ navigation }) => {
                 <Picker.Item label="Strength" value="Strength" />
               </Picker>
               <Text style={styles.label}>Select Activity Level</Text>
-              <Picker
-                selectedValue={activityLevel}
-                onValueChange={(itemValue) => setActivityLevel(itemValue)}
-                style={styles.picker}
-              >
-                <Picker.Item label="Normal" value="Normal" />
-                <Picker.Item label="Fat" value="Fat" />
-                <Picker.Item label="Very Fat" value="Very Fat" />
-              </Picker>
+              <View style={styles.container}>
+                <Text style={styles.label}>
+                  Activity Level: {activityLabels[activityLevelNumber]}
+                </Text>
+                <Slider
+                  style={styles.slider}
+                  minimumValue={0}
+                  maximumValue={2}
+                  step={1}
+                  value={activityLevelNumber}
+                  onValueChange={(value) => {
+                    setActivityLevelNumber(value);
+                    setActivityLevel(activityLabels[value]);
+                  }}
+                  minimumTrackTintColor="#1c1b29"
+                  maximumTrackTintColor="#1c1b29"
+                  thumbTintColor="#1c1b29"
+                />
+              </View>
             </>
           )}
 
@@ -423,6 +491,16 @@ const SignUp = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+  },
+  slider: {
+    width: 300,
+    height: 70,
+    color: "#fff",
+  },
   imageUploadContainer: {
     alignItems: "left",
     marginVertical: 10,

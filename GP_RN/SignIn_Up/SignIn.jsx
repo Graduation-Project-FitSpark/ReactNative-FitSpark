@@ -84,7 +84,7 @@ const SignIn = ({ navigation }) => {
             style={signInStyles.button1}
             onPress={() => navigation.navigate("SignUp")}
           >
-            <Text style={signInStyles.buttonText1}>SignUp</Text>
+            <Text style={signInStyles.buttonText1}>Sign Up</Text>
           </TouchableOpacity>
         </View>
       </View>

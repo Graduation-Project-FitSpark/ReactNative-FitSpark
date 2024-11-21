@@ -5,7 +5,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import Homepage from "./Homepage.jsx";
 import Navigationdrawer from "./Navigationdrawer.jsx";
 import Store from "./Shop.jsx";
-
+import Calender from "./Calender.jsx";
 function HomeScreen() {
   return <Homepage />;
 }
@@ -15,11 +15,7 @@ function Shop() {
 }
 
 function Calendar() {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      {}
-    </View>
-  );
+  return <Calender />;
 }
 
 function Bars() {
