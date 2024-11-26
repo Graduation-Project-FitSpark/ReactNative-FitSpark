@@ -19,13 +19,19 @@ import StartExercise from "./Homescreen/Activities/StartExercise";
 import Counttostart from "./Homescreen/Activities/Counttostart";
 import Foodplan from "./Homescreen/Meals/Foodplan";
 import Detelsfoode from "./Homescreen/Meals/Detelsfoode";
+import Coachomepage from "./Coach/Homescreen/Coachomepage";
+import Coachmanbur from "./Coach/Homescreen/Coachmanbur";
+import Traineeexercise from "./Coach/CachActivities/Traineeexercise";
+import Competitions from "./Coach/CachActivities/Competitions";
+import Requesttraining from "./Coach/CachActivities/Requesttraining";
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
     <MyProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Menubar">
+        <Stack.Navigator initialRouteName="Coachmanbur">
+          {/*Menubar for tranine and Coachmanbur for coach */}
           <Stack.Screen
             name="Menubar"
             component={Menubar}
@@ -99,6 +105,32 @@ export default function App() {
           <Stack.Screen
             name="Detelsfoode"
             component={Detelsfoode}
+            options={{ headerShown: false }}
+          />
+          {/*coach from her */}
+          <Stack.Screen
+            name="Coachomepage"
+            component={Coachomepage}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Coachmanbur"
+            component={Coachmanbur}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Traineeexercise"
+            component={Traineeexercise}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Competitions"
+            component={Competitions}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Requesttraining"
+            component={Requesttraining}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
