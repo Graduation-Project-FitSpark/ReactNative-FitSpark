@@ -8,6 +8,7 @@ import {
   Button,
   TouchableOpacity,
   Image,
+  Alert,
 } from "react-native";
 import URL from "../enum";
 import { signInStyles } from "./stylessignin";
@@ -30,9 +31,8 @@ const SignIn = ({ navigation }) => {
       console.log("Response status:", response.status);
 
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error("Response Error:", errorText);
-        Alert.alert("Error", errorText);
+        Alert.alert("Warning", "Username or password is wrong");
+
         return;
       }
 

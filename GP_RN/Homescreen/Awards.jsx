@@ -6,28 +6,18 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import URL from "../enum";
 const Award = ({ navigation }) => {
-  const [Awardspoint, setAwardspoint] = useState(200);
+  const [Awardspoint, setAwardspoint] = useState(0);
   const [Awards, setAwards] = useState([]);
-  const imageMapping = {
-    "../img/point/20.png": require("../img/point/20.png"),
-    "../img/point/40.png": require("../img/point/40.png"),
-    "../img/point/60.png": require("../img/point/60.png"),
-    "../img/point/80.png": require("../img/point/80.png"),
-    "../img/point/100.png": require("../img/point/100.png"),
-    "../img/point/120.png": require("../img/point/120.png"),
-    "../img/point/150.png": require("../img/point/150.png"),
-    "../img/point/170.png": require("../img/point/170.png"),
-    "../img/point/200.png": require("../img/point/200.png"),
-    "../img/point/250.png": require("../img/point/250.png"),
-  };
+
   useEffect(() => {
     const fetchPoints = async () => {
       try {
         try {
           const response = await axios.get(`${URL}/getAwards`);
           const awards = response.data.awards.map((item) => ({
-            ...item,
-            photo: imageMapping[item.photo],
+            point: item.point,
+            name: item.name,
+            photoUrl: item.photoUrl,
           }));
           setAwards(awards);
         } catch (error) {
@@ -61,7 +51,10 @@ const Award = ({ navigation }) => {
               return (
                 <View key={index} style={styles.outer}>
                   <View style={styles.outeritem}>
-                    <Image style={styles.pointimg} source={item.photo} />
+                    <Image
+                      style={styles.pointimg}
+                      source={{ uri: item.photoUrl }}
+                    />
 
                     <Text style={styles.namepoint}>{item.name}</Text>
                     <View style={styles.namepoint}>
@@ -84,7 +77,10 @@ const Award = ({ navigation }) => {
             return (
               <View key={index} style={styles.outer}>
                 <View style={styles.outeritem}>
-                  <Image style={styles.notpointimg} source={item.photo} />
+                  <Image
+                    style={styles.notpointimg}
+                    source={{ uri: item.photoUrl }}
+                  />
                   <Text style={styles.namepoint}>{item.name}</Text>
                   <View style={styles.namepoint}>
                     <Text style={styles.pointof}>
@@ -127,7 +123,7 @@ const Award = ({ navigation }) => {
             />
             <Text style={styles.textheader}>Awards</Text>
           </View>
-          <Text style={styles.textpoint}>YourPonit:{Awardspoint}</Text>
+          <Text style={styles.textpoint}>Your Points: {Awardspoint}</Text>
         </View>
         <View>{pointAwards()}</View>
       </ScrollView>

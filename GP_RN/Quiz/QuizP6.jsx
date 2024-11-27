@@ -74,9 +74,9 @@ As a fitness trainer, I'm working with a client who has provided answers to seve
     - Along with the food ID, you need to specify the meal time: either 'Breakfast', 'Lunch', or 'Dinner'.
 
 4. For the 'Trains' array:
-  - Each day of the week (Saturday to Friday) should contain 2 or 3 separate workout recommendations for each ID_Trainer.
-  - Each recommendation should be listed as a separate JSON object with fields: ID_Trainer, ID_Train, and Day_Of_Week.
-  - Each entry must be independent, with a unique ID_Train and the associated day.
+    - Each day of the week (Saturday to Friday) should contain 2 or 3 separate workout recommendations for each ID_Trainer.
+    - Each recommendation should be listed as a separate JSON object with fields: ID_Trainer, ID_Train, Day_Of_Week, and Steps.
+    - The Steps field should be an integer representing the number of steps, repetitions, or sets for the workout.
   
 ### Output Format:
 The result should be returned in the following JSON format:
@@ -120,13 +120,34 @@ The result should be returned in the following JSON format:
         ]
     },
     "Trains": {
-        "Saturday": {"ID": ...}, 
-        "Sunday": {"ID": ...}, 
-        "Monday": {"ID": ...}, 
-        "Tuesday": {"ID": ...}, 
-        "Wednesday": {"ID": ...}, 
-        "Thursday": {"ID": ...}, 
-        "Friday": {"ID": ...}
+        "Saturday": [
+            {"ID_Trainer": ..., "ID_Train": ..., "Day_Of_Week": "Saturday", "Steps": ...},
+            {"ID_Trainer": ..., "ID_Train": ..., "Day_Of_Week": "Saturday", "Steps": ...}
+        ],
+        "Sunday": [
+            {"ID_Trainer": ..., "ID_Train": ..., "Day_Of_Week": "Sunday", "Steps": ...},
+            {"ID_Trainer": ..., "ID_Train": ..., "Day_Of_Week": "Sunday", "Steps": ...}
+        ],
+        "Monday": [
+            {"ID_Trainer": ..., "ID_Train": ..., "Day_Of_Week": "Monday", "Steps": ...},
+            {"ID_Trainer": ..., "ID_Train": ..., "Day_Of_Week": "Monday", "Steps": ...}
+        ],
+        "Tuesday": [
+            {"ID_Trainer": ..., "ID_Train": ..., "Day_Of_Week": "Tuesday", "Steps": ...},
+            {"ID_Trainer": ..., "ID_Train": ..., "Day_Of_Week": "Tuesday", "Steps": ...}
+        ],
+        "Wednesday": [
+            {"ID_Trainer": ..., "ID_Train": ..., "Day_Of_Week": "Wednesday", "Steps": ...},
+            {"ID_Trainer": ..., "ID_Train": ..., "Day_Of_Week": "Wednesday", "Steps": ...}
+        ],
+        "Thursday": [
+            {"ID_Trainer": ..., "ID_Train": ..., "Day_Of_Week": "Thursday", "Steps": ...},
+            {"ID_Trainer": ..., "ID_Train": ..., "Day_Of_Week": "Thursday", "Steps": ...}
+        ],
+        "Friday": [
+            {"ID_Trainer": ..., "ID_Train": ..., "Day_Of_Week": "Friday", "Steps": ...},
+            {"ID_Trainer": ..., "ID_Train": ..., "Day_Of_Week": "Friday", "Steps": ...}
+        ]
     }
 }
 
@@ -160,6 +181,7 @@ Please take these answers into account and provide **7 days' worth** of food and
 Ensure that:
 - Foods are assigned by their ID with the correct meal time (Breakfast, Lunch, Dinner).
 - Trains are selected by their ID from the 'Trains' array.
+- The Steps field in the Trains array is an integer.
 
 Don't give me any justification—just provide the JSON result so I can use it in my code.
 `;

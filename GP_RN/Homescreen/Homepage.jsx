@@ -19,7 +19,8 @@ import { useFocusEffect } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 
 const windowWidth = Dimensions.get("window").width;
-
+const currentHour = new Date().getHours();
+let greeting = currentHour < 12 ? "Good Morning" : "Good Evening";
 const data = [
   {
     id: "1",
@@ -155,7 +156,7 @@ const Home = () => {
   return (
     <View style={styles.container}>
       <View style={styles.welcom}>
-        <Text>Good Morning 🔥</Text>
+        <Text>{greeting} 🔥</Text>
         <View style={styles.namedate}>
           <Text style={styles.name}>{userData.name}</Text>
           <Text style={styles.date}>{date}</Text>

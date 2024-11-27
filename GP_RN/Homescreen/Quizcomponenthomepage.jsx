@@ -14,7 +14,7 @@ const Qize = () => {
     <View style={styles.qizeouterView}>
       <ImageBackground source={qizeimg} resizeMode="cover" style={styles.image}>
         <View style={styles.qizeinerView}>
-          <Text style={styles.titleText}>Fitness Quiz</Text>
+          <Text style={styles.titleText}>Fitness First-Up Questionnaire</Text>
           <Text style={styles.subtitleText}>
             Challenge yourself and make your life better 💪
           </Text>

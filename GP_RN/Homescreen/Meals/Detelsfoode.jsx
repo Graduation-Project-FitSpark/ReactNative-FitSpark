@@ -30,6 +30,7 @@ export default function RecipeCard({ route }) {
 
         if (response.ok) {
           const data = await response.json();
+          console.log(data);
           setingredients(data);
         } else {
           console.log("Failed to fetch ingredients");
@@ -39,10 +40,8 @@ export default function RecipeCard({ route }) {
       }
     };
 
-    if (name) {
-      fetchIngredients();
-    }
-  }, [name]);
+    fetchIngredients();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -75,7 +74,7 @@ export default function RecipeCard({ route }) {
           </View>
           <View style={styles.statItem}>
             <FontAwesome name="list-ul" size={18} color="#333" />
-            <Text style={styles.statText}>05 Ing</Text> ///////////Need to fill
+            <Text style={styles.statText}>{ingredients.length} Ing</Text>
           </View>
         </View>
         <View style={styles.ingredients}>

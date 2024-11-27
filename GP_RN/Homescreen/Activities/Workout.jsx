@@ -56,18 +56,7 @@ function Workout() {
       try {
         const ID = await AsyncStorage.getItem("ID");
         const response = await axios.post(`${URL}/getWorks`);
-        const works = response.data.map((work) => ({
-          id: work.id,
-          name: work.name,
-          description: work.description,
-          goal: work.goal,
-          progress: Math.floor(Math.random() * 100),
-          imageUrl: work.imageUrl,
-          videolink: work.videolink,
-          cal: work.cal,
-        }));
-        settodayPlan(works);
-
+        const works = response.data;
         const trainerResponse = await fetch(`${URL}/getTrainerWorks`, {
           method: "POST",
           headers: {
@@ -76,6 +65,26 @@ function Workout() {
           body: JSON.stringify({ trainerId: ID }),
         });
         const result = await trainerResponse.json();
+        const worksWithGoal = works.map((work) => {
+          const trainerWork = result.find((day) =>
+            day.ID_Trains.includes(work.id)
+          );
+          const goal = trainerWork
+            ? trainerWork.Steps[trainerWork.ID_Trains.indexOf(work.id)]
+            : 0;
+          return {
+            id: work.id,
+            name: work.name,
+            description: work.description,
+            goal: goal,
+            progress: Math.floor(Math.random() * 100),
+            imageUrl: work.imageUrl,
+            videolink: work.videolink,
+            cal: work.cal,
+          };
+        });
+
+        settodayPlan(worksWithGoal);
         settrineday(result);
       } catch (error) {
         console.error("Error fetching data:", error.message);
@@ -205,7 +214,7 @@ function Workout() {
                   <IconIonicons name="barbell-outline" size={20} color="#000" />
                 </TouchableOpacity>
                 <View style={styles.toptitlenamecontener}>
-                  <Text style={styles.ttrininfotitlename}>Treinar </Text>
+                  <Text style={styles.ttrininfotitlename}>Trainer </Text>
                 </View>
               </View>
 

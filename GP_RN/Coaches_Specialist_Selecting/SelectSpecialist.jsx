@@ -13,6 +13,7 @@ import axios from "axios";
 const SelectSpecialist = ({ navigation }) => {
   const [specialists, setSpecialists] = useState([]);
   const [selectedSpecialistId, setSelectedSpecialistId] = useState(null);
+  const [Description, setDescription] = useState("");
 
   useEffect(() => {
     const fetchSpecialists = async () => {
@@ -45,6 +46,7 @@ const SelectSpecialist = ({ navigation }) => {
           ID_Trainer,
           ID_Specialist,
           Accepted,
+          Description,
         });
 
         console.log(
@@ -104,13 +106,29 @@ const SelectSpecialist = ({ navigation }) => {
     <View style={styles.container}>
       <Image source={require("../img/logo.png")} style={styles.logo} />
       <Text style={styles.headerText}>
-        Please select your Specialist who will be your supervisor
+        Please select your Nutration expert who will be your supervisor
       </Text>
       <FlatList
         data={specialists}
         renderItem={renderSpecialistItem}
         keyExtractor={(item) => item.ID_Specialist}
       />
+      <View style={styles.containerForLabel}>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter description"
+          value={description}
+          onChangeText={setDescription}
+        />
+      </View>
+      <View style={styles.containerForLabel}>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter description"
+          value={Description}
+          onChangeText={setDescription}
+        />
+      </View>
       <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
         <Text style={styles.nextButtonText}>Submit</Text>
       </TouchableOpacity>
@@ -187,6 +205,38 @@ const styles = StyleSheet.create({
     color: "#FFF",
     fontSize: 18,
     fontWeight: "bold",
+  },
+  input: {
+    height: 50,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    width: "100%",
+    backgroundColor: "#f9f9f9",
+  },
+  containerForLabel: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 16,
+    marginTop: 10,
+  },
+  input: {
+    height: 50,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    width: "100%",
+    backgroundColor: "#f9f9f9",
+  },
+  containerForLabel: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 16,
+    marginTop: 10,
   },
 });
 

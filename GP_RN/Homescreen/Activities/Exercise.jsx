@@ -60,7 +60,7 @@ function Exercise({ route }) {
                   </View>
                   <View style={styles.textContainer}>
                     <Text style={styles.labelText}>Burn</Text>
-                    <Text style={styles.valueText}>{cal} kcal</Text>
+                    <Text style={styles.valueText}>{cal * goal} kcal</Text>
                   </View>
                 </View>
               </View>

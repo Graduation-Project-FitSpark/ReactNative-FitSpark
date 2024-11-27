@@ -16,8 +16,6 @@ import staystrong from "../img/StayStrong.png";
 import * as ImagePicker from "expo-image-picker";
 import { manipulateAsync } from "expo-image-manipulator";
 import MapView, { Marker } from "react-native-maps";
-import * as FirebaseMessaging from "expo-firebase-messaging";
-
 const SignUp = ({ navigation }) => {
   const [step, setStep] = useState(1);
   const [username, setUsername] = useState("");
@@ -34,7 +32,6 @@ const SignUp = ({ navigation }) => {
     longitude: -122.4324,
   });
   const [isSelected, setIsSelected] = useState(false);
-
   const [yearsOfExperience, setYearsOfExperience] = useState("");
   const [gender, setGender] = useState("");
   const [cvc, setCvc] = useState("");
@@ -45,7 +42,6 @@ const SignUp = ({ navigation }) => {
   const [classType, setClassType] = useState("");
   const [activityLevel, setActivityLevel] = useState("");
   const [activityLevelNumber, setActivityLevelNumber] = useState(0);
-
   const activityLabels = ["Normal", "Fat", "Very Fat"];
   const [image, setImage] = useState("");
   const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
@@ -169,7 +165,7 @@ const SignUp = ({ navigation }) => {
     let additionalData = {};
     let endpoint = "";
 
-    if (type === "Trainer") {
+    if (type === "Trainee") {
       if (activityLevelNumber == 0) {
         setActivityLevel("Normal");
       } else if (activityLevelNumber == 1) {
@@ -193,7 +189,7 @@ const SignUp = ({ navigation }) => {
         YearsOfExperience: yearsOfExperience,
       };
       endpoint = `${URL}/signUpCoach`;
-    } else if (type === "Specialist") {
+    } else if (type === "Nutration expert") {
       additionalData = {
         YearsOfExperience: yearsOfExperience,
       };
@@ -205,9 +201,6 @@ const SignUp = ({ navigation }) => {
       role: type,
       Points: 0,
     };
-
-    console.log("Submitting Data: ", activityLevel);
-
     fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -227,23 +220,23 @@ const SignUp = ({ navigation }) => {
         Alert.alert("Error", "Something went wrong during registration");
       });
     await uploadImage(image, username);
-    try {
-      const token = await FirebaseMessaging.getExpoPushTokenAsync();
-      console.log("FCM Token:", token);
-      const response = await fetch(`${URL}/uploadToken`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          token: token,
-          username: username,
-          type: type.toLowerCase(),
-        }),
-      });
-    } catch (error) {
-      console.error("Error getting token:", error);
-    }
+    // try {
+    //   const token = getFCMToken();
+    //   console.log("FCM Token:", token);
+    //   const response = await fetch(`${URL}/uploadToken`, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       token: token,
+    //       username: username,
+    //       type: type.toLowerCase(),
+    //     }),
+    //   });
+    // } catch (error) {
+    //   console.error("Error getting token:", error);
+    // }
   };
 
   const renderStep1 = () => (
@@ -281,9 +274,9 @@ const SignUp = ({ navigation }) => {
         selectedValue={type}
         onValueChange={(itemValue) => setType(itemValue)}
       >
-        <Picker.Item label="Trainer" value="Trainer" />
+        <Picker.Item label="Trainee" value="Trainee" />
         <Picker.Item label="Coach" value="Coach" />
-        <Picker.Item label="Specialist" value="Specialist" />
+        <Picker.Item label="Nutration expert" value="Nutration expert" />
       </Picker>
       <TouchableOpacity style={styles.button} onPress={handleNextStep}>
         <Text style={styles.buttonText}>Next</Text>
@@ -302,7 +295,7 @@ const SignUp = ({ navigation }) => {
       setIsSelected(true);
     };
 
-    if (type === "Trainer" || type === "Coach" || type === "Specialist") {
+    if (type === "Trainee" || type === "Coach" || type === "Nutration expert") {
       return (
         <View>
           <View style={styles.ribbonContainer}>
@@ -377,7 +370,7 @@ const SignUp = ({ navigation }) => {
             </>
           )}
 
-          {type === "Specialist" && (
+          {type === "Nutration expert" && (
             <>
               <TextInput
                 style={styles.input}
@@ -408,7 +401,7 @@ const SignUp = ({ navigation }) => {
             value={expirationDate}
             onChangeText={setExpressionDate}
           />
-          {type === "Trainer" && (
+          {type === "Trainee" && (
             <>
               <TextInput
                 style={styles.input}

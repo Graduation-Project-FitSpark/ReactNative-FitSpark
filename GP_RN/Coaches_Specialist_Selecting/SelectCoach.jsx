@@ -6,6 +6,7 @@ import {
   Image,
   FlatList,
   StyleSheet,
+  TextInput,
 } from "react-native";
 import URL from "../enum";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -13,7 +14,7 @@ import axios from "axios";
 const SelectCoach = ({ navigation }) => {
   const [coaches, setCoaches] = useState([]);
   const [selectedCoachId, setSelectedCoachId] = useState(null);
-
+  const [Description, setDescription] = useState("");
   useEffect(() => {
     const fetchCoaches = async () => {
       try {
@@ -46,6 +47,7 @@ const SelectCoach = ({ navigation }) => {
           ID_Trainer,
           ID_Coach,
           Accepted,
+          Description,
         });
 
         if (response.status === 200) {
@@ -119,6 +121,14 @@ const SelectCoach = ({ navigation }) => {
         renderItem={renderCoachItem}
         keyExtractor={(item) => item.ID_Coach}
       />
+      <View style={styles.containerForLabel}>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter description"
+          value={Description}
+          onChangeText={setDescription}
+        />
+      </View>
       <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
         <Text style={styles.nextButtonText}>Submit</Text>
       </TouchableOpacity>
@@ -195,6 +205,22 @@ const styles = StyleSheet.create({
     color: "#FFF",
     fontSize: 18,
     fontWeight: "bold",
+  },
+  input: {
+    height: 50,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    width: "100%",
+    backgroundColor: "#f9f9f9",
+  },
+  containerForLabel: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 16,
+    marginTop: 10,
   },
 });
 
