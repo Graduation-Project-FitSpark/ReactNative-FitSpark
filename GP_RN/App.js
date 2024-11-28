@@ -40,6 +40,11 @@ import Profile from "./Homescreen/Profile.jsx";
 import Calendar from "./Homescreen/Calender.jsx";
 import GoToGym from "./Homescreen/GoToGym.jsx";
 import SignToGym from "./Homescreen/SignToGym.jsx";
+import Coachomepage from "./Coach/Homescreen/Coachomepage";
+import Coachmanbur from "./Coach/Homescreen/Coachmanbur";
+import Traineeexercise from "./Coach/CachActivities/Traineeexercise";
+import Competitions from "./Coach/CachActivities/Competitions";
+import Requesttraining from "./Coach/CachActivities/Requesttraining";
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -157,6 +162,31 @@ export default function App() {
             <Stack.Screen
               name="SignToGym"
               component={SignToGym}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Coachomepage"
+              component={Coachomepage}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Coachmanbur"
+              component={Coachmanbur}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Traineeexercise"
+              component={Traineeexercise}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Competitions"
+              component={Competitions}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Requesttraining"
+              component={Requesttraining}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>
