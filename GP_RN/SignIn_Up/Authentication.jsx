@@ -11,11 +11,13 @@ import {
 import axios from "axios";
 import URL from "../enum";
 import { useNavigation } from "@react-navigation/native";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function Authentication({ route }) {
   const { Email } = route.params;
   const [verificationCode, setVerificationCode] = useState("");
   const [verificationCodeSended, setVerificationCodeSended] = useState("");
+  const [Type, setType] = useState("");
+
   const navigation = useNavigation();
   useEffect(() => {
     sendVerificationCode();
@@ -23,6 +25,7 @@ export default function Authentication({ route }) {
 
   const sendVerificationCode = async () => {
     try {
+      setType(await AsyncStorage.getItem("Type"));
       const code = Math.floor(100000 + Math.random() * 900000).toString();
       setVerificationCodeSended(code);
       console.log(Email);
@@ -37,9 +40,22 @@ export default function Authentication({ route }) {
     }
   };
 
-  const handleVerify = () => {
+  const handleVerify = async () => {
     if (verificationCode === verificationCodeSended) {
-      navigation.navigate("Menubar");
+      if (Type === "trainer") navigation.navigate("Menubar");
+      else if (Type === "coach") {
+        fetch(`${URL}/getCoachDetails`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: await AsyncStorage.getItem("username"),
+          }),
+        })
+          .then((res) => res.json())
+          .then(async (data) => await AsyncStorage.setItem("ID", data.ID_Coach))
+          .catch((err) => console.error(err));
+        navigation.navigate("Coachmanbur");
+      }
     } else {
       Alert.alert("Error", "Verification code is invalid!");
     }

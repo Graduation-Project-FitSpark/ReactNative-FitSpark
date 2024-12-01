@@ -5074,6 +5074,11 @@ expo-device@^7.0.1:
   dependencies:
     ua-parser-js "^0.7.33"
 
+expo-document-picker@^12.0.2:
+  version "12.0.2"
+  resolved "https://registry.npmjs.org/expo-document-picker/-/expo-document-picker-12.0.2.tgz"
+  integrity sha512-tmwuRWoCPv6SmNDSMEWcttMBJ95k8/g5sMWnHdmvOx0UKp0pFXP8FI+55HKtQpo6k2+118MkdDDhQSwKqASVAw==
+
 expo-file-system@^17.0.1, expo-file-system@~17.0.1:
   version "17.0.1"
   resolved "https://registry.npmjs.org/expo-file-system/-/expo-file-system-17.0.1.tgz"
@@ -5266,6 +5271,11 @@ expo-permissions-interface@~2.0.0:
   integrity sha512-hk9oR6CtV2MLONdtPkKvOfpfmbJ48BDbYjvW/Na31znVvUAPHs7owckqSgh5BVoIAz8tMgp7fptaifEhPOayvg==
   dependencies:
     expo-core "~2.0.0"
+
+expo-permissions@^14.4.0:
+  version "14.4.0"
+  resolved "https://registry.npmjs.org/expo-permissions/-/expo-permissions-14.4.0.tgz"
+  integrity sha512-oAcnJ7dlZhpBydK73cwomA2xofizayVUz+FW5REl7dMu7MYyeN/3aqhlpZ3mYddrxvG161bqu97MQr01UixUnw==
 
 expo-react-native-adapter@~2.0.0:
   version "2.0.0"
@@ -9068,10 +9078,10 @@ react-native-hoverable@^0.2.0:
   resolved "https://registry.npmjs.org/react-native-hoverable/-/react-native-hoverable-0.2.0.tgz"
   integrity sha512-iv+soV1UY3ZsEEJhLGzWrsE+yy/QgmDyZuddQWUtI0n9A6Sq6i287p/LtL9TIHDdZWUHtnzMC1aihPbI2a3aJA==
 
-react-native-image-picker@^7.1.2:
-  version "7.1.2"
-  resolved "https://registry.npmjs.org/react-native-image-picker/-/react-native-image-picker-7.1.2.tgz"
-  integrity sha512-b5y5nP60RIPxlAXlptn2QwlIuZWCUDWa/YPUVjgHc0Ih60mRiOg1PSzf0IjHSLeOZShCpirpvSPGnDExIpTRUg==
+react-native-image-picker@^7.2.2:
+  version "7.2.2"
+  resolved "https://registry.npmjs.org/react-native-image-picker/-/react-native-image-picker-7.2.2.tgz"
+  integrity sha512-hcSaD/ohDac1ooDbZyKltfmOEAWrQOrPbusKEfbJQ7EfGveBEIF5wfmZsCjXRc0HNpGdQ71P1x2JZckkqu7IRw==
 
 react-native-maps@^1.14.0:
   version "1.14.0"

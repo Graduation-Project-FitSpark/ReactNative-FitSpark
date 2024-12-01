@@ -1,63 +1,56 @@
 import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { Traineetablestyle } from "./Traineetablestyle";
-
+import URL from "../../enum";
+import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
 function Traineetable() {
   const navigation = useNavigation();
-  const [IDCoach, setIDCoach] = useState(10); //هون اي دي الي داخل هلا
-  const [trainerCoachData, setTrainerCoachData] = useState([
-    { ID_Trainer: 1, ID_Coach: 2, Accepted: true },
-    { ID_Trainer: 3, ID_Coach: 4, Accepted: false },
-    { ID_Trainer: 5, ID_Coach: 6, Accepted: true },
-    { ID_Trainer: 7, ID_Coach: 8, Accepted: false },
-    { ID_Trainer: 9, ID_Coach: 10, Accepted: true },
-    { ID_Trainer: 10, ID_Coach: 11, Accepted: false },
-    { ID_Trainer: 12, ID_Coach: 10, Accepted: false },
-    { ID_Trainer: 13, ID_Coach: 10, Accepted: true },
-    { ID_Trainer: 15, ID_Coach: 16, Accepted: false },
-    { ID_Trainer: 17, ID_Coach: 18, Accepted: true },
-    { ID_Trainer: 19, ID_Coach: 20, Accepted: false },
-  ]);
+  const [IDCoach, setIDCoach] = useState(0);
+  const [trainerCoachData, setTrainerCoachData] = useState([]);
+  const [infoTrainer, setInfoTrainer] = useState([]);
 
-  const [infoTrainer, setInfoTrainer] = useState([
-    {
-      ID_Trainer: 13,
-      name: "Mahmoud",
-      Age: 23,
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfdWwVU65gZW5--Ypno_l2GBNhI_sinWkNUw&s",
-    },
-    {
-      ID_Trainer: 9,
-      name: "Ali",
-      Age: 25,
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfdWwVU65gZW5--Ypno_l2GBNhI_sinWkNUw&s",
-    },
-    {
-      ID_Trainer: 12,
-      name: "Sara",
-      Age: 22,
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfdWwVU65gZW5--Ypno_l2GBNhI_sinWkNUw&s",
-    },
-    {
-      ID_Trainer: 4,
-      name: "John",
-      Age: 28,
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfdWwVU65gZW5--Ypno_l2GBNhI_sinWkNUw&s",
-    },
-    {
-      ID_Trainer: 1,
-      name: "David",
-      Age: 30,
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfdWwVU65gZW5--Ypno_l2GBNhI_sinWkNUw&s",
-    },
-  ]);
+  useFocusEffect(
+    useCallback(() => {
+      const fetchCoachDetails = async () => {
+        try {
+          const username = await AsyncStorage.getItem("username");
+          const ID = await AsyncStorage.getItem("ID");
+          setIDCoach(ID);
 
+          const response1 = await fetch(`${URL}/getTrainerWithDetails`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          });
+
+          if (!response1.ok) throw new Error(`Failed: ${response1.status}`);
+          const data1 = await response1.json();
+          setInfoTrainer(data1);
+
+          const response2 = await fetch(`${URL}/getTrainerCoach`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          });
+
+          if (!response2.ok) throw new Error(`Failed: ${response2.status}`);
+          const data2 = await response2.json();
+          setTrainerCoachData(data2);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+
+      fetchCoachDetails();
+    }, [])
+  );
   return (
     <View>
       <View style={Traineetablestyle.trainerTableContainer}>
         <View style={Traineetablestyle.traineertitle}>
-          <Text style={Traineetablestyle.title}>Supervising trainer</Text>
+          <Text style={Traineetablestyle.title}>Supervising trainee</Text>
         </View>
 
         {trainerCoachData

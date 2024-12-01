@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import {
   View,
   Text,
@@ -19,101 +19,22 @@ import { Picker } from "@react-native-picker/picker";
 import { useFocusEffect } from "@react-navigation/native";
 import { Swipeable } from "react-native-gesture-handler";
 import { useCallback } from "react";
+import axios from "axios";
+import URL from "../../enum";
 function Traineeexercise({ route }) {
   const navigation = useNavigation();
   const { ID_Trainer, name, Age, img } = route.params;
   const today = new Date();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedexercise, setSelectedexercise] = useState("");
-  const [Itemstepsmin, setItemstepsmin] = useState("");
+  const inputRef = useRef(null);
   const formattedDate = useMemo(() => {
     return today.toLocaleDateString("en-US", { weekday: "long" });
   }, [today]);
 
-  const [todayPlan, settodayPlan] = useState([
-    {
-      id: 1,
-      name: "Push Up",
-      description:
-        "The lower abdomen and hips are the most difficult areas of the body to reduce when we are on a diet. Even so, in this area, especially the legs as a whole, you can reduce weight even if you don't use tools.",
-      goal: "100 Push up a day",
-      progress: 45,
-      imageUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSv8DHqz8RFaA8jEqtRODUG6o9WQktS0RX_Q&s",
-      videolink:
-        "https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4",
-      cal: 95,
-    },
-    {
-      id: 2,
-      name: "Sit Up",
-      description:
-        "The lower abdomen and hips are the most difficult areas of the body to reduce when we are on a diet. Even so, in this area, especially the legs as a whole, you can reduce weight even if you don't use tools.",
+  const [todayPlan, settodayPlan] = useState([]);
 
-      progress: 75,
-      imageUrl: "https://example.com/sit_up_image.jpg",
-      videolink: "https://youtu.be/N_wrRF_j3iY?si=ey26qU0waYUNtEcR",
-      cal: 45,
-    },
-    {
-      id: 3,
-      name: "Knee Push Up",
-      description: "Beginner",
-
-      progress: 60,
-      imageUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSv8DHqz8RFaA8jEqtRODUG6o9WQktS0RX_Q&s",
-      videolink: "https://youtu.be/N_wrRF_j3iY?si=ey26qU0waYUNtEcR",
-      cal: 33,
-    },
-    {
-      id: 4,
-      name: "Squats",
-      description: "Intermediate",
-      goal: "100 Squats a day",
-      progress: 30,
-      imageUrl: "https://example.com/squats_image.jpg",
-      videolink: "https://youtu.be/N_wrRF_j3iY?si=ey26qU0waYUNtEcR",
-      cal: 55,
-    },
-    {
-      id: 5,
-      name: "Lunges",
-      description: "Beginner",
-
-      progress: 40,
-      imageUrl: "https://example.com/lunges_image.jpg",
-      videolink: "https://youtu.be/N_wrRF_j3iY?si=ey26qU0waYUNtEcR",
-      cal: 45,
-    },
-    {
-      id: 6,
-      name: "Plank",
-      description: "Intermediate",
-
-      progress: 80,
-      imageUrl: "https://example.com/plank_image.jpg",
-      videolink: "https://youtu.be/N_wrRF_j3iY?si=ey26qU0waYUNtEcR",
-    },
-    {
-      id: 8,
-      name: "Mountain Climbers",
-      description: "Advanced",
-
-      progress: 50,
-      imageUrl: "https://example.com/mountain_climbers_image.jpg",
-      videolink: "https://youtu.be/N_wrRF_j3iY?si=ey26qU0waYUNtEcR",
-      cal: 45,
-    },
-  ]);
-
-  const [trineday, settrineday] = useState([
-    { ID_Trains: 1, ID_Trainer: 12, Day_Of_Week: "Monday", Steps: 40 },
-    { ID_Trains: 2, ID_Trainer: 9, Day_Of_Week: "Tuesday", Steps: 20 },
-    { ID_Trains: 6, ID_Trainer: 9, Day_Of_Week: "Wednesday", Steps: 20 },
-    { ID_Trains: 1, ID_Trainer: 9, Day_Of_Week: "Wednesday", Steps: 60 },
-    { ID_Trains: 5, ID_Trainer: 9, Day_Of_Week: "Wednesday", Steps: 20 },
-  ]);
+  const [trineday, settrineday] = useState([]);
 
   const [data, setData] = useState([
     {
@@ -161,27 +82,81 @@ function Traineeexercise({ route }) {
   ]);
 
   const [filteredPlan, setFilteredPlan] = useState([]);
+
   useFocusEffect(
     React.useCallback(() => {
-      //   todayPlan و   trineday  هون بتاخذ من داتا بيس وبتخزنها باريي
+      const fetchWorks = async () => {
+        try {
+          const response = await axios.post(`${URL}/getWorks`);
+          const works = response.data;
+          const trainerResponse = await fetch(
+            `${URL}/getOriginalTrainerTrains`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ trainerId: ID_Trainer }),
+            }
+          );
+          const result = await trainerResponse.json();
+          const worksWithGoal = works.map((work) => {
+            const trainerWork = result.find((day) =>
+              day.ID_Trains.includes(work.id)
+            );
+            const goal = trainerWork
+              ? trainerWork.Steps[trainerWork.ID_Trains.indexOf(work.id)]
+              : 0;
+            return {
+              id: work.id,
+              name: work.name,
+              description: work.description,
+              goal: goal,
+              progress: Math.floor(Math.random() * 100),
+              imageUrl: work.imageUrl,
+              videolink: work.videolink,
+              cal: work.cal,
+            };
+          });
+
+          settodayPlan(worksWithGoal);
+          settrineday(result);
+        } catch (error) {
+          console.error("Error fetching data:", error.message);
+        }
+      };
+
+      fetchWorks();
     }, [])
   );
 
-  const goback = () => {
-    //عشان انا خليت الداتا الي في trineday وبتبدلها مكان trinedayهون بتاخذ
-    //الي بالكود هون  trineday الي بداتا بيس وحط مكانها trineday نفسها بس ظاف عليها فا الداتا القديمة ما تعدلت فا امسح الي في trineday الي في الداتا بيس
+  const goback = async () => {
+    try {
+      console.log(trineday);
+      const response = await fetch(`${URL}/editTrainerTrains`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ trainerId: ID_Trainer, trineday }),
+      });
 
-    navigation.goBack(); //هاي خليها ما تقيمها
+      if (!response.ok) {
+        throw new Error("Request failed");
+      }
+
+      const result = await response.json();
+      console.log("Server response:", result);
+      navigation.goBack();
+    } catch (error) {
+      console.error("Error updating trainer trains:", error);
+    }
   };
 
   useFocusEffect(
     useCallback(() => {
       const matchingTrains = trineday
-        .filter(
-          (train) =>
-            train.Day_Of_Week === formattedDate &&
-            train.ID_Trainer === ID_Trainer
-        )
+        .filter((train) => train.Day_Of_Week === formattedDate)
         .map((train) => ({ id: train.ID_Trains }));
 
       const matchingPlan = todayPlan
@@ -189,9 +164,7 @@ function Traineeexercise({ route }) {
         .map((plan) => {
           const train = trineday.find(
             (train) =>
-              train.ID_Trains === plan.id &&
-              train.Day_Of_Week === formattedDate &&
-              train.ID_Trainer === ID_Trainer
+              train.ID_Trains === plan.id && train.Day_Of_Week === formattedDate
           );
           return { ...plan, Steps: train.Steps, day: train.Day_Of_Week };
         });
@@ -218,11 +191,7 @@ function Traineeexercise({ route }) {
     );
 
     const matchingTrains = trineday
-      .filter(
-        (train) =>
-          train.Day_Of_Week === selectedDay.Day_Of_Week &&
-          train.ID_Trainer === ID_Trainer
-      )
+      .filter((train) => train.Day_Of_Week === selectedDay.Day_Of_Week)
       .map((train) => ({ id: train.ID_Trains }));
 
     const matchingPlan = todayPlan
@@ -231,8 +200,7 @@ function Traineeexercise({ route }) {
         const train = trineday.find(
           (train) =>
             train.ID_Trains === plan.id &&
-            train.Day_Of_Week === selectedDay.Day_Of_Week &&
-            train.ID_Trainer === ID_Trainer
+            train.Day_Of_Week === selectedDay.Day_Of_Week
         );
         return { ...plan, Steps: train.Steps, day: train.Day_Of_Week };
       });
@@ -241,7 +209,9 @@ function Traineeexercise({ route }) {
   };
 
   const addExercise = () => {
-    if (!selectedexercise || !Itemstepsmin) {
+    let inputNumber = Number(inputRef.current.value);
+    console.log(inputRef.current.value);
+    if (!selectedexercise) {
       alert("Please select an exercise and enter steps!");
       return;
     }
@@ -265,7 +235,6 @@ function Traineeexercise({ route }) {
 
     const duplicateFound = trineday.some(
       (existing) =>
-        existing.ID_Trainer === ID_Trainer &&
         existing.ID_Trains === selectedexercise.id &&
         existing.Day_Of_Week === selectedDay
     );
@@ -277,7 +246,7 @@ function Traineeexercise({ route }) {
 
     const newExercise = {
       ...selectedexercise,
-      Steps: Itemstepsmin,
+      Steps: inputNumber,
     };
     setFilteredPlan([...filteredPlan, newExercise]);
 
@@ -285,13 +254,12 @@ function Traineeexercise({ route }) {
       ID_Trains: selectedexercise.id,
       ID_Trainer: ID_Trainer,
       Day_Of_Week: selectedDay,
-      Steps: parseInt(Itemstepsmin, 10),
+      Steps: parseInt(inputNumber, 10),
     };
     settrineday([...trineday, newEntry]);
 
     alert("Exercise added successfully!");
     setSelectedexercise("");
-    setItemstepsmin("");
     setModalVisible(false);
   };
 
@@ -302,7 +270,6 @@ function Traineeexercise({ route }) {
   const Modell = () => {
     return (
       <Modal
-        animationType="slide"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}
@@ -320,10 +287,11 @@ function Traineeexercise({ route }) {
               ))}
             </Picker>
             <TextInput
+              ref={inputRef}
               style={styles.input}
               placeholder="steps/min"
-              value={Itemstepsmin}
-              onChangeText={setItemstepsmin}
+              keyboardType="numeric"
+              onChangeText={(e) => (inputRef.current.value = e)}
             />
             <View style={styles.buttonRow}>
               <TouchableOpacity
@@ -350,9 +318,7 @@ function Traineeexercise({ route }) {
   const increaseCount = (item) => {
     settrineday((prevTrineday) =>
       prevTrineday.map((train) =>
-        train.ID_Trains === item.id &&
-        train.ID_Trainer === ID_Trainer &&
-        train.Day_Of_Week === item.day
+        train.ID_Trains === item.id && train.Day_Of_Week === item.day
           ? { ...train, Steps: train.Steps + 1 }
           : train
       )
@@ -368,9 +334,7 @@ function Traineeexercise({ route }) {
   const decreaseCount = (item) => {
     settrineday((prevTrineday) =>
       prevTrineday.map((train) =>
-        train.ID_Trains === item.id &&
-        train.ID_Trainer === ID_Trainer &&
-        train.Day_Of_Week === item.day
+        train.ID_Trains === item.id && train.Day_Of_Week === item.day
           ? { ...train, Steps: Math.max(0, train.Steps - 1) }
           : train
       )
@@ -386,14 +350,9 @@ function Traineeexercise({ route }) {
   };
   const remove = (ex) => {
     const newar1 = trineday.filter(
-      (train) =>
-        !(
-          train.ID_Trains === ex.id &&
-          train.ID_Trainer === ID_Trainer &&
-          train.Day_Of_Week === ex.day
-        )
+      (train) => !(train.ID_Trains === ex.id && train.Day_Of_Week === ex.day)
     );
-    setTrineday(newar1);
+    settrineday(newar1);
     const newar2 = filteredPlan.filter((plan) => plan.id !== ex.id);
     setFilteredPlan(newar2);
   };

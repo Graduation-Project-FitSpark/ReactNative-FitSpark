@@ -11,139 +11,76 @@ import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 import { useNavigation } from "@react-navigation/native";
 import IconIonicons from "react-native-vector-icons/Ionicons";
+import URL from "../../enum";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 function Requesttraining() {
   const navigation = useNavigation();
-  const [IDCoach, setIDCoach] = useState(10); //هون اي دي الي داخل هلا
+  const [IDCoach, setIDCoach] = useState(0);
   const [counttrner, setcounttrner] = useState(0);
-  const goback = () => {
-    //عشان انا خليت الداتا الي في trainerCoachData وبتبدلها مكان trainerCoachData بتاخذ
-    //الي بالكود هون  trainerCoachData الي بداتا بيس وحط مكانها trainerCoachData نفسها بس ظاف عليها فا الداتا القديمة ما تعدلت فا امسح الي في trineday الي في الداتا بيس
 
-    navigation.goBack(); //هاي خليها ما تقيمها
+  const goback = async () => {
+    try {
+      const response = await fetch(`${URL}/processRequestsCoach`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(trainerCoachData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log(result.message);
+      navigation.goBack();
+    } catch (error) {
+      console.error("Error processing requests:", error.message);
+    }
   };
 
-  const [trainerCoachData, setTrainerCoachData] = useState([
-    {
-      ID_Trainer: 1,
-      ID_Coach: 2,
-      Accepted: "t",
-      Description:
-        "Trainer 1 is paired with Coach 2 and the request is accepted.",
-    },
-    {
-      ID_Trainer: 3,
-      ID_Coach: 4,
-      Accepted: "f",
-      Description:
-        "Trainer 3 is paired with Coach 4 and the request is declined.",
-    },
-    {
-      ID_Trainer: 5,
-      ID_Coach: 10,
-      Accepted: "p",
-      Description:
-        "Trainer 5 is paired with Coach 10 and the request is accepted.",
-    },
-    {
-      ID_Trainer: 7,
-      ID_Coach: 8,
-      Accepted: "f",
-      Description:
-        "Trainer 7 is paired with Coach 8 and the request is declined.",
-    },
-    {
-      ID_Trainer: 9,
-      ID_Coach: 10,
-      Accepted: "p",
-      Description:
-        "Trainer 9 is paired with Coach 10 and the request is accepted.",
-    },
-    {
-      ID_Trainer: 10,
-      ID_Coach: 10,
-      Accepted: "p",
-      Description:
-        "Trainer 10 is paired with Coach 10 and the request is accepted.",
-    },
-    {
-      ID_Trainer: 12,
-      ID_Coach: 10,
-      Accepted: "p",
-      Description:
-        "Trainer 12 is paired with Coach 10 and the request is pending.",
-    },
-    {
-      ID_Trainer: 13,
-      ID_Coach: 10,
-      Accepted: "p",
-      Description:
-        "Trainer 13 is paired with Coach 10 and the request is pending.",
-    },
-    {
-      ID_Trainer: 15,
-      ID_Coach: 16,
-      Accepted: "f",
-      Description:
-        "Trainer 15 is paired with Coach 16 and the request is declined.jjsldkcklsjcjlnsdjcbdcljsjlbjldc",
-    },
-    {
-      ID_Trainer: 17,
-      ID_Coach: 18,
-      Accepted: "t",
-      Description:
-        "Trainer 17 is paired with Coach 18 and the request is accepted.",
-    },
-    {
-      ID_Trainer: 19,
-      ID_Coach: 20,
-      Accepted: "f",
-      Description:
-        "Trainer 19 is paired with Coach 20 and the request is declined.",
-    },
-  ]);
+  const [trainerCoachData, setTrainerCoachData] = useState([]);
 
-  const [infoTrainer, setInfoTrainer] = useState([
-    {
-      ID_Trainer: 13,
-      name: "Mahmoud",
-      Age: 23,
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfdWwVU65gZW5--Ypno_l2GBNhI_sinWkNUw&s",
-    },
-    {
-      ID_Trainer: 9,
-      name: "Ali",
-      Age: 25,
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfdWwVU65gZW5--Ypno_l2GBNhI_sinWkNUw&s",
-    },
-    {
-      ID_Trainer: 12,
-      name: "Sara",
-      Age: 22,
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfdWwVU65gZW5--Ypno_l2GBNhI_sinWkNUw&s",
-    },
-    {
-      ID_Trainer: 5,
-      name: "John",
-      Age: 28,
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfdWwVU65gZW5--Ypno_l2GBNhI_sinWkNUw&s",
-    },
-    {
-      ID_Trainer: 10,
-      name: "David",
-      Age: 30,
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfdWwVU65gZW5--Ypno_l2GBNhI_sinWkNUw&s",
-    },
-  ]);
+  const [infoTrainer, setInfoTrainer] = useState([]);
   useFocusEffect(
     useCallback(() => {
-      //هون عشان تجيب كل تيبل وتخزمها بمكانها وانتبه ان قارن بين كل تيبل وحطها بمكانها المناسب يعني اطلع على كل الداتا الي موجودة فوق وخزن الداتا المناسبه الها الي في الداتا بيس
-    })
+      const fetchCoachDetails = async () => {
+        try {
+          const ID = await AsyncStorage.getItem("ID");
+          setIDCoach(ID);
+
+          const response1 = await fetch(`${URL}/getTrainerWithDetails`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          });
+          if (!response1.ok) throw new Error(`Failed: ${response1.status}`);
+          const data1 = await response1.json();
+          setInfoTrainer(data1);
+
+          const response2 = await fetch(
+            `${URL}/getTrainerCoachWithDescription`,
+            {
+              method: "GET",
+              headers: { "Content-Type": "application/json" },
+            }
+          );
+          if (!response2.ok) throw new Error(`Failed: ${response2.status}`);
+          const data2 = await response2.json();
+          setTrainerCoachData(data2);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+
+      fetchCoachDetails();
+    }, [])
   );
   useFocusEffect(
     useCallback(() => {
+      console.log("This is my array");
       let count = 0;
       trainerCoachData.filter((item) => {
-        if (item.ID_Coach === IDCoach && item.Accepted === "t") {
+        if (item.ID_Coach === IDCoach && item.Accepted === "A") {
           count++;
         }
       });
@@ -153,7 +90,7 @@ function Requesttraining() {
   const Accept = (id) => {
     setTrainerCoachData((prevData) =>
       prevData.map((item) =>
-        item.ID_Trainer === id ? { ...item, Accepted: "t" } : item
+        item.ID_Trainer === id ? { ...item, Accepted: "A" } : item
       )
     );
   };
@@ -161,7 +98,7 @@ function Requesttraining() {
   const Reject = (id) => {
     setTrainerCoachData((prevData) =>
       prevData.map((item) =>
-        item.ID_Trainer === id ? { ...item, Accepted: "f" } : item
+        item.ID_Trainer === id ? { ...item, Accepted: "R" } : item
       )
     );
   };
@@ -186,12 +123,13 @@ function Requesttraining() {
         </View>
         <View style={styles.info}>
           <View style={styles.wrapper}>
-            <Text style={styles.textLabel}>Number of trainees you train:</Text>
-            <Text style={styles.textValue}>{counttrner}Trainees</Text>
+            <Text style={styles.textLabel}>
+              Number of Trainees{"\n"}you train: {counttrner} Trainees
+            </Text>
           </View>
 
           {trainerCoachData
-            .filter((item) => item.ID_Coach === IDCoach && item.Accepted == "p")
+            .filter((item) => item.ID_Coach === IDCoach && item.Accepted == "P")
             .map((item) => {
               const trainerInfo = infoTrainer.find(
                 (trainer) => trainer.ID_Trainer === item.ID_Trainer
@@ -326,7 +264,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     height: 40,
-    width: 60,
+    width: 55,
   },
   uniqueButtona: {
     borderTopLeftRadius: 15,
@@ -334,7 +272,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     height: 40,
-    width: 60,
+    width: 55,
   },
   uniqueButtonText: {
     color: "#fff",

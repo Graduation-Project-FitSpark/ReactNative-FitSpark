@@ -41,6 +41,7 @@ const SignIn = ({ navigation }) => {
         const { Email } = data.user;
         await AsyncStorage.setItem("username", username);
         await AsyncStorage.setItem("Email", Email);
+        await AsyncStorage.setItem("Type", data.table);
 
         navigation.navigate("Authentication", {
           username: username,

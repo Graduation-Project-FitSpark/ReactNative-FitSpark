@@ -45,6 +45,8 @@ import Coachmanbur from "./Coach/Homescreen/Coachmanbur";
 import Traineeexercise from "./Coach/CachActivities/Traineeexercise";
 import Competitions from "./Coach/CachActivities/Competitions";
 import Requesttraining from "./Coach/CachActivities/Requesttraining";
+import ProfileCoach from "./Coach/Homescreen/ProfileCoach.jsx";
+import Uploading from "./Coach/Homescreen/Uploading.jsx";
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -53,6 +55,8 @@ export default function App() {
       <QuizProvider>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="SignIn">
+            <Stack.Screen name="Uploading" component={Uploading} />
+            <Stack.Screen name="ProfileCoach" component={ProfileCoach} />
             <Stack.Screen name="PhysicalTrains" component={PhysicalTrains} />
             <Stack.Screen name="SignIn" component={SignIn} />
             <Stack.Screen name="SignUp" component={SignUp} />
