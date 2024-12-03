@@ -47,6 +47,10 @@ import Competitions from "./Coach/CachActivities/Competitions";
 import Requesttraining from "./Coach/CachActivities/Requesttraining";
 import ProfileCoach from "./Coach/Homescreen/ProfileCoach.jsx";
 import Uploading from "./Coach/Homescreen/Uploading.jsx";
+import Specialistmanbur from "./HSpecialist/Homescreen/Specialistmanbur";
+import Traineefood from "./HSpecialist/SpecialistActivities/Traineefood";
+import Requesttrainingspecilat from "./HSpecialist/SpecialistActivities/Requesttrainingspecilat";
+import AnalyticsSectionSpecilalist from "./HSpecialist/SpecialistActivities/AnalyticsSectionSpecilalist";
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -191,6 +195,26 @@ export default function App() {
             <Stack.Screen
               name="Requesttraining"
               component={Requesttraining}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Specialistmanbur"
+              component={Specialistmanbur}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Traineefood"
+              component={Traineefood}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Requesttrainingspecilat"
+              component={Requesttrainingspecilat}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="AnalyticsSectionSpecilalist"
+              component={AnalyticsSectionSpecilalist}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>
