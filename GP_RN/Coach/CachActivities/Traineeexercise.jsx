@@ -393,7 +393,7 @@ function Traineeexercise({ route }) {
           train.Day_Of_Week === ex.day
         )
     );
-    setTrineday(newar1);
+    settrineday(newar1);
     const newar2 = filteredPlan.filter((plan) => plan.id !== ex.id);
     setFilteredPlan(newar2);
   };

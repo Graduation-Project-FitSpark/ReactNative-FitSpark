@@ -24,13 +24,17 @@ import Coachmanbur from "./Coach/Homescreen/Coachmanbur";
 import Traineeexercise from "./Coach/CachActivities/Traineeexercise";
 import Competitions from "./Coach/CachActivities/Competitions";
 import Requesttraining from "./Coach/CachActivities/Requesttraining";
+import Specialistmanbur from "./HSpecialist/Homescreen/Specialistmanbur";
+import Traineefood from "./HSpecialist/SpecialistActivities/Traineefood";
+import Requesttrainingspecilat from "./HSpecialist/SpecialistActivities/Requesttrainingspecilat";
+import AnalyticsSectionSpecilalist from "./HSpecialist/SpecialistActivities/AnalyticsSectionSpecilalist";
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
     <MyProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Coachmanbur">
+        <Stack.Navigator initialRouteName="Specialistmanbur">
           {/*Menubar for tranine and Coachmanbur for coach */}
           <Stack.Screen
             name="Menubar"
@@ -131,6 +135,28 @@ export default function App() {
           <Stack.Screen
             name="Requesttraining"
             component={Requesttraining}
+            options={{ headerShown: false }}
+          />
+
+          {/*Specialist from her */}
+          <Stack.Screen
+            name="Specialistmanbur"
+            component={Specialistmanbur}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Traineefood"
+            component={Traineefood}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Requesttrainingspecilat"
+            component={Requesttrainingspecilat}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="AnalyticsSectionSpecilalist"
+            component={AnalyticsSectionSpecilalist}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
