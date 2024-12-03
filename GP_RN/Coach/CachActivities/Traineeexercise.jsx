@@ -178,7 +178,7 @@ function Traineeexercise({ route }) {
             : { ...item, isSelected: false }
         )
       );
-    }, [formattedDate, todayPlan, ID_Trainer])
+    }, [formattedDate, todayPlan, trineday])
   );
 
   const selectDay = (selectedDay) => {

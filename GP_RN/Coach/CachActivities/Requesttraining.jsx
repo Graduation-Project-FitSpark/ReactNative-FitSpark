@@ -87,7 +87,29 @@ function Requesttraining() {
       setcounttrner(count);
     }, [trainerCoachData, IDCoach])
   );
-  const Accept = (id) => {
+  const Accept = async (id) => {
+    try {
+      const response = await fetch(`${URL}/insertCoachPoints`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ID_Coach: IDCoach,
+          Points: 1,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log("Updated successfully:", data);
+      } else {
+        console.error("Error updating:", data.error);
+      }
+    } catch (error) {
+      console.error("Request failed:", error);
+    }
     setTrainerCoachData((prevData) =>
       prevData.map((item) =>
         item.ID_Trainer === id ? { ...item, Accepted: "A" } : item
