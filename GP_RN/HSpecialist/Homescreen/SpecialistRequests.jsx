@@ -21,7 +21,7 @@ function SpecialistRequests() {
         >
           <View style={styles.textcontainerouter}>
             <View style={styles.textcontainer}>
-              <Text style={styles.titleText}>Training Requests</Text>
+              <Text style={styles.titleText}>Trainee Requests</Text>
             </View>
             <View style={styles.containerbuttonText}>
               <View style={styles.fackecontener}></View>

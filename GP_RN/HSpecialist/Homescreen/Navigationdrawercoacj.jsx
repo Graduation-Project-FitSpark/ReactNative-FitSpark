@@ -4,7 +4,9 @@ import logo from "../../img/logo.png";
 import IconIonicons from "react-native-vector-icons/Ionicons";
 import IconFontAwesome from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
-
+import URL from "../../enum";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 const Navigationdrawercoacj = () => {
   const navigation = useNavigation();
 
@@ -15,7 +17,27 @@ const Navigationdrawercoacj = () => {
   });
 
   useEffect(() => {
-    setUserData({ name: "ahmed", email: "aaa@gmail.com" }); // عشاير هون انت بس بتستدعي الاسم و الايميل من داتا بيس وبتدبدلها مكان النيم  والصورة و  الايميل
+    const fetchSpecialistDetails = async () => {
+      try {
+        const username = await AsyncStorage.getItem("username");
+        const response = await fetch(`${URL}/getSpecialistDetails`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username }),
+        });
+        const data = await response.json();
+        const secondResponse = await fetch(`${URL}/getProfileImage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username }),
+        });
+        const data2 = await secondResponse.json();
+        setUserData({ name: username, email: data.Email, img: data2.imageUrl });
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchSpecialistDetails();
   }, []);
 
   return (
@@ -31,7 +53,7 @@ const Navigationdrawercoacj = () => {
       <View style={styles.menuContainer}>
         <TouchableOpacity
           style={styles.menuItemContainer}
-          onPress={() => navigation.navigate("//")}
+          onPress={() => navigation.navigate("ProfileSpecialist")}
         >
           <IconIonicons name="person" size={24} color="#000" />
           <Text style={styles.menuItem}>Your Profile</Text>

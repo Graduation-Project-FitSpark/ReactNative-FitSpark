@@ -51,6 +51,7 @@ import Specialistmanbur from "./HSpecialist/Homescreen/Specialistmanbur";
 import Traineefood from "./HSpecialist/SpecialistActivities/Traineefood";
 import Requesttrainingspecilat from "./HSpecialist/SpecialistActivities/Requesttrainingspecilat";
 import AnalyticsSectionSpecilalist from "./HSpecialist/SpecialistActivities/AnalyticsSectionSpecilalist";
+import ProfileSpecialist from "./HSpecialist/Homescreen/ProfileSpecialist.jsx";
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -215,6 +216,11 @@ export default function App() {
             <Stack.Screen
               name="AnalyticsSectionSpecilalist"
               component={AnalyticsSectionSpecilalist}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="ProfileSpecialist"
+              component={ProfileSpecialist}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>

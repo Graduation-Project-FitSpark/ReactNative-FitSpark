@@ -55,6 +55,21 @@ export default function Authentication({ route }) {
           .then(async (data) => await AsyncStorage.setItem("ID", data.ID_Coach))
           .catch((err) => console.error(err));
         navigation.navigate("Coachmanbur");
+      } else if (Type === "specialist") {
+        fetch(`${URL}/getSpecialistDetails`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: await AsyncStorage.getItem("username"),
+          }),
+        })
+          .then((res) => res.json())
+          .then(
+            async (data) => await AsyncStorage.setItem("ID", data.ID_Specialist)
+          )
+          .catch((err) => console.error(err));
+
+        navigation.navigate("Specialistmanbur");
       }
     } else {
       Alert.alert("Error", "Verification code is invalid!");

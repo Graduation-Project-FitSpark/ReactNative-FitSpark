@@ -19,7 +19,7 @@ function SpecilaistMessnger() {
         >
           <View style={styles.textcontainerouter}>
             <View style={styles.textcontainer}>
-              <Text style={styles.titleText}>Messaging System</Text>
+              <Text style={styles.titleText}>Messanger</Text>
             </View>
             <View style={styles.containerbuttonText}>
               <View style={styles.fackecontener}></View>

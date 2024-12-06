@@ -12,125 +12,57 @@ import { BarChart } from "react-native-chart-kit";
 import { useFocusEffect } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 import IconIonicons from "react-native-vector-icons/Ionicons";
+import URL from "../../enum";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 const AnalyticsSectionSpecilalist = ({ route }) => {
   const navigation = useNavigation();
   const { ID_Trainer, name, Age, img } = route.params;
   const screenWidth = Dimensions.get("window").width;
-  const [IDSpecialist, setIDSpecialist] = useState(10); //هون اي دي الي داخل هلا
+  const [IDSpecialist, setIDSpecialist] = useState(0);
 
-  const [trainerCoachData, setTrainerCoachData] = useState([
-    { ID_Trainer: 1, ID_Coach: 10, Accepted: true },
-    { ID_Trainer: 3, ID_Coach: 10, Accepted: false },
-    { ID_Trainer: 5, ID_Coach: 6, Accepted: true },
-    { ID_Trainer: 7, ID_Coach: 8, Accepted: false },
-    { ID_Trainer: 9, ID_Coach: 10, Accepted: true },
-    { ID_Trainer: 10, ID_Coach: 11, Accepted: false },
-    { ID_Trainer: 12, ID_Coach: 10, Accepted: false },
-    { ID_Trainer: 13, ID_Coach: 10, Accepted: true },
-    { ID_Trainer: 15, ID_Coach: 16, Accepted: false },
-    { ID_Trainer: 17, ID_Coach: 18, Accepted: true },
-    { ID_Trainer: 19, ID_Coach: 20, Accepted: false },
-  ]);
+  const [trainerCoachData, setTrainerCoachData] = useState([]);
 
-  const [initialTableData, setInitialTableData] = useState([
-    {
-      ID_Trainer: 1,
-      Gender: "Male",
-      Class_Type: "Cardio",
-      Location: "[37.74798825940199, -122.420727407486164]",
-      Activity_Level: "Fat",
-      Card_Number: "594949494",
-      Expression_Date: "2000-06-07 00:00:00",
-      CVC: 594,
-      Points: 0,
-      Image: null,
-      WatchedVideos: 0,
-      Token: null,
-      Username: "user_7737",
-      Height: 150,
-      Weight: 100,
-    },
-    {
-      ID_Trainer: 13,
-      Gender: "Male",
-      Class_Type: "Cardio",
-      Location: "Nablus",
-      Activity_Level: "Fat",
-      Card_Number: "065061563",
-      Expression_Date: "2000-08-02 00:00:00",
-      CVC: 321,
-      Points: 500,
-      Image: "N",
-      WatchedVideos: 0,
-      Token: null,
-      Username: "user_7733",
-      Height: 120,
-      Weight: 50,
-    },
-    {
-      ID_Trainer: 9,
-      Gender: "Male",
-      Class_Type: "Cardio",
-      Location: "[37.68169336082543, -122.44336623698473]",
-      Activity_Level: "Fat",
-      Card_Number: "594949494",
-      Expression_Date: "2005-06-01 00:00:00",
-      CVC: 493,
-      Points: 100,
-      Image: null,
-      WatchedVideos: 0,
-      Token: null,
-      Username: "user_7737",
-      Height: 150,
-      Weight: 90,
-    },
-  ]);
+  const [initialTableData, setInitialTableData] = useState([]);
 
-  const [fullTableDatacal, setfullTableData] = useState([
-    {
-      ID_Trainer: 1,
-      ID_Calorie: "0e813dde-9419-4012-b3cb-01f41b9bdcc4",
-      Calories: 100,
-      Steps: 10000,
-      Day: "Monday",
-      Date: "2024-10-28",
-      Distance: null,
-    },
-
-    {
-      ID_Trainer: 1,
-      ID_Calorie: "dc3cb01-83eb-48a8-9a29-de2c8284ceed",
-      Calories: 200,
-      Steps: 1000,
-      Day: "Thursday",
-      Date: "2024-11-14",
-      Distance: 400,
-    },
-
-    {
-      ID_Trainer: 13,
-      ID_Calorie: "752e3515-55ff-419f-947c-48c06fe037e5",
-      Calories: 100,
-      Steps: 0,
-      Day: "Friday",
-      Date: "2024-11-22",
-      Distance: 0,
-    },
-    {
-      ID_Trainer: 1,
-      ID_Calorie: "752e3515-55ff-419f-947c-48c06fe037e5",
-      Calories: 300,
-      Steps: 0,
-      Day: "Friday",
-      Date: "2024-11-22",
-      Distance: 0,
-    },
-  ]);
+  const [fullTableDatacal, setfullTableData] = useState([]);
 
   useFocusEffect(
     useCallback(() => {
-      //هون عشان تجيب كل تيبل وتخزمها بمكانها وانتبه ان قارن بين كل تيبل وحطها بمكانها المناسب يعني اطلع على كل الداتا الي موجودة فوق وخزن الداتا المناسبه الها الي في الداتا بيس
-    })
+      const fetchSpecialistDetails = async () => {
+        try {
+          const username = await AsyncStorage.getItem("username");
+          const ID = await AsyncStorage.getItem("ID");
+          setIDSpecialist(ID);
+
+          const response1 = await fetch(`${URL}/getTrainerSpecificDetails`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          });
+          if (!response1.ok) throw new Error(`Failed: ${response1.status}`);
+          const data1 = await response1.json();
+          setInitialTableData(data1);
+          const response2 = await fetch(`${URL}/getTrainerSpecialist`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          });
+          if (!response2.ok) throw new Error(`Failed: ${response2.status}`);
+          const data2 = await response2.json();
+          setTrainerCoachData(data2);
+          const response3 = await fetch(`${URL}/getTrainerClorieDetails`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          });
+          if (!response3.ok) throw new Error(`Failed: ${response3.status}`);
+          const data3 = await response3.json();
+          setfullTableData(data3);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+
+      fetchSpecialistDetails();
+    }, [])
   );
   const [filterchar, setfilterchar] = useState({
     labels: [],
@@ -154,7 +86,6 @@ const AnalyticsSectionSpecilalist = ({ route }) => {
       (item) => item.ID_Trainer === ID_Trainer
     );
 
-    // Map the filtered data to the desired structure
     const accumulator = filteredData.map((item) => ({
       ID_Trainer: item.ID_Trainer,
       Calories: item.Calories,
@@ -196,7 +127,7 @@ const AnalyticsSectionSpecilalist = ({ route }) => {
     return (
       <View style={styles.containerbar}>
         <Text style={{ textAlign: "center", fontSize: 20, marginVertical: 10 }}>
-          Calories by Trainer / Weekly
+          Weekly Calorie Details for Trainee
         </Text>
         <BarChart
           data={filtercharcal}
@@ -233,6 +164,7 @@ const AnalyticsSectionSpecilalist = ({ route }) => {
     const trainerExists = initialTableData.find(
       (item) => ID_Trainer === item.ID_Trainer
     );
+    console.log(trainerExists);
 
     if (!trainerExists) {
       return null;
@@ -358,7 +290,7 @@ const styles = StyleSheet.create({
     width: "45%",
   },
   infoTitle: {
-    fontSize: 16,
+    fontSize: 13,
     fontWeight: "600",
     color: "#495057",
     textAlign: "center",
@@ -379,7 +311,7 @@ const styles = StyleSheet.create({
     color: "#000",
   },
   infoBmiText: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: "bold",
     color: "#ffffff",
   },

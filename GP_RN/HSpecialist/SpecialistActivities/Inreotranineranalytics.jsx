@@ -1,123 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { Traineetablestyle } from "./Traineetablestyle";
-
+import axios from "axios";
+import URL from "../../enum";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
+
 function Inreotranineranalytics() {
   const navigation = useNavigation();
-  const [IDSpecialist, setIDSpecialist] = useState(10); //هون اي دي الي داخل هلا
-  const [trainerSpecialistData, setTrainerSpecialistData] = useState([
-    {
-      ID_Trainer: 1,
-      ID_Specialist: 10,
-      Accepted: "t",
-      Description:
-        "Trainer 1 is paired with Coach 2 and the request is accepted.",
-    },
-    {
-      ID_Trainer: 3,
-      ID_Specialist: 4,
-      Accepted: "f",
-      Description:
-        "Trainer 3 is paired with Coach 4 and the request is declined.",
-    },
-    {
-      ID_Trainer: 5,
-      ID_Specialist: 10,
-      Accepted: "p",
-      Description:
-        "Trainer 5 is paired with Coach 10 and the request is accepted.",
-    },
-    {
-      ID_Trainer: 7,
-      ID_Specialist: 8,
-      Accepted: "f",
-      Description:
-        "Trainer 7 is paired with Coach 8 and the request is declined.",
-    },
-    {
-      ID_Trainer: 9,
-      ID_Specialist: 10,
-      Accepted: "p",
-      Description:
-        "Trainer 9 is paired with Coach 10 and the request is accepted.",
-    },
-    {
-      ID_Trainer: 10,
-      ID_Specialist: 10,
-      Accepted: "p",
-      Description:
-        "Trainer 10 is paired with Coach 10 and the request is accepted.",
-    },
-    {
-      ID_Trainer: 12,
-      ID_Specialist: 10,
-      Accepted: "T",
-      Description:
-        "Trainer 12 is paired with Coach 10 and the request is pending.",
-    },
-    {
-      ID_Trainer: 13,
-      ID_Specialist: 10,
-      Accepted: "T",
-      Description:
-        "Trainer 13 is paired with Coach 10 and the request is pending.",
-    },
-    {
-      ID_Trainer: 15,
-      ID_Specialist: 16,
-      Accepted: "f",
-      Description:
-        "Trainer 15 is paired with Coach 16 and the request is declined.jjsldkcklsjcjlnsdjcbdcljsjlbjldc",
-    },
-    {
-      ID_Trainer: 17,
-      ID_Specialist: 18,
-      Accepted: "t",
-      Description:
-        "Trainer 17 is paired with Coach 18 and the request is accepted.",
-    },
-    {
-      ID_Trainer: 19,
-      ID_Specialist: 20,
-      Accepted: "f",
-      Description:
-        "Trainer 19 is paired with Coach 20 and the request is declined.",
-    },
-  ]);
-  const [infoTrainer, setInfoTrainer] = useState([
-    {
-      ID_Trainer: 13,
-      name: "Mahmoud",
-      Age: 23,
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfdWwVU65gZW5--Ypno_l2GBNhI_sinWkNUw&s",
-    },
-    {
-      ID_Trainer: 9,
-      name: "Ali",
-      Age: 25,
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfdWwVU65gZW5--Ypno_l2GBNhI_sinWkNUw&s",
-    },
-    {
-      ID_Trainer: 12,
-      name: "Sara",
-      Age: 22,
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfdWwVU65gZW5--Ypno_l2GBNhI_sinWkNUw&s",
-    },
-    {
-      ID_Trainer: 4,
-      name: "John",
-      Age: 28,
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfdWwVU65gZW5--Ypno_l2GBNhI_sinWkNUw&s",
-    },
-    {
-      ID_Trainer: 1,
-      name: "David",
-      Age: 30,
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfdWwVU65gZW5--Ypno_l2GBNhI_sinWkNUw&s",
-    },
-  ]);
+  const [IDSpecialist, setIDSpecialist] = useState(0);
+  const [trainerSpecialistData, setTrainerSpecialistData] = useState([]);
+  const [infoTrainer, setInfoTrainer] = useState([]);
 
+  useFocusEffect(
+    useCallback(() => {
+      const fetchSpecialistDetails = async () => {
+        try {
+          const username = await AsyncStorage.getItem("username");
+          const ID = await AsyncStorage.getItem("ID");
+          setIDSpecialist(ID);
+
+          const response1 = await fetch(`${URL}/getTrainerWithDetails`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          });
+
+          if (!response1.ok) throw new Error(`Failed: ${response1.status}`);
+          const data1 = await response1.json();
+          setInfoTrainer(data1);
+
+          const response2 = await fetch(`${URL}/getTrainerSpecialist`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          });
+
+          if (!response2.ok) throw new Error(`Failed: ${response2.status}`);
+          const data2 = await response2.json();
+          setTrainerSpecialistData(data2);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+
+      fetchSpecialistDetails();
+    }, [])
+  );
   return (
     <View>
       <View style={Traineetablestyle.trainerTableContainer}>
@@ -128,8 +56,7 @@ function Inreotranineranalytics() {
         {trainerSpecialistData
           .filter(
             (item) =>
-              item.ID_Specialist === IDSpecialist &&
-              (item.Accepted === "t" || item.Accepted === "T")
+              item.ID_Specialist === IDSpecialist && item.Accepted === "A"
           )
           .map((item) => {
             const trainerInfo = infoTrainer.find(

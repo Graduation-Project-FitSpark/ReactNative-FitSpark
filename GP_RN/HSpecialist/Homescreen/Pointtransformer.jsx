@@ -1,25 +1,47 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import URL from "../../enum";
+import { useFocusEffect } from "@react-navigation/native";
 
 function Pointtransformer() {
   const [transfre, settransfre] = useState(0);
   const [selectedCurrency, setSelectedCurrency] = useState("USD");
-  const [points, setpionts] = useState(193.5); //هون انت بس جيب البونت لليوزير الي داخل
+  const [points, setpoints] = useState(0);
 
-  useEffect(() => {
-    fetch("https://api.exchangerate-api.com/v4/latest/ILS")
-      .then((response) => response.json())
-      .then((data) => {
-        const rate = data.rates[selectedCurrency];
-        if (rate) {
-          const convertedValue = (points * 5 * rate).toFixed(2);
-          settransfre(convertedValue);
+  useFocusEffect(
+    useCallback(() => {
+      const fetchData = async () => {
+        try {
+          const username = await AsyncStorage.getItem("username");
+          const response = await fetch(`${URL}/getSpecialistDetails`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username }),
+          });
+          const data = await response.json();
+          const points = data.Points;
+          setpoints(points);
+
+          const exchangeResponse = await fetch(
+            "https://api.exchangerate-api.com/v4/latest/ILS"
+          );
+          const exchangeData = await exchangeResponse.json();
+          const rate = exchangeData.rates[selectedCurrency];
+          if (rate) {
+            const convertedValue = (points * 5 * rate).toFixed(2);
+            settransfre(convertedValue);
+          }
+        } catch (err) {
+          console.error(err);
         }
-      })
-      .catch((error) => console.error("Error fetching exchange rate:", error));
-  }, [selectedCurrency]);
+      };
 
+      fetchData();
+    }, [selectedCurrency])
+  );
   return (
     <View style={styles.pointtranfercontner}>
       <View style={styles.pointtranfercontneriner}>
