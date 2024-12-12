@@ -8,7 +8,11 @@ import {
 } from "react-native";
 import massenger from "../../img/messenger.jpg";
 import IconIonicons from "react-native-vector-icons/Ionicons";
+import { useNavigation } from "@react-navigation/native";
+
 function Messenger() {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.containerMessenger}>
       <View style={styles.containerMessengerInner}>
@@ -24,7 +28,10 @@ function Messenger() {
             <View style={styles.containerbuttonText}>
               <View style={styles.fackecontener}></View>
               <View style={styles.buttoncontainer}>
-                <TouchableOpacity style={styles.buttonText}>
+                <TouchableOpacity
+                  style={styles.buttonText}
+                  onPress={() => navigation.navigate("Friends")}
+                >
                   <Text style={styles.textStart}>Start</Text>
                 </TouchableOpacity>
               </View>

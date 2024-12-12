@@ -52,6 +52,13 @@ import Traineefood from "./HSpecialist/SpecialistActivities/Traineefood";
 import Requesttrainingspecilat from "./HSpecialist/SpecialistActivities/Requesttrainingspecilat";
 import AnalyticsSectionSpecilalist from "./HSpecialist/SpecialistActivities/AnalyticsSectionSpecilalist";
 import ProfileSpecialist from "./HSpecialist/Homescreen/ProfileSpecialist.jsx";
+import Friends from "./Coach/Homescreen/Friends.jsx";
+import FriendsSpecialist from "./HSpecialist/Homescreen/FriendsSpecialist.jsx";
+import ChatCoach from "./Coach/Homescreen/ChatCoach.jsx";
+import ChatSpecialist from "./HSpecialist/Homescreen/ChatSpecialist.jsx";
+import ChatTrainerCoach from "./Homescreen/ChatTrainerCoach.jsx";
+import ChatTrainerSpecialist from "./Homescreen/ChatTrainerSpecialist.jsx";
+import DualArmCurl from "./StrengthTrains/DualArmCurl.jsx";
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -221,6 +228,41 @@ export default function App() {
             <Stack.Screen
               name="ProfileSpecialist"
               component={ProfileSpecialist}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Friends"
+              component={Friends}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="FriendsSpecialist"
+              component={FriendsSpecialist}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="ChatCoach"
+              component={ChatCoach}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="ChatSpecialist"
+              component={ChatSpecialist}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="ChatTrainerCoach"
+              component={ChatTrainerCoach}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="ChatTrainerSpecialist"
+              component={ChatTrainerSpecialist}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="DualArmCurl"
+              component={DualArmCurl}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>

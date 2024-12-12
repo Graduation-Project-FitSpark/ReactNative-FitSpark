@@ -1,12 +1,19 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 const SelectStrengthTrain = () => {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.titleText}>
         Please select your strength training exercise!
       </Text>
@@ -16,7 +23,7 @@ const SelectStrengthTrain = () => {
         onPress={() => navigation.navigate("PushUps")}
       >
         <Image
-          source={require("../img/PushUps.jpeg")} 
+          source={require("../img/PushUps.jpeg")}
           style={styles.image}
           resizeMode="cover"
         />
@@ -30,7 +37,7 @@ const SelectStrengthTrain = () => {
         onPress={() => navigation.navigate("ChinUps")}
       >
         <Image
-          source={require("../img/ChinUps.jpeg")} // Update path as needed
+          source={require("../img/ChinUps.jpeg")}
           style={styles.image}
           resizeMode="cover"
         />
@@ -38,13 +45,26 @@ const SelectStrengthTrain = () => {
           <Text style={styles.buttonText}>Chin-Ups</Text>
         </View>
       </TouchableOpacity>
-    </View>
+
+      <TouchableOpacity
+        style={styles.imageButton}
+        onPress={() => navigation.navigate("DualArmCurl")}
+      >
+        <Image
+          source={require("../assets/DualArmCurl.jpg")}
+          style={styles.image}
+          resizeMode="cover"
+        />
+        <View style={styles.textContainer}>
+          <Text style={styles.buttonText}>Dual-Arm-Curl</Text>
+        </View>
+      </TouchableOpacity>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#f5f5f5",
@@ -76,8 +96,8 @@ const styles = StyleSheet.create({
     left: 0,
     width: "100%",
     height: "100%",
-    backgroundColor: "rgba(0, 0, 0, 0.4)", 
-    justifyContent: "flex-end", 
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
+    justifyContent: "flex-end",
     padding: 10,
   },
   buttonText: {

@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   StyleSheet,
+  Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import URL from "../enum";
@@ -15,11 +16,12 @@ import { useFocusEffect } from "@react-navigation/native";
 const Calendar = () => {
   const [isSigned, setIsSigned] = useState(null);
   const navigation = useNavigation();
-
+  const [trainerID, setTrainerId] = useState();
   useFocusEffect(
     React.useCallback(() => {
       const fetchingGym = async () => {
         const trainerId = await AsyncStorage.getItem("ID");
+        setTrainerId(trainerId);
         fetch(`${URL}/isTrainerSigned`, {
           method: "POST",
           headers: {
@@ -56,6 +58,73 @@ const Calendar = () => {
           </View>
         </ImageBackground>
       </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.box}
+        onPress={async () => {
+          try {
+            const coachResponse = await axios.post(
+              `${URL}/checkCoachResponse`,
+              {
+                trainerId: trainerID,
+              }
+            );
+            console.log(trainerID);
+            if (coachResponse.data.Accepted === "P") {
+              Alert.alert(
+                "Warning",
+                "You can't talk to your Coach right now untill he accept!"
+              );
+            } else {
+              navigation.navigate("ChatTrainerCoach");
+            }
+          } catch (err) {
+            console.error("Error checking status:", err);
+          }
+        }}
+      >
+        <ImageBackground
+          source={require("../assets/chatCoach.jpg")}
+          style={styles.boxImage}
+        >
+          <View style={styles.descriptionContainer}>
+            <Text style={styles.description}>Chat with your Coach!</Text>
+          </View>
+        </ImageBackground>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.box}
+        onPress={async () => {
+          try {
+            const coachResponse = await axios.post(
+              `${URL}/checkSpecialistResponse`,
+              {
+                trainerId: trainerID,
+              }
+            );
+            if (coachResponse.data.Accepted === "P") {
+              Alert.alert(
+                "Warning",
+                "You can't talk to your Nutration Expert right now untill he accept!"
+              );
+            } else {
+              navigation.navigate("ChatTrainerSpecialist");
+            }
+          } catch (err) {
+            console.error("Error checking status:", err);
+          }
+        }}
+      >
+        <ImageBackground
+          source={require("../assets/chatSpec.jpg")}
+          style={styles.boxImage}
+        >
+          <View style={styles.descriptionContainer}>
+            <Text style={styles.description}>
+              Chat with your Nutration Expert!
+            </Text>
+          </View>
+        </ImageBackground>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -63,38 +132,45 @@ const Calendar = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "space-around",
-    alignItems: "center",
-  },
-  box: {
-    width: "100%",
-    height: 250,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 125,
+    paddingTop: 20,
+    backgroundColor: "#f7f7f7",
+  },
+  box: {
+    width: "85%",
+    height: 200,
+    borderRadius: 20,
     overflow: "hidden",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.6,
+    shadowRadius: 10,
+    elevation: 10,
+    marginBottom: 10,
   },
   boxImage: {
     flex: 1,
     width: "100%",
     justifyContent: "flex-end",
     alignItems: "center",
-    marginBottom: 70,
   },
   descriptionContainer: {
     width: "100%",
-    paddingBottom: 20,
-    paddingHorizontal: 20,
+    padding: 10,
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
     justifyContent: "center",
     alignItems: "center",
+    borderRadius: 5,
   },
   description: {
-    fontSize: 25,
+    fontSize: 20,
     color: "#fff",
     fontWeight: "bold",
     textAlign: "center",
+    letterSpacing: 1,
+    paddingVertical: 5,
     letterSpacing: 8,
-    paddingVertical: 10,
   },
 });
 
