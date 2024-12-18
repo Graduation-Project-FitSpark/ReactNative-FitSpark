@@ -817,7 +817,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   Cancel: {
-    backgroundColor: "#FF3B30",
+    backgroundColor: "#E16A68",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
