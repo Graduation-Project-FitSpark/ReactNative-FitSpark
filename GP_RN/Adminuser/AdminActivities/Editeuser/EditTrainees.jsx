@@ -92,7 +92,7 @@ function EditUsers() {
   );
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.EditTrainees}>
       <View style={styles.inertheader}>
         <IconIonicons
           name="chevron-back-outline"
@@ -103,14 +103,14 @@ function EditUsers() {
         />
         <Text style={styles.textheader}>User Info</Text>
       </View>
-      <View style={styles.filterContainer}>
+      <View style={styles.filterEditTrainees}>
         <TextInput
           style={styles.searchInput}
           placeholder="Search by Name"
           value={searchQuery}
           onChangeText={(text) => setSearchQuery(text)}
         />
-        <TouchableOpacity style={styles.searchButton}>
+        <TouchableOpacity style={styles.search}>
           <IconIonicons name="search" size={25} color="#fff" />
         </TouchableOpacity>
       </View>
@@ -151,7 +151,7 @@ function EditUsers() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  EditTrainees: {
     marginTop: 30,
   },
   headtitle: {
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     color: "#333",
     marginVertical: 20,
   },
-  filterContainer: {
+  filterEditTrainees: {
     flexDirection: "row",
     alignItems: "center",
     padding: 16,
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     color: "#333",
     marginRight: 10,
   },
-  searchButton: {
+  search: {
     padding: 10,
     backgroundColor: "#b2f200",
     borderRadius: 8,

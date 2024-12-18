@@ -299,7 +299,7 @@ function Userstatistics() {
   }, [coach, Specialist, Trainess, currentMonth]);
 
   return (
-    <View style={styles.container}>
+    <View style={styles.Userstatistics}>
       <View style={styles.row}>
         <View style={styles.card}>
           <View style={styles.title}>
@@ -460,7 +460,7 @@ function Userstatistics() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  Userstatistics: {
     padding: 16,
   },
   row: {

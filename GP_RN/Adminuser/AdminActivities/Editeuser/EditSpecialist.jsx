@@ -124,7 +124,7 @@ function EditSpecialist() {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.EditSpecialist}>
       <View style={styles.inertheader}>
         <IconIonicons
           name="chevron-back-outline"
@@ -135,18 +135,18 @@ function EditSpecialist() {
         />
         <Text style={styles.textheader}>Specialist Info</Text>
       </View>
-      <View style={styles.filterContainer}>
+      <View style={styles.filterEditSpecialist}>
         <TextInput
           style={styles.searchInput}
           placeholder="Search by Name"
           value={searchQuery}
           onChangeText={(text) => setSearchQuery(text)}
         />
-        <TouchableOpacity style={styles.searchButton}>
+        <TouchableOpacity style={styles.search}>
           <IconIonicons name="search" size={25} color="#fff" />
         </TouchableOpacity>
       </View>
-      <View style={styles.pickerContainer}>
+      <View style={styles.pickerEditSpecialist}>
         <Text style={styles.filterLabel}>
           <IconIonicons name="star" size={30} color="#6D7FDB" />{" "}
         </Text>
@@ -158,8 +158,8 @@ function EditSpecialist() {
           <Picker.Item label="Highest rating" value="highest" />
           <Picker.Item label="Lowest rating" value="lowest" />
         </Picker>
-        <TouchableOpacity style={styles.resetButton} onPress={resetFilters}>
-          <Text style={styles.resetButtonText}>Reset Filters</Text>
+        <TouchableOpacity style={styles.reset} onPress={resetFilters}>
+          <Text style={styles.resetText}>Reset Filters</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.table}>
@@ -203,7 +203,7 @@ function EditSpecialist() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  EditSpecialist: {
     marginTop: 50,
   },
   headtitle: {
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
     color: "#333",
     marginVertical: 20,
   },
-  filterContainer: {
+  filterEditSpecialist: {
     flexDirection: "row",
     alignItems: "center",
     padding: 16,
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     color: "#333",
     marginRight: 10,
   },
-  searchButton: {
+  search: {
     padding: 10,
     backgroundColor: "#b2f200",
     borderRadius: 8,
@@ -299,7 +299,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#000",
   },
-  pickerContainer: {
+  pickerEditSpecialist: {
     marginLeft: 15,
     flexDirection: "row",
     width: "50%",
@@ -313,7 +313,7 @@ const styles = StyleSheet.create({
     height: 50,
     width: "100%",
   },
-  resetButton: {
+  reset: {
     backgroundColor: "#dc3545",
     padding: 10,
     borderRadius: 5,
@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     maxHeight: "80%",
   },
-  resetButtonText: {
+  resetText: {
     color: "#fff",
     fontSize: 16,
     textAlign: "center",

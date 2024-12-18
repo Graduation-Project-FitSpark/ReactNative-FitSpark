@@ -12,7 +12,7 @@ import IconIonicons from "react-native-vector-icons/Ionicons";
 function Requestcoachspecialist() {
   const navigation = useNavigation();
   return (
-    <View style={styles.container}>
+    <View style={styles.Requestcoachspecialist}>
       <View style={styles.inertheader}>
         <IconIonicons
           name="chevron-back-outline"
@@ -60,7 +60,7 @@ function Requestcoachspecialist() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  Requestcoachspecialist: {
     flex: 1,
     backgroundColor: "#f5f5f5",
     padding: 10,

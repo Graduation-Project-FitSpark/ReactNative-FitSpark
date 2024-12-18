@@ -205,8 +205,8 @@ function EditSpecialistModel({ modalVisible, setModalVisible, iteam }) {
 
   return (
     <Modal animationType="slide" transparent={true} visible={modalVisible}>
-      <View style={styles.modalOverlay}>
-        <View style={styles.modalContent}>
+      <View style={styles.modalEditSpecialistModel}>
+        <View style={styles.modaltent}>
           {userData ? (
             <>
               <View style={styles.header}>
@@ -216,41 +216,41 @@ function EditSpecialistModel({ modalVisible, setModalVisible, iteam }) {
                   }}
                   style={styles.image}
                 />
-                <Text style={styles.idText}>
+                <Text style={styles.idtext}>
                   {userData.First_Name + " " + userData.Last_Name}
                 </Text>
               </View>
-              <View style={styles.grideContainer}>
-                <View style={styles.infoContainer}>
-                  <Text style={styles.infoText}>Gender: {userData.Gender}</Text>
+              <View style={styles.grideEditSpecialistModel}>
+                <View style={styles.infoEditSpecialistModel}>
+                  <Text style={styles.info}>Gender: {userData.Gender}</Text>
                 </View>
-                <View style={styles.infoContainer}>
-                  <Text style={styles.infoText}>
+                <View style={styles.infoEditSpecialistModel}>
+                  <Text style={styles.info}>
                     Experience: {userData.YearsOfExperience} Years
                   </Text>
                 </View>
               </View>
-              <View style={styles.grideContainer}>
-                <View style={styles.infoContainer}>
-                  <Text style={styles.infoText}>Points: {userData.Points}</Text>
+              <View style={styles.grideEditSpecialistModel}>
+                <View style={styles.infoEditSpecialistModel}>
+                  <Text style={styles.info}>Points: {userData.Points}</Text>
                 </View>
-                <View style={styles.infoContainer}>
-                  <Text style={styles.infoText}>Enrollment:{counttrner}</Text>
+                <View style={styles.infoEditSpecialistModel}>
+                  <Text style={styles.info}>Enrollment:{counttrner}</Text>
                 </View>
               </View>
-              <View style={styles.grideContainer}>
-                <View style={styles.infoContainer}>
-                  <Text style={styles.infoText}>Email:</Text>
-                  <Text style={styles.infoText}>{userData.Email}</Text>
+              <View style={styles.grideEditSpecialistModel}>
+                <View style={styles.infoEditSpecialistModel}>
+                  <Text style={styles.info}>Email:</Text>
+                  <Text style={styles.info}>{userData.Email}</Text>
                 </View>
-                <View style={styles.infoContainer}>
-                  <Text style={styles.infoText}>Phone_Number:</Text>
-                  <Text style={styles.infoText}>{userData.Phone_Number}</Text>
+                <View style={styles.infoEditSpecialistModel}>
+                  <Text style={styles.info}>Phone_Number:</Text>
+                  <Text style={styles.info}>{userData.Phone_Number}</Text>
                 </View>
               </View>
             </>
           ) : (
-            <Text style={styles.infoText}>
+            <Text style={styles.info}>
               No data found for the selected trainer.
             </Text>
           )}
@@ -271,12 +271,12 @@ function EditSpecialistModel({ modalVisible, setModalVisible, iteam }) {
           <View style={styles.closedeletecontiner}>
             <TouchableOpacity
               onPress={() => setModalVisible(false)}
-              style={styles.closeButton}
+              style={styles.close}
             >
-              <Text style={styles.closeButtonText}>Cancel</Text>
+              <Text style={styles.closetext}>Cancel</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={deletet} style={styles.deleteButton}>
-              <Text style={styles.deleteButtonText}>Delete user</Text>
+            <TouchableOpacity onPress={deletet} style={styles.delete}>
+              <Text style={styles.deletetext}>Delete user</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -286,13 +286,13 @@ function EditSpecialistModel({ modalVisible, setModalVisible, iteam }) {
 }
 
 const styles = StyleSheet.create({
-  modalOverlay: {
+  modalEditSpecialistModel: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
-  modalContent: {
+  modaltent: {
     width: "90%",
     padding: 20,
     backgroundColor: "white",
@@ -314,12 +314,12 @@ const styles = StyleSheet.create({
     height: 70,
     borderRadius: 40,
   },
-  idText: {
+  idtext: {
     fontSize: 16,
     fontWeight: "bold",
     color: "#333",
   },
-  infoContainer: {
+  infoEditSpecialistModel: {
     backgroundColor: "#e2ff90",
     padding: 10,
     borderRadius: 8,
@@ -331,32 +331,32 @@ const styles = StyleSheet.create({
     elevation: 5,
     width: "50%",
   },
-  infoText: {
+  info: {
     fontSize: 14,
     color: "#555",
   },
-  grideContainer: {
+  grideEditSpecialistModel: {
     flexDirection: "row",
     gap: 10,
   },
-  closeButton: {
+  close: {
     backgroundColor: "#749DE1",
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
   },
-  closeButtonText: {
+  closetext: {
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
   },
-  deleteButton: {
+  delete: {
     backgroundColor: "#E16A68",
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
   },
-  deleteButtonText: {
+  deletetext: {
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",

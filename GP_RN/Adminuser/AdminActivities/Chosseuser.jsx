@@ -11,7 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 function Chosseuser() {
   const navigation = useNavigation();
   return (
-    <View style={styles.container}>
+    <View style={styles.Chosseuser}>
       <Text style={styles.titleUsers}>Users Tables</Text>
       <TouchableOpacity
         style={styles.card}
@@ -63,7 +63,7 @@ function Chosseuser() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  Chosseuser: {
     flex: 1,
     backgroundColor: "#f5f5f5",
     padding: 10,

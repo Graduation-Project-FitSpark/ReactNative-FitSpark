@@ -310,7 +310,7 @@ function AllUserstatistics() {
     setsale(saleData.length);
   }, [saleData, Trainess, Specialist, coach]);
   return (
-    <ScrollView style={styles.outercontainer}>
+    <ScrollView style={styles.outerAlltatistics}>
       <View style={styles.inertheader}>
         <IconIonicons
           name="chevron-back-outline"
@@ -408,7 +408,7 @@ function AllUserstatistics() {
 }
 
 const styles = StyleSheet.create({
-  outercontainer: {
+  outerAlltatistics: {
     padding: 16,
     backgroundColor: "#F5F5F5",
   },

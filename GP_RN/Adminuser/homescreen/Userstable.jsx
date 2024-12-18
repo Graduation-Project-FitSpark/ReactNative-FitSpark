@@ -113,13 +113,13 @@ function Userstable() {
     setWatchedVideosOrder("");
   };
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.Userstable}>
       <TouchableOpacity style={styles.resetButton} onPress={resetFilters}>
         <Text style={styles.resetButtonText}>Reset Filters</Text>
       </TouchableOpacity>
-      <View style={styles.filterContainer}>
+      <View style={styles.filterUserstable}>
         <View style={styles.filterRow}>
-          <View style={styles.pickerContainer}>
+          <View style={styles.pickerUserstable}>
             <Text style={styles.filterLabel}>
               <IconIonicons name="list-circle" size={30} color="#ffc107" />{" "}
             </Text>
@@ -133,7 +133,7 @@ function Userstable() {
             </Picker>
           </View>
 
-          <View style={styles.pickerContainer}>
+          <View style={styles.pickerUserstable}>
             <Text style={styles.filterLabel}>
               <IconIonicons name="star" size={30} color="#52C1DE" />{" "}
             </Text>
@@ -177,10 +177,10 @@ function Userstable() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  Userstable: {
     marginTop: -13,
   },
-  filterContainer: {
+  filterUserstable: {
     alignItems: "stretch",
     padding: 20,
     marginBottom: -50,
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 20,
   },
-  pickerContainer: {
+  pickerUserstable: {
     width: "25%",
     marginHorizontal: 10,
     flexDirection: "row",

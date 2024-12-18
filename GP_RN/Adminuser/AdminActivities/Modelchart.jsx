@@ -4,8 +4,8 @@ import { Modal, View, Text, StyleSheet, Button } from "react-native";
 function Model({ modalVisible, setModalVisible, iteam }) {
   return (
     <Modal animationType="slide" transparent={true} visible={modalVisible}>
-      <View style={modalStyles.modalOverlay}>
-        <View style={modalStyles.modalContent}>
+      <View style={modalStyles.modalModelchart}>
+        <View style={modalStyles.modalnt}>
           {console.log(iteam)}
           <Text>{iteam}</Text>
           <Button title="Close Modal" onPress={() => setModalVisible(false)} />
@@ -16,13 +16,13 @@ function Model({ modalVisible, setModalVisible, iteam }) {
 }
 
 const modalStyles = StyleSheet.create({
-  modalOverlay: {
+  modalModelchart: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
-  modalContent: {
+  modalnt: {
     width: 300,
     padding: 20,
     backgroundColor: "white",

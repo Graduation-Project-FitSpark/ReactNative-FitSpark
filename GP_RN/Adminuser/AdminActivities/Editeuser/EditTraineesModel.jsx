@@ -147,8 +147,8 @@ function EditeuserModel({ modalVisible, setModalVisible, iteam }) {
 
   return (
     <Modal animationType="slide" transparent={true} visible={modalVisible}>
-      <View style={styles.modalOverlay}>
-        <View style={styles.modalContent}>
+      <View style={styles.modalEditTraineesModel}>
+        <View style={styles.modaltent}>
           {userData ? (
             <>
               <View style={styles.header}>
@@ -158,50 +158,50 @@ function EditeuserModel({ modalVisible, setModalVisible, iteam }) {
                   }}
                   style={styles.image}
                 />
-                <Text style={styles.idText}>
+                <Text style={styles.idtext}>
                   {userData.First_name + " " + userData.Last_name}
                 </Text>
               </View>
-              <View style={styles.grideContainer}>
-                <View style={styles.infoContainer}>
-                  <Text style={styles.infoText}>Gender: {userData.Gender}</Text>
+              <View style={styles.grideEditTraineesModel}>
+                <View style={styles.infoEditTraineesModel}>
+                  <Text style={styles.info}>Gender: {userData.Gender}</Text>
                 </View>
-                <View style={styles.infoContainer}>
-                  <Text style={styles.infoText}>
+                <View style={styles.infoEditTraineesModel}>
+                  <Text style={styles.info}>
                     Class Type: {userData.Class_Type}
                   </Text>
                 </View>
               </View>
-              <View style={styles.grideContainer}>
-                <View style={styles.infoContainer}>
-                  <Text style={styles.infoText}>Points: {userData.Points}</Text>
+              <View style={styles.grideEditTraineesModel}>
+                <View style={styles.infoEditTraineesModel}>
+                  <Text style={styles.info}>Points: {userData.Points}</Text>
                 </View>
-                <View style={styles.infoContainer}>
-                  <Text style={styles.infoText}>
+                <View style={styles.infoEditTraineesModel}>
+                  <Text style={styles.info}>
                     Watched Videos: {userData.WatchedVideos}
                   </Text>
                 </View>
               </View>
-              <View style={styles.grideContainer}>
-                <View style={styles.infoContainer}>
-                  <Text style={styles.infoText}>
+              <View style={styles.grideEditTraineesModel}>
+                <View style={styles.infoEditTraineesModel}>
+                  <Text style={styles.info}>
                     Total Calories: {totalCalories}
                   </Text>
                 </View>
-                <View style={styles.infoContainer}>
-                  <Text style={styles.infoText}>Total Steps: {totalSteps}</Text>
+                <View style={styles.infoEditTraineesModel}>
+                  <Text style={styles.info}>Total Steps: {totalSteps}</Text>
                 </View>
               </View>
             </>
           ) : (
-            <Text style={styles.infoText}>
+            <Text style={styles.info}>
               No data found for the selected trainer.
             </Text>
           )}
           <View style={styles.outerinfoContainerNotification}>
             <View style={styles.infoContainerNotification}>
               <TextInput
-                style={styles.searchInput}
+                style={styles.search}
                 placeholder="Send Notification"
                 placeholderTextColor="#aaa"
                 value={notfiction}
@@ -215,12 +215,12 @@ function EditeuserModel({ modalVisible, setModalVisible, iteam }) {
           <View style={styles.closedeletecontiner}>
             <TouchableOpacity
               onPress={() => setModalVisible(false)}
-              style={styles.closeButton}
+              style={styles.closebutton}
             >
-              <Text style={styles.closeButtonText}>Cancel</Text>
+              <Text style={styles.closetext}>Cancel</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={deletet} style={styles.deleteButton}>
-              <Text style={styles.deleteButtonText}>Delete user</Text>
+            <TouchableOpacity onPress={deletet} style={styles.deletebutton}>
+              <Text style={styles.deletetext}>Delete user</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -230,13 +230,13 @@ function EditeuserModel({ modalVisible, setModalVisible, iteam }) {
 }
 
 const styles = StyleSheet.create({
-  modalOverlay: {
+  modalEditTraineesModel: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
-  modalContent: {
+  modaltent: {
     width: "90%",
     padding: 20,
     backgroundColor: "white",
@@ -258,12 +258,12 @@ const styles = StyleSheet.create({
     height: 70,
     borderRadius: 40,
   },
-  idText: {
+  idtext: {
     fontSize: 16,
     fontWeight: "bold",
     color: "#333",
   },
-  infoContainer: {
+  infoEditTraineesModel: {
     backgroundColor: "#e2ff90",
     padding: 10,
     borderRadius: 8,
@@ -275,32 +275,32 @@ const styles = StyleSheet.create({
     elevation: 5,
     width: "50%",
   },
-  infoText: {
+  info: {
     fontSize: 14,
     color: "#555",
   },
-  grideContainer: {
+  grideEditTraineesModel: {
     flexDirection: "row",
     gap: 10,
   },
-  closeButton: {
+  closebutton: {
     backgroundColor: "#749DE1",
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
   },
-  closeButtonText: {
+  closetext: {
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
   },
-  deleteButton: {
+  deletebutton: {
     backgroundColor: "#E16A68",
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
   },
-  deleteButtonText: {
+  deletetext: {
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
   },
-  searchInput: {},
+  search: {},
   send: {
     backgroundColor: "#3498db",
     justifyContent: "center",
