@@ -88,14 +88,6 @@
   dependencies:
     "@babel/types" "^7.25.9"
 
-"@babel/helper-builder-binary-assignment-operator-visitor@^7.25.9":
-  version "7.25.9"
-  resolved "https://registry.npmjs.org/@babel/helper-builder-binary-assignment-operator-visitor/-/helper-builder-binary-assignment-operator-visitor-7.25.9.tgz"
-  integrity sha512-C47lC7LIDCnz0h4vai/tpNOI95tCd5ZT3iBt/DBH5lXKHZsyNQv18yf1wIIg2ntiQNgmAvA+DgZ82iW8Qdym8g==
-  dependencies:
-    "@babel/traverse" "^7.25.9"
-    "@babel/types" "^7.25.9"
-
 "@babel/helper-compilation-targets@^7.20.7", "@babel/helper-compilation-targets@^7.22.6", "@babel/helper-compilation-targets@^7.25.2", "@babel/helper-compilation-targets@^7.25.9":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/helper-compilation-targets/-/helper-compilation-targets-7.25.9.tgz"
@@ -638,11 +630,10 @@
     "@babel/helper-plugin-utils" "^7.25.9"
 
 "@babel/plugin-transform-exponentiation-operator@^7.0.0", "@babel/plugin-transform-exponentiation-operator@^7.25.9":
-  version "7.25.9"
-  resolved "https://registry.npmjs.org/@babel/plugin-transform-exponentiation-operator/-/plugin-transform-exponentiation-operator-7.25.9.tgz"
-  integrity sha512-KRhdhlVk2nObA5AYa7QMgTMTVJdfHprfpAk4DjZVtllqRg9qarilstTKEhpVjyt+Npi8ThRyiV8176Am3CodPA==
+  version "7.26.3"
+  resolved "https://registry.npmjs.org/@babel/plugin-transform-exponentiation-operator/-/plugin-transform-exponentiation-operator-7.26.3.tgz"
+  integrity sha512-7CAHcQ58z2chuXPWblnn1K6rLDnDWieghSOEmqQsrBenH0P9InCUtOJYD89pvngljmZlJcz3fcmgYsXFNGa1ZQ==
   dependencies:
-    "@babel/helper-builder-binary-assignment-operator-visitor" "^7.25.9"
     "@babel/helper-plugin-utils" "^7.25.9"
 
 "@babel/plugin-transform-export-namespace-from@^7.22.11", "@babel/plugin-transform-export-namespace-from@^7.25.9":
@@ -2855,7 +2846,7 @@
   dependencies:
     invariant "^2.2.4"
 
-"@react-native-firebase/app@^21.6.1", "@react-native-firebase/app@21.5.0", "@react-native-firebase/app@21.6.1":
+"@react-native-firebase/app@^21.6.1", "@react-native-firebase/app@21.6.1":
   version "21.6.1"
   resolved "https://registry.npmjs.org/@react-native-firebase/app/-/app-21.6.1.tgz"
   integrity sha512-o1i3aQMtJeofue+73j/8KO2l+/bRHaSHqOl7FtIeZfajQZaulaROugD2Rr2Mlc1o7LfEUyoDOoij9nGdrydEyw==
@@ -2874,10 +2865,10 @@
   resolved "https://registry.npmjs.org/@react-native-firebase/firestore/-/firestore-21.6.1.tgz"
   integrity sha512-i3RQM11zTRCYc7/KdD0MiCm7UyyTecDXG/89lEv5hvVJMS6ltIfK+0rDheSpBzYlK4kNoK765jnvVAQxIFEqbA==
 
-"@react-native-firebase/messaging@^21.5.0":
-  version "21.5.0"
-  resolved "https://registry.npmjs.org/@react-native-firebase/messaging/-/messaging-21.5.0.tgz"
-  integrity sha512-gc0g97nWVlFLk0rj5LdZcPHmvBuy90wfL/++iHW1X5nyMGqUrSknIsTHKmydRCuC70ogYr04BQDecTEzVSM/Yw==
+"@react-native-firebase/messaging@^21.6.1":
+  version "21.6.1"
+  resolved "https://registry.npmjs.org/@react-native-firebase/messaging/-/messaging-21.6.1.tgz"
+  integrity sha512-WoMGcqflDyhwpe5saqJFNKcvRiGRhW764cNv9j9fca11rtzqw186/frvE+QDVuUBEeaOZJg7bW+BV19IToc92g==
 
 "@react-native-picker/picker@2.7.5":
   version "2.7.5"
@@ -3282,7 +3273,7 @@
     "@types/seedrandom" "^2.4.28"
     seedrandom "^3.0.5"
 
-"@tensorflow/tfjs-backend-wasm@^4.10.0":
+"@tensorflow/tfjs-backend-wasm@^4.10.0", "@tensorflow/tfjs-backend-wasm@^4.22.0":
   version "4.22.0"
   resolved "https://registry.npmjs.org/@tensorflow/tfjs-backend-wasm/-/tfjs-backend-wasm-4.22.0.tgz"
   integrity sha512-/IYhReRIp4jg/wYW0OwbbJZG8ON87mbz0PgkiP3CdcACRSvUN0h8rvC0O3YcDtkTQtFWF/tcXq/KlVDyV49wmA==
@@ -3290,7 +3281,7 @@
     "@tensorflow/tfjs-backend-cpu" "4.22.0"
     "@types/emscripten" "~0.0.34"
 
-"@tensorflow/tfjs-backend-webgl@^4.10.0", "@tensorflow/tfjs-backend-webgl@^4.13.0":
+"@tensorflow/tfjs-backend-webgl@^4.10.0", "@tensorflow/tfjs-backend-webgl@^4.13.0", "@tensorflow/tfjs-backend-webgl@^4.22.0":
   version "4.22.0"
   resolved "https://registry.npmjs.org/@tensorflow/tfjs-backend-webgl/-/tfjs-backend-webgl-4.22.0.tgz"
   integrity sha512-H535XtZWnWgNwSzv538czjVlbJebDl5QTMOth4RXr2p/kJ1qSIXE0vZvEtO+5EC9b00SvhplECny2yDewQb/Yg==
@@ -3312,7 +3303,7 @@
     "@types/webgl2" "0.0.6"
     seedrandom "^3.0.5"
 
-"@tensorflow/tfjs-backend-webgpu@^4.10.0":
+"@tensorflow/tfjs-backend-webgpu@^4.10.0", "@tensorflow/tfjs-backend-webgpu@^4.22.0":
   version "4.22.0"
   resolved "https://registry.npmjs.org/@tensorflow/tfjs-backend-webgpu/-/tfjs-backend-webgpu-4.22.0.tgz"
   integrity sha512-lvIc7Af4Tl2BCdYp43iQmSCRq3asaKT0q2xaErphXiUZ+jqeB0bQa0ZvQys1Xatvto0U4/c90DVsHPfvkn5ftg==
@@ -3325,15 +3316,14 @@
   integrity sha512-12Y4zVDq3yW+wSjSDpSv4HnpL2sDZrNiGSg8XNiDE4HQBdjdA+a+Q3sZF/8NV9y2yoBhL5L7V4mMLDdbZBd9/Q==
 
 "@tensorflow/tfjs-core@^3.0.0-rc.1", "@tensorflow/tfjs-core@^4.10.0", "@tensorflow/tfjs-core@^4.13.0", "@tensorflow/tfjs-core@3.21.0", "@tensorflow/tfjs-core@4.22.0":
-  version "3.21.0"
-  resolved "https://registry.npmjs.org/@tensorflow/tfjs-core/-/tfjs-core-3.21.0.tgz"
-  integrity sha512-YSfsswOqWfd+M4bXIhT3hwtAb+IV8+ODwIxwdFR/7jTAPZP1wMVnSlpKnXHAN64HFOiP+Tm3HmKusEZ0+09A0w==
+  version "4.22.0"
+  resolved "https://registry.npmjs.org/@tensorflow/tfjs-core/-/tfjs-core-4.22.0.tgz"
+  integrity sha512-LEkOyzbknKFoWUwfkr59vSB68DMJ4cjwwHgicXN0DUi3a0Vh1Er3JQqCI1Hl86GGZQvY8ezVrtDIvqR1ZFW55A==
   dependencies:
     "@types/long" "^4.0.1"
-    "@types/offscreencanvas" "~2019.3.0"
+    "@types/offscreencanvas" "~2019.7.0"
     "@types/seedrandom" "^2.4.28"
-    "@types/webgl-ext" "0.0.30"
-    "@webgpu/types" "0.1.16"
+    "@webgpu/types" "0.1.38"
     long "4.0.0"
     node-fetch "~2.6.1"
     seedrandom "^3.0.5"
@@ -3446,9 +3436,9 @@
   integrity sha512-MqTGEo5bj5t157U6fA/BiDynNkn0YknVdh48CMPkTSpFTVmvao5UQmm7uEF6xBEo7qIMAlY/JSleYaE6VOdpaA==
 
 "@types/node-fetch@^2.1.2":
-  version "2.6.11"
-  resolved "https://registry.npmjs.org/@types/node-fetch/-/node-fetch-2.6.11.tgz"
-  integrity sha512-24xFj9R5+rfQJLRyM56qh+wnVSYhyXC2tkoBndtY0U+vubqNsYXGjufB2nn8Q6gt0LrARwL6UBtMCSVCwl4B1g==
+  version "2.6.12"
+  resolved "https://registry.npmjs.org/@types/node-fetch/-/node-fetch-2.6.12.tgz"
+  integrity sha512-8nneRWKCg3rMtF69nLQJnOYUcbafYeFSjqkw3jCRLsqkWFlHaoQrr5mXmofFGOx3DKn7UfmBMyov8ySvLRVldA==
   dependencies:
     "@types/node" "*"
     form-data "^4.0.0"
@@ -3471,6 +3461,11 @@
   version "2019.3.0"
   resolved "https://registry.npmjs.org/@types/offscreencanvas/-/offscreencanvas-2019.3.0.tgz"
   integrity sha512-esIJx9bQg+QYF0ra8GnvfianIY8qWB0GBx54PK5Eps6m+xTj86KLavHv6qDhzKcu5UUOgNfJ2pWaIIV7TRUd9Q==
+
+"@types/offscreencanvas@~2019.7.0":
+  version "2019.7.3"
+  resolved "https://registry.npmjs.org/@types/offscreencanvas/-/offscreencanvas-2019.7.3.tgz"
+  integrity sha512-ieXiYmgSRXUDeOntE1InxjWyvEelZGP63M+cGuquuRLuIKKT1osnkXjxev9B7d1nXSug5vpunx+gNlbVxMlC9A==
 
 "@types/prop-types@*":
   version "15.7.14"
@@ -3556,6 +3551,11 @@
   version "0.1.21"
   resolved "https://registry.npmjs.org/@webgpu/types/-/types-0.1.21.tgz"
   integrity sha512-pUrWq3V5PiSGFLeLxoGqReTZmiiXwY3jRkIG5sLLKjyqNxrwm/04b4nw7LSmGWJcKk59XOM/YRTUwOzo4MMlow==
+
+"@webgpu/types@0.1.38":
+  version "0.1.38"
+  resolved "https://registry.npmjs.org/@webgpu/types/-/types-0.1.38.tgz"
+  integrity sha512-7LrhVKz2PRh+DD7+S+PVaFd5HxaWQvoMqBbsV9fNJO1pjUs1P8bM2vQVNfk+3URTqbuTI7gkXi0rfsN0IadoBA==
 
 "@xmldom/xmldom@^0.8.8":
   version "0.8.10"
@@ -5799,6 +5799,11 @@ expo-react-native-adapter@~2.0.0:
     lodash.omit "^4.5.0"
     lodash.pick "^4.4.0"
     prop-types "^15.6.1"
+
+expo-screen-orientation@^8.0.1:
+  version "8.0.1"
+  resolved "https://registry.npmjs.org/expo-screen-orientation/-/expo-screen-orientation-8.0.1.tgz"
+  integrity sha512-u2ovyqrBf67AUKX/u7xOtHsc34vCA7xqSgAaS+gGjppAkPctpuEMVeZIJCrVzJoZhcoWaxJLtwDfvsDP4Z5Xew==
 
 expo-sensors@^14.0.1:
   version "14.0.1"
@@ -8658,10 +8663,10 @@ node-fetch@^1.0.1:
     encoding "^0.1.11"
     is-stream "^1.0.1"
 
-node-fetch@^2.2.0:
-  version "2.7.0"
-  resolved "https://registry.npmjs.org/node-fetch/-/node-fetch-2.7.0.tgz"
-  integrity sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==
+node-fetch@^2.2.0, node-fetch@~2.6.1:
+  version "2.6.13"
+  resolved "https://registry.npmjs.org/node-fetch/-/node-fetch-2.6.13.tgz"
+  integrity sha512-StxNAxh15zr77QvvkmveSQ8uCQ4+v5FkvNTj0OESmiHu+VRi/gXArXtkWMElOsOUNLtUEvI4yS+rdtOHZTwlQA==
   dependencies:
     whatwg-url "^5.0.0"
 
@@ -8690,13 +8695,6 @@ node-fetch@^2.6.7:
   version "2.7.0"
   resolved "https://registry.npmjs.org/node-fetch/-/node-fetch-2.7.0.tgz"
   integrity sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==
-  dependencies:
-    whatwg-url "^5.0.0"
-
-node-fetch@~2.6.1:
-  version "2.6.13"
-  resolved "https://registry.npmjs.org/node-fetch/-/node-fetch-2.6.13.tgz"
-  integrity sha512-StxNAxh15zr77QvvkmveSQ8uCQ4+v5FkvNTj0OESmiHu+VRi/gXArXtkWMElOsOUNLtUEvI4yS+rdtOHZTwlQA==
   dependencies:
     whatwg-url "^5.0.0"
 
@@ -9718,6 +9716,13 @@ react-native-maps@^1.14.0:
   dependencies:
     "@types/geojson" "^7946.0.13"
 
+react-native-mediapipe@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.npmjs.org/react-native-mediapipe/-/react-native-mediapipe-0.6.0.tgz"
+  integrity sha512-A+CbmsNvLrygs1uzDQ642iIDuziqfm8FFff9KrvQAk2TAsa+FlTP2c4MS8gVVcdgVQ/k9UjoBxv3fP6oLzNsHQ==
+  dependencies:
+    react-native-vector-icons "^10.0.3"
+
 react-native-opencv3@^1.0.8:
   version "1.0.8"
   resolved "https://registry.npmjs.org/react-native-opencv3/-/react-native-opencv3-1.0.8.tgz"
@@ -9792,7 +9797,7 @@ react-native-svg@*, react-native-svg@^15.7.1, "react-native-svg@> 6.4.1":
     css-tree "^1.1.3"
     warn-once "0.1.1"
 
-react-native-vector-icons@*, react-native-vector-icons@^10.2.0:
+react-native-vector-icons@*, react-native-vector-icons@^10.0.3, react-native-vector-icons@^10.2.0:
   version "10.2.0"
   resolved "https://registry.npmjs.org/react-native-vector-icons/-/react-native-vector-icons-10.2.0.tgz"
   integrity sha512-n5HGcxUuVaTf9QJPs/W22xQpC2Z9u0nb0KgLPnVltP8vdUvOp6+R26gF55kilP/fV4eL4vsAHUqUjewppJMBOQ==
@@ -9805,7 +9810,7 @@ react-native-video@^6.7.0:
   resolved "https://registry.npmjs.org/react-native-video/-/react-native-video-6.7.0.tgz"
   integrity sha512-9516km2AorwEbeJtpODCeZa7BJGYxoMtyArzZANqCWLioNJPWAbZJjbWp+JIKnoXvb/qniNuTJ1989Zdohc8XQ==
 
-react-native-vision-camera@^4.5.3:
+react-native-vision-camera@*, react-native-vision-camera@^4.5.3:
   version "4.5.3"
   resolved "https://registry.npmjs.org/react-native-vision-camera/-/react-native-vision-camera-4.5.3.tgz"
   integrity sha512-wulpS6ZY6SwuYMDD8csIFMFJ6lXeQq4bJvaAhwEnr0R9cZ53jDUs0/SFZva6UFEPIw64h0IdrrzuVTEufhDSgQ==
@@ -9817,6 +9822,13 @@ react-native-vision-camera@^4.5.3:
   dependencies:
     escape-string-regexp "2.0.0"
     invariant "2.2.4"
+
+react-native-worklets-core@*:
+  version "1.5.0"
+  resolved "https://registry.npmjs.org/react-native-worklets-core/-/react-native-worklets-core-1.5.0.tgz"
+  integrity sha512-LtXzd08140dK4Y5YIir6oALz+28tkAEZfFZgwaxOh1FnmJ/oGKeNoX+SBWOIQoe12C4i5BvGvh+X/bRGO9mEmQ==
+  dependencies:
+    string-hash-64 "^1.0.3"
 
 react-native@*, "react-native@^0.0.0-0 || >=0.60 <1.0", react-native@^0.75.3, "react-native@>= 0.50.0", "react-native@>= 0.60.2", "react-native@>= 0.64.3", "react-native@>= 0.72.0", react-native@>=0.42.0, react-native@>=0.42.3, react-native@>=0.56, react-native@>=0.60.0, react-native@>=0.61.0, react-native@>=0.64, react-native@0.59.5:
   version "0.75.3"
@@ -10878,6 +10890,11 @@ string_decoder@^1.3.0:
   integrity sha512-hkRX8U1WjJFd8LsDJ2yQ/wWWxaopEsABU1XfkM8A+j0+85JAGppt16cr1Whg6KIbb4okU6Mql6BOj+uup/wKeA==
   dependencies:
     safe-buffer "~5.2.0"
+
+string-hash-64@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/string-hash-64/-/string-hash-64-1.0.3.tgz"
+  integrity sha512-D5OKWKvDhyVWWn2x5Y9b+37NUllks34q1dCDhk/vYcso9fmhs+Tl3KR/gE4v5UNj2UA35cnX4KdVVGkG1deKqw==
 
 "string-width-cjs@npm:string-width@^4.2.0":
   version "4.2.3"

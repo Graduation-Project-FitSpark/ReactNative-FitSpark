@@ -1,92 +1,114 @@
-import * as tf from "@tensorflow/tfjs";
-import * as poseDetection from "@tensorflow-models/pose-detection";
-import { CameraView } from "expo-camera";
-import { useState, useRef, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { CameraView, Camera } from "expo-camera";
+import { Canvas, Skia } from "@shopify/react-native-skia";
+import "@tensorflow/tfjs-react-native";
+import * as tf from "@tensorflow/tfjs";
+import * as posedetection from "@tensorflow-models/pose-detection";
 
-export default function DualArmCurl() {
-  const [count, setCount] = useState(0);
-  const [stage, setStage] = useState(null);
-  const [detector, setDetector] = useState(null);
+export default function App() {
+  const [model, setModel] = useState(null);
+  const [poses, setPoses] = useState([]);
   const cameraRef = useRef(null);
-
+  const canvasRef = useRef(null);
   const { width, height } = Dimensions.get("window");
 
   useEffect(() => {
     const loadModel = async () => {
-      console.log("Loading TensorFlow.js...");
       try {
         await tf.ready();
-        console.log("TensorFlow.js is ready!");
-
-        const model = await poseDetection.createDetector(
-          poseDetection.SupportedModels.MoveNet
+        console.log("TensorFlow.js is ready");
+        const detector = await posedetection.createDetector(
+          posedetection.SupportedModels.MoveNet
         );
-
-        console.log("Pose Detector created successfully:", model);
-        setDetector(model);
-        console.log("Model loaded successfully.");
+        setModel(detector);
+        console.log("Pose model loaded successfully");
       } catch (error) {
-        console.error("Error loading model:", error);
+        console.error("Error loading pose detection model:", error);
       }
     };
-
     loadModel();
   }, []);
 
-  const calculateAngle = (a, b, c) => {
-    const radians =
-      Math.atan2(c[1] - b[1], c[0] - b[0]) -
-      Math.atan2(a[1] - b[1], a[0] - b[0]);
-    let angle = Math.abs(radians * (180.0 / Math.PI));
-    if (angle > 180.0) {
-      angle = 360 - angle;
-    }
-    return angle;
-  };
-
-  const processPose = (landmarks) => {
-    const shoulder = [landmarks[11].x, landmarks[11].y];
-    const elbow = [landmarks[13].x, landmarks[13].y];
-    const wrist = [landmarks[15].x, landmarks[15].y];
-
-    const angle = calculateAngle(shoulder, elbow, wrist);
-
-    const shoulder1 = [landmarks[12].x, landmarks[12].y];
-    const elbow1 = [landmarks[14].x, landmarks[14].y];
-    const wrist1 = [landmarks[16].x, landmarks[16].y];
-
-    const angle1 = calculateAngle(shoulder1, elbow1, wrist1);
-
-    if (angle > 90 && angle1 > 90) {
-      setStage("up");
-    }
-
-    if (angle < 30 && angle1 < 30 && stage === "up") {
-      setStage("down");
-      setCount((prev) => prev + 1);
+  const handleCameraStream = async (frame) => {
+    if (model) {
+      try {
+        const imageData = new ImageData(
+          new Uint8ClampedArray(frame.data),
+          frame.width,
+          frame.height
+        );
+        const detectedPoses = await model.estimatePoses(imageData);
+        console.log("Detected Poses:", detectedPoses);
+        setPoses(detectedPoses);
+      } catch (error) {
+        console.error("Error processing frame:", error);
+      }
     }
   };
 
-  const handleCameraFrame = async (frame) => {
-    if (!detector) return;
-
-    const frameTensor = tf.browser.fromPixels(frame);
-    const poses = await detector.estimatePoses(frameTensor);
-
-    if (poses.length > 0) {
-      processPose(poses[0].keypoints);
-    }
+  const drawPose = (canvas) => {
+    if (!canvas || !poses || poses.length === 0) return;
+    const keypoints = poses[0].keypoints;
+    console.log("Keypoints:", keypoints);
+    const connections = [
+      [5, 7],
+      [7, 9],
+      [6, 8],
+      [8, 10],
+      [5, 6],
+      [11, 13],
+      [13, 15],
+      [12, 14],
+      [14, 16],
+      [11, 12],
+      [0, 5],
+      [0, 6],
+      [1, 2],
+      [2, 3],
+      [3, 4],
+    ];
+    const paint = Skia.Paint();
+    paint.setColor(Skia.Color("red"));
+    paint.setStrokeWidth(2);
+    paint.setStyle(Skia.PaintStyle.Stroke);
+    canvas.clear(Skia.Color("black"));
+    keypoints.forEach((keypoint) => {
+      if (keypoint.score > 0.5) {
+        canvas.drawCircle(keypoint.x, keypoint.y, 5, paint);
+      }
+    });
+    connections.forEach(([startIdx, endIdx]) => {
+      const start = keypoints[startIdx];
+      const end = keypoints[endIdx];
+      if (start.score > 0.5 && end.score > 0.5) {
+        canvas.drawLine(start.x, start.y, end.x, end.y, paint);
+      }
+    });
   };
 
   return (
     <View style={styles.container}>
       <CameraView
-        style={styles.camera}
         ref={cameraRef}
-        onFrame={handleCameraFrame}
+        style={styles.camera}
+        facing="front"
+        onAccessibilityAction={() => {
+          const camera = cameraRef.current;
+          if (camera) {
+            const { width, height } = camera.getSupportedRatiosAsync();
+            console.log(`Camera ready with dimensions: ${width}x${height}`);
+          }
+        }}
+        ratio="16:9"
       />
-      <Text style={styles.countText}>Count: {count}</Text>
+      <View style={[styles.overlay, { width, height }]}>
+        <Canvas
+          ref={canvasRef}
+          style={{ width, height }}
+          onDraw={(canvas) => drawPose(canvas)}
+        />
+      </View>
     </View>
   );
 }
@@ -96,17 +118,18 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#000",
   },
   camera: {
     width: "100%",
     height: "100%",
-  },
-  countText: {
     position: "absolute",
-    top: 10,
-    left: 10,
-    fontSize: 32,
-    fontWeight: "bold",
-    color: "green",
+  },
+  overlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
