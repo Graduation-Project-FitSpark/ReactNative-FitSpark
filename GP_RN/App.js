@@ -59,6 +59,16 @@ import ChatSpecialist from "./HSpecialist/Homescreen/ChatSpecialist.jsx";
 import ChatTrainerCoach from "./Homescreen/ChatTrainerCoach.jsx";
 import ChatTrainerSpecialist from "./Homescreen/ChatTrainerSpecialist.jsx";
 import DualArmCurl from "./StrengthTrains/DualArmCurl.jsx";
+import Adminmanbur from "./Adminuser/homescreen/Adminmanbur";
+import Alltatistics from "./Adminuser/AdminActivities/Alltatistics";
+import Chosseuser from "./Adminuser/AdminActivities/Chosseuser";
+import EditTrainees from "./Adminuser/AdminActivities/Editeuser/EditTrainees";
+import EditCoach from "./Adminuser/AdminActivities/Editeuser/EditCoach";
+import EditSpecialist from "./Adminuser/AdminActivities/Editeuser/EditSpecialist";
+import AddAwards from "./Adminuser/AdminActivities/AddAwards";
+import Applicantscoach from "./Adminuser/AdminActivities/Applicantscoach";
+import ApplicantsSpecialist from "./Adminuser/AdminActivities/ApplicantsSpecialist";
+import Requestcoachspecialist from "./Adminuser/AdminActivities/Requestcoachspecialist";
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -93,18 +103,15 @@ export default function App() {
               name="SelectStrengthTrain"
               component={SelectStrengthTrain}
             />
-
             <Stack.Screen
               name="WalkingUsingPhone"
               component={WalkingUsingPhone}
             />
-
             <Stack.Screen
               name="Menubar"
               component={Menubar}
               options={{ headerShown: false }}
             />
-
             <Stack.Screen
               name="Notification"
               component={Notification}
@@ -263,6 +270,56 @@ export default function App() {
             <Stack.Screen
               name="DualArmCurl"
               component={DualArmCurl}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Adminmanbur"
+              component={Adminmanbur}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Alltatistics"
+              component={Alltatistics}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Chosseuser"
+              component={Chosseuser}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="EditTrainees"
+              component={EditTrainees}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="EditCoach"
+              component={EditCoach}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="EditSpecialist"
+              component={EditSpecialist}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="AddAwards"
+              component={AddAwards}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Applicantscoach"
+              component={Applicantscoach}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="ApplicantsSpecialist"
+              component={ApplicantsSpecialist}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Requestcoachspecialist"
+              component={Requestcoachspecialist}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>
