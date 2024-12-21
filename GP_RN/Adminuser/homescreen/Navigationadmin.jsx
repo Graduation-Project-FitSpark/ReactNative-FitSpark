@@ -4,18 +4,38 @@ import logo from "../../img/logo.png";
 import IconIonicons from "react-native-vector-icons/Ionicons";
 import IconFontAwesome from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+import URL from "../../enum";
 
 const Navigationadmin = () => {
   const navigation = useNavigation();
 
   const [userData, setUserData] = useState({
-    name: "unknown",
-    email: "unknown",
+    name: "",
+    email: "",
     img: "",
   });
 
   useEffect(() => {
-    setUserData({ name: "ahmed", email: "aaa@gmail.com" }); // عشاير هون انت بس بتستدعي الاسم و الايميل من داتا بيس وبتدبدلها مكان النيم  والصورة و  الايميل
+    const fetchAdminDetails = async () => {
+      try {
+        const response = await fetch(`${URL}/getAdminDetails`);
+        if (response.ok) {
+          const data = await response.json();
+          setUserData({
+            name: `${data.First_Name} ${data.Last_Name}`,
+            email: data.Email,
+            img: data.img,
+          });
+        } else {
+          console.error("Failed to fetch admin details");
+        }
+      } catch (error) {
+        console.error("Error fetching admin details:", error);
+      }
+    };
+
+    fetchAdminDetails();
   }, []);
 
   return (
@@ -31,7 +51,7 @@ const Navigationadmin = () => {
       <View style={styles.menuContainer}>
         <TouchableOpacity
           style={styles.menuItemContainer}
-          onPress={() => navigation.navigate("//")}
+          onPress={() => navigation.navigate("ProfileAdmin")}
         >
           <IconIonicons name="person" size={24} color="#000" />
           <Text style={styles.menuItem}>Your Profile</Text>
@@ -60,7 +80,7 @@ const Navigationadmin = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.menuItemContainer}
-          onPress={() => navigation.navigate("Competitions")}
+          onPress={() => navigation.navigate("CoachVideos")}
         >
           <IconIonicons name="videocam" size={24} color="#000" />
           <Text style={styles.menuItem}>Coachs Videos</Text>

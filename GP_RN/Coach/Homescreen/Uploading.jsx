@@ -11,15 +11,17 @@ import { Picker } from "@react-native-picker/picker";
 import * as DocumentPicker from "expo-document-picker";
 import axios from "axios";
 import URL from "../../enum";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const Uploading = () => {
   const [trainList, setTrainList] = useState([]);
   const [selectedTrain, setSelectedTrain] = useState("");
   const [videoFile, setVideoFile] = useState(null);
-
+  const [username, setUsername] = useState("");
   useEffect(() => {
     const fetchTrains = async () => {
       try {
+        let un = await AsyncStorage.getItem("username");
+        setUsername(un);
         const response = await axios.get(`${URL}/getTrains`);
         const trainNames = response.data.trains.map(
           (train) => train.Train_Name
@@ -59,10 +61,10 @@ const Uploading = () => {
       formData.append("video", {
         uri: fileUri,
         type: "video/mp4",
-        name: `${videoFile.assets[0].name}.mp4`,
+        name: `${username}_${videoFile.assets[0].name}.mp4`,
       });
       formData.append("trainName", selectedTrain);
-
+      console.log(formData);
       const response = await axios.post(`${URL}/uploadingVideo`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",

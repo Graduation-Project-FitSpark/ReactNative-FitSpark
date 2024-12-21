@@ -69,6 +69,9 @@ import AddAwards from "./Adminuser/AdminActivities/AddAwards";
 import Applicantscoach from "./Adminuser/AdminActivities/Applicantscoach";
 import ApplicantsSpecialist from "./Adminuser/AdminActivities/ApplicantsSpecialist";
 import Requestcoachspecialist from "./Adminuser/AdminActivities/Requestcoachspecialist";
+import LocationsMap from "./Adminuser/homescreen/LocationsMap.jsx";
+import ProfileAdmin from "./Adminuser/homescreen/ProfileAdmin.jsx";
+import CoachVideos from "./Adminuser/homescreen/CoachVideos.jsx";
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -320,6 +323,21 @@ export default function App() {
             <Stack.Screen
               name="Requestcoachspecialist"
               component={Requestcoachspecialist}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="LocationsMap"
+              component={LocationsMap}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="ProfileAdmin"
+              component={ProfileAdmin}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="CoachVideos"
+              component={CoachVideos}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>

@@ -10,75 +10,34 @@ import {
 import IconIonicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import AddAwardsModel from "./AddAwardsModel.jsx";
-
+import URL from "../../enum.js";
+import axios from "axios";
 const AddAwards = () => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
-  const [Awards, setAwards] = useState([
-    {
-      point: 20,
-      photo: require("../../img/ChinUps.jpeg"),
-      name: "Fitness Titan",
-    },
-    {
-      point: 40,
-      photo: require("../../img/ChinUps.jpeg"),
-      name: "Strength Champion",
-    },
-    {
-      point: 60,
-      photo: require("../../img/ChinUps.jpeg"),
-      name: "Power Icon",
-    },
-    {
-      point: 80,
-      photo: require("../../img/ChinUps.jpeg"),
-      name: "Endurance Legend",
-    },
-    {
-      point: 100,
-      photo: require("../../img/ChinUps.jpeg"),
-      name: "Prime Athlete",
-    },
-    {
-      point: 120,
-      photo: require("../../img/ChinUps.jpeg"),
-      name: "Vitality Hero",
-    },
-    {
-      point: 150,
-      photo: require("../../img/ChinUps.jpeg"),
-      name: "Peak Performer",
-    },
-    {
-      point: 170,
-      photo: require("../../img/ChinUps.jpeg"),
-      name: "Muscle Maverick",
-    },
-    {
-      point: 200,
-      photo: require("../../img/ChinUps.jpeg"),
-      name: "Flex Master",
-    },
-  ]);
+  const [Awards, setAwards] = useState([]);
 
   useEffect(() => {
-    const newAwards = {
-      point: 250,
-      photo: require("../../img/ChinUps.jpeg"),
-      name: "Core Conqueror",
+    const fetchAwards = async () => {
+      try {
+        const response = await fetch(`${URL}/getAwards`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch awards");
+        }
+
+        const data = await response.json();
+        const awards = data.awards.map((award) => ({
+          ...award,
+          photo: award.photoUrl,
+        }));
+        setAwards(awards);
+        console.log(awards);
+      } catch (error) {
+        console.error("Error fetching awards:", error);
+      }
     };
 
-    setAwards((prevAwards) => {
-      const exists = prevAwards.some(
-        (award) => award.point === newAwards.point
-      );
-
-      if (!exists) {
-        return [...prevAwards, newAwards];
-      }
-      return prevAwards;
-    });
+    fetchAwards();
   }, []);
 
   const addNewAward = (newAward) => {
@@ -97,7 +56,7 @@ const AddAwards = () => {
             return (
               <View key={index} style={styles.outer}>
                 <View style={styles.outeritem}>
-                  <Image style={styles.pointimg} source={item.photo} />
+                  <Image style={styles.pointimg} source={{ uri: item.photo }} />
                   <View style={styles.namepoint}>
                     <Text style={styles.nameawards}>{item.name}</Text>
                     <Text style={styles.pointof}>{item.point}</Text>

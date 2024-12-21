@@ -45,6 +45,7 @@ const SignUp = ({ navigation }) => {
   const activityLabels = ["Normal", "Fat", "Very Fat"];
   const [image, setImage] = useState("");
   const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
+  const [description, setDescription] = useState("");
 
   const pickImage = async () => {
     const permissionResult =
@@ -187,11 +188,13 @@ const SignUp = ({ navigation }) => {
     } else if (type === "Coach") {
       additionalData = {
         YearsOfExperience: yearsOfExperience,
+        Description: description,
       };
       endpoint = `${URL}/signUpCoach`;
     } else if (type === "Nutration expert") {
       additionalData = {
         YearsOfExperience: yearsOfExperience,
+        Description: description,
       };
       endpoint = `${URL}/signUpSpecialist`;
     }
@@ -367,6 +370,12 @@ const SignUp = ({ navigation }) => {
                 onChangeText={setYearsOfExperience}
                 keyboardType="numeric"
               />
+              <TextInput
+                style={styles.input}
+                placeholder="Description (Write why you want to sign for this site)"
+                value={description}
+                onChangeText={setDescription}
+              />
             </>
           )}
 
@@ -378,6 +387,12 @@ const SignUp = ({ navigation }) => {
                 value={yearsOfExperience}
                 onChangeText={setYearsOfExperience}
                 keyboardType="numeric"
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Description (Write why you want to sign for this site)"
+                value={description}
+                onChangeText={setDescription}
               />
             </>
           )}

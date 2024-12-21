@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import IconIonicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
+import URL from "../../enum";
+import axios from "axios";
 function Userstatistics() {
   const navigation = useNavigation();
   const [lengthcoach, setlengthcoach] = useState();
@@ -13,215 +15,44 @@ function Userstatistics() {
   const [specialistChange, setspecialistChange] = useState("");
   const currentDate = new Date();
   const currentMonth = currentDate.getMonth() + 1;
-  const currentYear = currentDate.getFullYear() + 1;
-  const coach = [
-    {
-      ID_Coach: 1,
-      Username: "Ali",
-      Email: "masdm",
-      First_Name: "Ali",
-      Last_Name: "nbasd",
-      Phone_Number: "flkj;d",
-      Age: 26,
-      Gender: "Male",
-      Location: "Nablus",
-      Points: 200,
-      Img: null,
-      YearsOfExperience: 7,
-      Dateenter: "2025-11-06",
-      AcceptedDescription: "A",
-    },
-    {
-      ID_Coach: "7ce0612a-892a-4429-89cc-0d6d7aa1f72a",
-      Username: "AhmadA",
-      Email: "asjkdsI",
-      First_Name: "sdlkfJ",
-      Last_Name: "sdlkfJ",
-      Phone_Number: "06594958",
-      Age: 12,
-      Gender: "Female",
-      Location: "Genen",
-      Points: 0,
-      Img: null,
-      YearsOfExperience: 7,
-      Dateenter: "2021-05-06",
-      AcceptedDescription: "A",
-    },
-    {
-      ID_Coach: "924facco-b571-4611-9e70-c7a7ff2af929",
-      Username: "Umy",
-      Email: "GfKfk",
-      First_Name: "Fjfj",
-      Last_Name: "FjfJ",
-      Phone_Number: "06594958",
-      Age: 12,
-      Gender: "Female",
-      Location: "Genen",
-      Points: 10,
-      Img: null,
-      YearsOfExperience: 7,
-      Dateenter: "2024-05-06",
-      AcceptedDescription: "P",
-    },
-    {
-      ID_Coach: "9eaa7962-2c52-418e-9826-86beb2e6392b",
-      Username: "Umy",
-      Email: "GfKfk",
-      First_Name: "Fjfj",
-      Last_Name: "FjfJ",
-      Phone_Number: "05976969",
-      Age: 5,
-      Gender: "Female",
-      Location: "&_{",
-      Points: 0,
-      Img: null,
-      YearsOfExperience: 7,
-      Dateenter: "2025-12-06",
-      AcceptedDescription: "A",
-    },
-    {
-      ID_Coach: "ca667de4-2ae9-42fd-98dc-487e%6-ldd6lf",
-      Username: "Vector",
-      Email: "ashayera44@gmail.com",
-      First_Name: "Vector",
-      Last_Name: "Marcos",
-      Phone_Number: "059495949",
-      Age: 34,
-      Gender: "Male",
-      Location: "37.72010281317459, -122.430373853449",
-      Points: 0,
-      Img: null,
-      YearsOfExperience: 7,
-      Dateenter: "2025-5-06",
-      AcceptedDescription: "A",
-    },
-  ];
-  const Specialist = [
-    {
-      ID_Specialist: 1,
-      Username: "Ali",
-      Email: "masdm",
-      First_Name: "Ali",
-      Last_Name: "nbasd",
-      Phone_Number: "flkj;d",
-      Age: 26,
-      Gender: "Male",
-      Location: "Nablus",
-      Points: 100,
-      Img: null,
-      YearsOfExperience: 7,
-      Dateenter: "2025-4-06",
-      AcceptedDescription: "A",
-    },
-    {
-      ID_Specialist: "7ce0612a-892a-4429-89cc-0d6d7aa1f72a",
-      Username: "AhmadA",
-      Email: "asjkdsI",
-      First_Name: "sdlkfJ",
-      Last_Name: "sdlkfJ",
-      Phone_Number: "06594958",
-      Age: 12,
-      Gender: "Female",
-      Location: "Genen",
-      Points: 0,
-      Img: null,
-      YearsOfExperience: 7,
-      Dateenter: "2025-11-06",
-      AcceptedDescription: "A",
-    },
-    {
-      ID_Specialist: "924facco-b571-4611-9e70-c7a7ff2af929",
-      Username: "Umy",
-      Email: "GfKfk",
-      First_Name: "Fjfj",
-      Last_Name: "FjfJ",
-      Phone_Number: "06594958",
-      Age: 12,
-      Gender: "Female",
-      Location: "Genen",
-      Points: 10,
-      Img: null,
-      YearsOfExperience: 7,
-      Dateenter: "2025-12-06",
-      AcceptedDescription: "A",
-    },
-    {
-      ID_Specialist: "9eaa7962-2c52-418e-9826-86beb2e6392b",
-      Username: "Umy",
-      Email: "GfKfk",
-      First_Name: "Fjfj",
-      Last_Name: "FjfJ",
-      Phone_Number: "05976969",
-      Age: 5,
-      Gender: "Female",
-      Location: "&_{",
-      Points: 0,
-      Img: null,
-      YearsOfExperience: 7,
-      Dateenter: "2025-11-06",
-      AcceptedDescription: "A",
-    },
-    {
-      ID_Specialist: "ca667de4-2ae9-42fd-98dc-487e%6-ldd6lf",
-      Username: "Vector",
-      Email: "ashayera44@gmail.com",
-      First_Name: "Vector",
-      Last_Name: "Marcos",
-      Phone_Number: "059495949",
-      Age: 34,
-      Gender: "Male",
-      Location: "37.72010281317459, -122.430373853449",
-      Points: 0,
-      Img: null,
-      YearsOfExperience: 7,
-      Dateenter: "2025-12-06",
-      AcceptedDescription: "A",
-    },
-  ];
-  const Trainess = [
-    {
-      ID_Trainer: 1,
-      First_name: "mahmoud",
-      Last_name: "Arafat",
-      Gender: "Male",
-      Class_Type: "Cardio",
-      Location: "[37.74798825940199, -122.420727407486164]",
-      Activity_Level: "Fat",
-      Card_Number: "594949494",
-      Expression_Date: "2000-06-07 00:00:00",
-      CVC: 594,
-      Points: 0,
-      Image: "https://via.placeholder.com/50",
-      WatchedVideos: 0,
-      Token: null,
-      Username: "user_7737",
-      Height: 150,
-      Weight: 100,
-      Dateenter: "2025-12-06",
-      Age: 12,
-    },
-    {
-      ID_Trainer: 13,
-      First_name: "jone",
-      Last_name: "kcdcd",
-      Gender: "Male",
-      Class_Type: "Cardio",
-      Location: "Nablus",
-      Activity_Level: "Fat",
-      Card_Number: "065061563",
-      Expression_Date: "2000-08-02 00:00:00",
-      CVC: 321,
-      Points: 500,
-      Image: "https://via.placeholder.com/50",
-      WatchedVideos: 5,
-      Token: null,
-      Username: "user_7733",
-      Height: 120,
-      Weight: 50,
-      Dateenter: "2025-11-06",
-      Age: 12,
-    },
-  ];
+  const currentYear = currentDate.getFullYear();
+  const [coach, setCoach] = useState([]);
+  const [Specialist, setSpecialist] = useState([]);
+  const [Trainess, setTrainees] = useState([]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch(`${URL}/getTrainerSpecificDetails`);
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch trainer details");
+        }
+        const data = await response.json();
+        setTrainees(data);
+
+        const response2 = await fetch(`${URL}/getAllCoachesAdmin`);
+
+        if (!response2.ok) {
+          throw new Error("Failed to fetch coach details");
+        }
+        const data2 = await response2.json();
+        setCoach(data2);
+
+        const response3 = await fetch(`${URL}/getAllSepcialistsAdmin`);
+
+        if (!response3.ok) {
+          throw new Error("Failed to fetch specialist details");
+        }
+        const data3 = await response3.json();
+        setSpecialist(data3);
+      } catch (err) {
+        console.error("Error fetching trainer details:", err);
+      }
+    };
+
+    fetchUsers();
+  }, []);
 
   useEffect(() => {
     const countcoach = coach.filter((user) => {

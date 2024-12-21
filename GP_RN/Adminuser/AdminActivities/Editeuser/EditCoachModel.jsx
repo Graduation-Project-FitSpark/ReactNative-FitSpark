@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Modal,
   View,
@@ -12,167 +12,46 @@ import IconIonicons from "react-native-vector-icons/Ionicons";
 import { Alert } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
+import axios from "axios";
+import URL from "../../../enum";
 function EditSpecialistModel({ modalVisible, setModalVisible, iteam }) {
   const [notfiction, setnotfiction] = useState("");
   const [counttrner, setcounttrner] = useState(0);
-  const [initialTableData, setInitialTableData] = useState([
-    {
-      ID_Coach: 1,
-      Username: "Ali",
-      Email: "masdm",
-      First_Name: "Ali",
-      Last_Name: "nbasd",
-      Phone_Number: "flkj;d",
-      Age: 26,
-      Gender: "Male",
-      Location: "Nablus",
-      Points: 200,
-      Img: null,
-      YearsOfExperience: 7,
-    },
-    {
-      ID_Coach: "7ce0612a-892a-4429-89cc-0d6d7aa1f72a",
-      Username: "AhmadA",
-      Email: "asjkdsI",
-      First_Name: "sdlkfJ",
-      Last_Name: "sdlkfJ",
-      Phone_Number: "06594958",
-      Age: 12,
-      Gender: "Female",
-      Location: "Genen",
-      Points: 0,
-      Img: null,
-      YearsOfExperience: 7,
-    },
-    {
-      ID_Coach: "924facco-b571-4611-9e70-c7a7ff2af929",
-      Username: "Umy",
-      Email: "GfKfk",
-      First_Name: "Fjfj",
-      Last_Name: "FjfJ",
-      Phone_Number: "06594958",
-      Age: 12,
-      Gender: "Female",
-      Location: "Genen",
-      Points: 10,
-      Img: null,
-      YearsOfExperience: 7,
-    },
-    {
-      ID_Coach: "9eaa7962-2c52-418e-9826-86beb2e6392b",
-      Username: "Umy",
-      Email: "GfKfk",
-      First_Name: "Fjfj",
-      Last_Name: "FjfJ",
-      Phone_Number: "05976969",
-      Age: 5,
-      Gender: "Female",
-      Location: "&_{",
-      Points: 0,
-      Img: null,
-      YearsOfExperience: 7,
-    },
-    {
-      ID_Coach: "ca667de4-2ae9-42fd-98dc-487e%6-ldd6lf",
-      Username: "Vector",
-      Email: "ashayera44@gmail.com",
-      First_Name: "Vector",
-      Last_Name: "Marcos",
-      Phone_Number: "059495949",
-      Age: 34,
-      Gender: "Male",
-      Location: "37.72010281317459, -122.430373853449",
-      Points: 0,
-      Img: null,
-      YearsOfExperience: 7,
-    },
-  ]);
-  const [trainerCoachData, setTrainerCoachData] = useState([
-    {
-      ID_Trainer: 1,
-      ID_Coach: 1,
-      Accepted: "t",
-      Description:
-        "Trainer 1 is paired with Coach 2 and the request is accepted.",
-    },
-    {
-      ID_Trainer: 3,
-      ID_Coach: 4,
-      Accepted: "f",
-      Description:
-        "Trainer 3 is paired with Coach 4 and the request is declined.",
-    },
-    {
-      ID_Trainer: 5,
-      ID_Coach: 1,
-      Accepted: "p",
-      Description:
-        "Trainer 5 is paired with Coach 10 and the request is accepted.",
-    },
-    {
-      ID_Trainer: 7,
-      ID_Coach: 8,
-      Accepted: "f",
-      Description:
-        "Trainer 7 is paired with Coach 8 and the request is declined.",
-    },
-    {
-      ID_Trainer: 9,
-      ID_Coach: 10,
-      Accepted: "p",
-      Description:
-        "Trainer 9 is paired with Coach 10 and the request is accepted.",
-    },
-    {
-      ID_Trainer: 10,
-      ID_Coach: 10,
-      Accepted: "p",
-      Description:
-        "Trainer 10 is paired with Coach 10 and the request is accepted.",
-    },
-    {
-      ID_Trainer: 12,
-      ID_Coach: 1,
-      Accepted: "T",
-      Description:
-        "Trainer 12 is paired with Coach 10 and the request is pending.",
-    },
-    {
-      ID_Trainer: 13,
-      ID_Coach: 10,
-      Accepted: "T",
-      Description:
-        "Trainer 13 is paired with Coach 10 and the request is pending.",
-    },
-    {
-      ID_Trainer: 15,
-      ID_Coach: 16,
-      Accepted: "f",
-      Description:
-        "Trainer 15 is paired with Coach 16 and the request is declined.jjsldkcklsjcjlnsdjcbdcljsjlbjldc",
-    },
-    {
-      ID_Trainer: 17,
-      ID_Coach: 18,
-      Accepted: "t",
-      Description:
-        "Trainer 17 is paired with Coach 18 and the request is accepted.",
-    },
-    {
-      ID_Trainer: 19,
-      ID_Coach: 20,
-      Accepted: "f",
-      Description:
-        "Trainer 19 is paired with Coach 20 and the request is declined.",
-    },
-  ]);
+  const [initialTableData, setInitialTableData] = useState([]);
+  const [trainerCoachData, setTrainerCoachData] = useState([]);
+  useEffect(() => {
+    const fetchTrainers = async () => {
+      try {
+        const response = await fetch(`${URL}/getTrainerSpecificDetails`);
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch trainer details");
+        }
+        const data = await response.json();
+        setInitialTableData(data);
+        const response2 = await fetch(`${URL}/getTrainerCoachWithDescription`);
+
+        if (!response2.ok) {
+          throw new Error("Failed to fetch trainer details");
+        }
+        const data2 = await response2.json();
+        setTrainerCoachData(data2);
+      } catch (err) {
+        setError(err.message);
+        console.error("Error fetching trainer details:", err);
+      }
+    };
+
+    fetchTrainers();
+  }, [initialTableData]);
+
   useFocusEffect(
     useCallback(() => {
       let count = 0;
       trainerCoachData.filter((item) => {
         if (
           item.ID_Coach === iteam &&
-          (item.Accepted === "t" || item.Accepted === "T")
+          (item.Accepted === "a" || item.Accepted === "A")
         ) {
           count++;
         }
@@ -183,8 +62,10 @@ function EditSpecialistModel({ modalVisible, setModalVisible, iteam }) {
 
   const userData = initialTableData.find((item) => item.ID_Coach === iteam);
 
-  const deletet = () => {
-    //هون حذف اليوزر
+  const deletet = async () => {
+    const response = await axios.post(`${URL}/DeleteCoachAdmin`, {
+      ID_Coach: iteam,
+    });
     setInitialTableData((prevData) =>
       prevData.filter((data) => data.ID_Coach !== iteam)
     );

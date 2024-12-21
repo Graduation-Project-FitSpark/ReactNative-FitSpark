@@ -52,9 +52,18 @@ export default function Authentication({ route }) {
           }),
         })
           .then((res) => res.json())
-          .then(async (data) => await AsyncStorage.setItem("ID", data.ID_Coach))
+          .then(async (data) => {
+            await AsyncStorage.setItem("ID", data.ID_Coach);
+            console.log(data.AcceptedDescription);
+            if (data.AcceptedDescription !== "P")
+              navigation.navigate("Coachmanbur");
+            else
+              Alert.alert(
+                "Error",
+                "Sorry Sir, Your Account is not being Accepted by the Admin Yet!"
+              );
+          })
           .catch((err) => console.error(err));
-        navigation.navigate("Coachmanbur");
       } else if (Type === "specialist") {
         fetch(`${URL}/getSpecialistDetails`, {
           method: "POST",
@@ -64,12 +73,19 @@ export default function Authentication({ route }) {
           }),
         })
           .then((res) => res.json())
-          .then(
-            async (data) => await AsyncStorage.setItem("ID", data.ID_Specialist)
-          )
+          .then(async (data) => {
+            await AsyncStorage.setItem("ID", data.ID_Specialist);
+            if (data.AcceptedDescription !== "P")
+              navigation.navigate("Specialistmanbur");
+            else
+              Alert.alert(
+                "Error",
+                "Sorry Sir, Your Account is not being Accepted by the Admin Yet!"
+              );
+          })
           .catch((err) => console.error(err));
-
-        navigation.navigate("Specialistmanbur");
+      } else if (Type === "admin") {
+        navigation.navigate("Adminmanbur");
       }
     } else {
       Alert.alert("Error", "Verification code is invalid!");

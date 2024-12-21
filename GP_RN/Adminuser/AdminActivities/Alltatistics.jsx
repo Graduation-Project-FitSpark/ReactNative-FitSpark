@@ -369,13 +369,13 @@ function AllUserstatistics() {
               })()}
             </Text>
             <View style={styles.footer}>
-              <Text>With Totle Point :{vlauemaxpointcoach}</Text>
+              <Text>With Total Point :{vlauemaxpointcoach}</Text>
             </View>
           </View>
 
           <View style={styles.card}>
             <View style={styles.title}>
-              <Text style={styles.label}>Best Specialist</Text>
+              <Text style={styles.label}>Best Nutration Expert</Text>
               <View style={[styles.icondiv, { backgroundColor: "#FA503C" }]}>
                 <IconIonicons name="person" size={16} color="#fff" />
               </View>
@@ -389,7 +389,7 @@ function AllUserstatistics() {
               })()}
             </Text>
             <View style={styles.footer}>
-              <Text>With Totle Point :{vlauemaxpointSpecialist}</Text>
+              <Text>With Total Point :{vlauemaxpointSpecialist}</Text>
             </View>
           </View>
         </View>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   ScrollView,
@@ -10,7 +10,8 @@ import {
 import EditeuserModel from "./EditTraineesModel.jsx";
 import IconIonicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
-
+import axios from "axios";
+import URL from "../../../enum.js";
 function EditUsers() {
   const [searchQuery, setSearchQuery] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
@@ -21,72 +22,26 @@ function EditUsers() {
     setModalVisible(true);
   };
 
-  const usertableData = [
-    {
-      ID_Trainer: 1,
-      First_name: "mahmoud",
-      Last_name: "Arafat",
-      Gender: "Male",
-      Class_Type: "Cardio",
-      Location: "[37.74798825940199, -122.420727407486164]",
-      Activity_Level: "Fat",
-      Card_Number: "594949494",
-      Expression_Date: "2000-06-07 00:00:00",
-      CVC: 594,
-      Points: 0,
-      Image: "https://via.placeholder.com/50",
-      WatchedVideos: 0,
-      Token: null,
-      Username: "user_7737",
-      Height: 150,
-      Weight: 100,
-      Dateenter: "2024-12-06",
-      Age: 12,
-    },
-    {
-      ID_Trainer: 13,
-      First_name: "jone",
-      Last_name: "kcdcd",
-      Gender: "Male",
-      Class_Type: "Cardio",
-      Location: "Nablus",
-      Activity_Level: "Fat",
-      Card_Number: "065061563",
-      Expression_Date: "2000-08-02 00:00:00",
-      CVC: 321,
-      Points: 500,
-      Image: "https://via.placeholder.com/50",
-      WatchedVideos: 5,
-      Token: null,
-      Username: "user_7733",
-      Height: 120,
-      Weight: 50,
-      Dateenter: "2024-04-06",
-      Age: 12,
-    },
-    {
-      ID_Trainer: 9,
-      First_name: "sasa",
-      Last_name: "ffdfd",
-      Gender: "Male",
-      Class_Type: "Cardio",
-      Location: "[37.68169336082543, -122.44336623698473]",
-      Activity_Level: "Fat",
-      Card_Number: "594949494",
-      Expression_Date: "2005-06-01 00:00:00",
-      CVC: 493,
-      Points: 100,
-      Image: "https://via.placeholder.com/50",
-      WatchedVideos: 2,
-      Token: null,
-      Username: "user_7737",
-      Height: 150,
-      Weight: 90,
-      Dateenter: "2024-05-06",
-      Age: 12,
-    },
-  ];
+  const [usertableData, setUserTableData] = useState([]);
 
+  useEffect(() => {
+    const fetchTrainers = async () => {
+      try {
+        const response = await fetch(`${URL}/getTrainerSpecificDetails`);
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch trainer details");
+        }
+        const data = await response.json();
+        setUserTableData(data);
+      } catch (err) {
+        setError(err.message);
+        console.error("Error fetching trainer details:", err);
+      }
+    };
+
+    fetchTrainers();
+  }, []);
   const filteredData = usertableData.filter((row) =>
     row.Username.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -125,7 +80,7 @@ function EditUsers() {
 
         {filteredData.map((row, index) => (
           <TouchableOpacity
-            key={row.id}
+            key={row.ID_Trainer}
             style={[
               styles.tableRow,
               index % 2 === 0 ? styles.evenRow : styles.oddRow,
@@ -135,7 +90,7 @@ function EditUsers() {
             <Text style={styles.tableCell}>{row.ID_Trainer}</Text>
             <Text style={styles.tableCell}>{row.Username}</Text>
             <Text style={styles.tableCell}>{row.Age}</Text>
-            <Text style={styles.tableCell}>{row.Dateenter}</Text>
+            <Text style={styles.tableCell}>{row.Dateenter.split("T")[0]}</Text>
           </TouchableOpacity>
         ))}
       </View>

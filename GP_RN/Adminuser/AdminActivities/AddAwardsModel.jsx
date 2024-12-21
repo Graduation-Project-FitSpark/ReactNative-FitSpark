@@ -9,30 +9,84 @@ import {
   Modal,
   TouchableOpacity,
 } from "react-native";
-import { launchImageLibrary } from "react-native-image-picker";
+import * as ImagePicker from "expo-image-picker";
+import axios from "axios";
+import URL from "../../enum";
+import { manipulateAsync } from "expo-image-manipulator";
 
 function AddAwardsModel({ modalVisible, setModalVisible, iteam }) {
   const [imageUri, setImageUri] = useState(null);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
 
-  const handleImageUpload = () => {
-    launchImageLibrary({ mediaType: "photo" }, (response) => {
-      if (response.didCancel) {
-        Alert.alert("Image selection was cancelled");
-      } else if (response.errorCode) {
-        Alert.alert("Image selection error: " + response.errorMessage);
-      } else {
-        setImageUri(response.assets[0].uri);
-      }
-    });
-  };
+  const handleImageUpload = async () => {
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!permissionResult.granted) {
+      alert("Permission is required to access photos.");
+      return;
+    }
 
-  const handleSubmit = () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.5,
+    });
+
+    if (!result.canceled && result.assets && result.assets.length > 0) {
+      const selectedImageUri = result.assets[0].uri;
+      setUploadedImageUrl(selectedImageUri);
+      const manipResult = await manipulateAsync(selectedImageUri, [
+        { resize: { width: 300, height: 300 } },
+      ]);
+      const imageBase64 = await fetch(manipResult.uri)
+        .then((res) => res.blob())
+        .then((blob) => blobToBase64(blob));
+      setImageUri(imageBase64);
+      console.log(imageBase64);
+    }
+  };
+  const blobToBase64 = (blob) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result.split(",")[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  const handleSubmit = async () => {
     if (!name || !number || !imageUri) {
       Alert.alert("Please fill all fields");
-    } else {
-      Alert.alert(`Name: ${name}, Number: ${number}`); //هون بخزن بداتا بيس نايم و البونت و الصورة بالامزون
+      return;
+    }
+
+    try {
+      // Create the payload as a JSON object
+      const payload = {
+        point: number,
+        name: name,
+        img: imageUri, // If you want to send the image URI as a string
+      };
+
+      // Send data as JSON
+      const response = await axios.post(
+        `${URL}/insertPointAward`,
+        JSON.stringify(payload),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      Alert.alert("Award inserted successfully!");
+    } catch (error) {
+      console.error(
+        "Error inserting award:",
+        error.response?.data || error.message
+      );
+      Alert.alert("Failed to insert award. Please try again.");
     }
   };
 
@@ -51,8 +105,8 @@ function AddAwardsModel({ modalVisible, setModalVisible, iteam }) {
             <TouchableOpacity onPress={handleImageUpload} style={styles.button}>
               <Text style={styles.buttonText}>Upload Image</Text>
             </TouchableOpacity>
-            {imageUri && (
-              <Image source={{ uri: imageUri }} style={styles.image} />
+            {uploadedImageUrl && (
+              <Image source={{ uri: uploadedImageUrl }} style={styles.image} />
             )}
           </View>
 

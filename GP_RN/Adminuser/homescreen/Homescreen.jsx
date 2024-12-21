@@ -12,5 +12,5 @@ function Homescreen() {
     </ScrollView>
   );
 }
-
+////////////
 export default Homescreen;

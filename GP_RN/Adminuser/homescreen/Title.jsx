@@ -1,9 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 function Title() {
-  const [nameofuser, setnameofuser] = useState("Mahmoud "); //هون جيب اسمو
+  const [nameofuser, setnameofuser] = useState("");
+  const currentHour = new Date().getHours();
+  const greeting = currentHour < 12 ? "Good Morning" : "Good Evening";
+  useEffect(() => {
+    const fetchAdmin = async () => {
+      try {
+        let username = await AsyncStorage.getItem("username");
+        setnameofuser(username);
+      } catch (error) {
+        console.error("Error With Coaches:", error);
+      }
+    };
 
+    fetchAdmin();
+  }, []);
   const userData = { name: nameofuser };
   const date = new Date().toLocaleDateString("en-GB", {
     weekday: "long",
@@ -14,7 +27,7 @@ function Title() {
 
   return (
     <View style={styles.welcome}>
-      <Text>Good Morning Owner 🔥</Text>
+      <Text>{greeting} Admin🔥</Text>
       <View style={styles.namedate}>
         <Text style={styles.name}>{userData.name}</Text>
         <Text style={styles.date}>{date}</Text>

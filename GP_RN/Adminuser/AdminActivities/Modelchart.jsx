@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal, View, Text, StyleSheet, Button } from "react-native";
-
+////////
 function Model({ modalVisible, setModalVisible, iteam }) {
   return (
     <Modal animationType="slide" transparent={true} visible={modalVisible}>

@@ -99,11 +99,18 @@ const Home = () => {
                 trainerId: trainerID,
               });
               navigation.navigate("SelectCoach");
-            } //
+            } else if (coachResponse.data.message === "Trainer not found") {
+              navigation.navigate("SelectCoach");
+            }
+            console.log(coachResponse.data);
             if (specialistResponse.data.Accepted === "R") {
               const response = await axios.post(`${URL}/deleteSpecialist`, {
                 trainerId: trainerID,
               });
+              navigation.navigate("SelectSpecialist");
+            } else if (
+              specialistResponse.data.message === "Trainer not found"
+            ) {
               navigation.navigate("SelectSpecialist");
             }
           } catch (err) {
