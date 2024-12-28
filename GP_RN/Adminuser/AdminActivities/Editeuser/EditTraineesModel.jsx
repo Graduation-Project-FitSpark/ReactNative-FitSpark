@@ -12,8 +12,9 @@ import IconIonicons from "react-native-vector-icons/Ionicons";
 import { Alert } from "react-native";
 import axios from "axios";
 import URL from "../../../enum";
-
+import { useNavigation } from "@react-navigation/native";
 function EditeuserModel({ modalVisible, setModalVisible, iteam }) {
+  const navigation = useNavigation();
   const [notfiction, setnotfiction] = useState("");
   const [initialTableData, setInitialTableData] = useState([]);
   const [fullTableDatacal, setFullTableDatacal] = useState([]);
@@ -70,6 +71,7 @@ function EditeuserModel({ modalVisible, setModalVisible, iteam }) {
     );
     console.log(initialTableData);
     setModalVisible(false);
+    navigation.replace("EditTrainees");
   };
   const send = () => {
     //هون ببعت نوتفيكشن لليوزر الي الايدي تاعو iteam
@@ -130,7 +132,7 @@ function EditeuserModel({ modalVisible, setModalVisible, iteam }) {
             </>
           ) : (
             <Text style={styles.info}>
-              No data found for the selected trainer.
+              No data found for the selected trainee.
             </Text>
           )}
           <View style={styles.outerinfoContainerNotification}>

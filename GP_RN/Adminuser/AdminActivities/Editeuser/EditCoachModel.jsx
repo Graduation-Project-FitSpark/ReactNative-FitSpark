@@ -14,7 +14,10 @@ import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 import axios from "axios";
 import URL from "../../../enum";
+import { useNavigation } from "@react-navigation/native";
+
 function EditSpecialistModel({ modalVisible, setModalVisible, iteam }) {
+  const navigation = useNavigation();
   const [notfiction, setnotfiction] = useState("");
   const [counttrner, setcounttrner] = useState(0);
   const [initialTableData, setInitialTableData] = useState([]);
@@ -22,13 +25,13 @@ function EditSpecialistModel({ modalVisible, setModalVisible, iteam }) {
   useEffect(() => {
     const fetchTrainers = async () => {
       try {
-        const response = await fetch(`${URL}/getTrainerSpecificDetails`);
+        const response = await fetch(`${URL}/getAllCoaches`);
 
         if (!response.ok) {
           throw new Error("Failed to fetch trainer details");
         }
         const data = await response.json();
-        setInitialTableData(data);
+        setInitialTableData(data.coaches);
         const response2 = await fetch(`${URL}/getTrainerCoachWithDescription`);
 
         if (!response2.ok) {
@@ -57,7 +60,7 @@ function EditSpecialistModel({ modalVisible, setModalVisible, iteam }) {
         }
       });
       setcounttrner(count);
-    }, [trainerCoachData, iteam])
+    }, [initialTableData, iteam])
   );
 
   const userData = initialTableData.find((item) => item.ID_Coach === iteam);
@@ -72,6 +75,7 @@ function EditSpecialistModel({ modalVisible, setModalVisible, iteam }) {
 
     console.log(initialTableData);
     setModalVisible(false);
+    navigation.replace("EditCoach");
   };
   const send = () => {
     //هون ببعت نوتفيكشن لليوزر الي الايدي تاعو iteam
@@ -130,7 +134,7 @@ function EditSpecialistModel({ modalVisible, setModalVisible, iteam }) {
             </>
           ) : (
             <Text style={styles.info}>
-              No data found for the selected trainer.
+              No data found for the selected coach.
             </Text>
           )}
           <View style={styles.outerinfoContainerNotification}>

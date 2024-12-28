@@ -101,12 +101,14 @@ function ApplicantsSpecialist() {
             <IconIonicons name="chevron-back-outline" size={25} color="#000" />
           </TouchableOpacity>
           <View style={styles.traineertitle}>
-            <Text style={styles.title}>Request Specialist </Text>
+            <Text style={styles.title}>Request Nutraion Experts </Text>
           </View>
         </View>
         <View style={styles.info}>
           <View style={styles.wrapper}>
-            <Text style={styles.textLabel}>Specialist in the system :</Text>
+            <Text style={styles.textLabel}>
+              Nutraion Experts in the system :
+            </Text>
             <Text style={styles.textValue}>{counttrner} Nutrations</Text>
           </View>
 

@@ -226,7 +226,7 @@ function Userstatistics() {
       <View style={styles.row}>
         <View style={styles.card}>
           <View style={styles.title}>
-            <Text style={styles.label}>Total Specialist </Text>
+            <Text style={styles.label}>Total Experts </Text>
             <View style={[styles.icondiv, { backgroundColor: "#E0DB87" }]}>
               <IconIonicons name="fast-food" size={16} color="#fff" />
             </View>

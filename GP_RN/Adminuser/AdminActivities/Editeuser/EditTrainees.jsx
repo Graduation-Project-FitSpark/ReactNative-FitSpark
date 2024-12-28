@@ -35,7 +35,6 @@ function EditUsers() {
         const data = await response.json();
         setUserTableData(data);
       } catch (err) {
-        setError(err.message);
         console.error("Error fetching trainer details:", err);
       }
     };

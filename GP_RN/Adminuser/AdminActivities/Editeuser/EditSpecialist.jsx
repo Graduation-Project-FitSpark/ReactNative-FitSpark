@@ -70,7 +70,7 @@ function EditSpecialist() {
           style={styles.icon}
           onPress={() => navigation.goBack()}
         />
-        <Text style={styles.textheader}>Specialist Info</Text>
+        <Text style={styles.textheader}>Nutration Expert Info</Text>
       </View>
       <View style={styles.filterEditSpecialist}>
         <TextInput

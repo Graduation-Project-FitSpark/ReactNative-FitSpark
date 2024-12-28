@@ -14,7 +14,9 @@ import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 import axios from "axios";
 import URL from "../../../enum";
+import { useNavigation } from "@react-navigation/native";
 function EditSpecialistModel({ modalVisible, setModalVisible, iteam }) {
+  const navigation = useNavigation();
   const [notfiction, setnotfiction] = useState("");
   const [counttrner, setcounttrner] = useState(0);
   const [initialTableData, setInitialTableData] = useState([]);
@@ -24,13 +26,13 @@ function EditSpecialistModel({ modalVisible, setModalVisible, iteam }) {
     useCallback(() => {
       const fetchTrainers = async () => {
         try {
-          const response = await fetch(`${URL}/getTrainerSpecificDetails`);
+          const response = await fetch(`${URL}/getAllSpecialists`);
 
           if (!response.ok) {
             throw new Error("Failed to fetch trainer details");
           }
           const data = await response.json();
-          setInitialTableData(data);
+          setInitialTableData(data.specialists);
           const response2 = await fetch(
             `${URL}/getTrainerSpecialistWithDescription`
           );
@@ -41,7 +43,6 @@ function EditSpecialistModel({ modalVisible, setModalVisible, iteam }) {
           const data2 = await response2.json();
           setTrainerCoachData(data2);
         } catch (err) {
-          setError(err.message);
           console.error("Error fetching trainer details:", err);
         }
       };
@@ -56,7 +57,7 @@ function EditSpecialistModel({ modalVisible, setModalVisible, iteam }) {
       trainerSpecialistData.filter((item) => {
         if (
           item.ID_Specialist === iteam &&
-          (item.Accepted === "t" || item.Accepted === "T")
+          (item.Accepted === "a" || item.Accepted === "A")
         ) {
           count++;
         }
@@ -79,6 +80,7 @@ function EditSpecialistModel({ modalVisible, setModalVisible, iteam }) {
 
     console.log(initialTableData);
     setModalVisible(false);
+    navigation.replace("EditSpecialist");
   };
   const send = () => {
     //هون ببعت نوتفيكشن لليوزر الي الايدي تاعو iteam
@@ -137,7 +139,7 @@ function EditSpecialistModel({ modalVisible, setModalVisible, iteam }) {
             </>
           ) : (
             <Text style={styles.info}>
-              No data found for the selected trainer.
+              No data found for the selected nutration expert.
             </Text>
           )}
           <View style={styles.outerinfoContainerNotification}>
