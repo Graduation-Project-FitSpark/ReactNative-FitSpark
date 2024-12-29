@@ -31,6 +31,7 @@ function Cart({ navigation }) {
               Quantity: sharedValue.quantity,
               Size: sharedValue.size,
               Description: sharedValue.description,
+              Product_Name: sharedValue.Product_Name,
             },
           ];
 
@@ -63,12 +64,11 @@ function Cart({ navigation }) {
         );
   };
 
-  const updateSize = (newSize, value) => {
-    setItems((prevSakeItems) =>
-      prevSakeItems.map((item) =>
-        item.ID_Sale === newSize ? { ...item, Size: value } : item
-      )
-    );
+  const updateiteam = (id) => {
+    setItems((prevItems) => prevItems.filter((item) => item.ID_Sale !== id));
+  };
+  const printiteam = () => {
+    navigation.navigate("Checkout", { Items });
   };
   return (
     <View style={styles.outercontenr}>
@@ -88,8 +88,21 @@ function Cart({ navigation }) {
               Items.map((item, index) => (
                 <View key={index} style={styles.iteamselect}>
                   <View style={styles.infoiteam}>
-                    <Text style={{ fontSize: 20 }}> {item.Salee_Name}</Text>
-                    <Text> ${item.Price}</Text>
+                    <View style={styles.namereamov}>
+                      <TouchableOpacity
+                        style={styles.removeboutton}
+                        onPress={() => updateiteam(item.ID_Sale)}
+                      >
+                        <IconIonicons
+                          name="close-outline"
+                          size={20}
+                          color="#fff"
+                        />
+                      </TouchableOpacity>
+                      <Text style={{ fontSize: 20 }}> {item.Salee_Name}</Text>
+                    </View>
+
+                    <Text> Price:${item.Price}</Text>
                     <View style={styles.QuantitySize}>
                       <View style={styles.Quantitystyle}>
                         <IconIonicons
@@ -111,18 +124,7 @@ function Cart({ navigation }) {
                       <Text> |</Text>
 
                       <View style={styles.container}>
-                        <Text>{item.Size}</Text>
-                        <Picker
-                          selectedValue={item.Size}
-                          onValueChange={(itemValue) =>
-                            updateSize(item.ID_Sale, itemValue)
-                          }
-                          style={styles.picker}
-                        >
-                          <Picker.Item label="Large" value="Large" />
-                          <Picker.Item label="Medium" value="Medium" />
-                          <Picker.Item label="Small" value="Small" />
-                        </Picker>
+                        <Text>Size:{item.Size}</Text>
                       </View>
                     </View>
                   </View>
@@ -144,7 +146,7 @@ function Cart({ navigation }) {
         <View style={styles.submintbuttoncontener}>
           <TouchableOpacity
             style={styles.submintbutton}
-            onPress={() => navigation.goBack()}
+            onPress={() => printiteam()}
           >
             <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 18 }}>
               Checkout
@@ -233,7 +235,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 15,
-    marginTop: -10,
+    marginTop: 5,
   },
   addButton: {
     fontWeight: "bold",
@@ -259,6 +261,17 @@ const styles = StyleSheet.create({
     height: 30,
     borderWidth: 1,
     borderColor: "#ddd",
+  },
+  namereamov: {
+    flexDirection: "row",
+    gap: 10,
+  },
+  removeboutton: {
+    fontWeight: "bold",
+    backgroundColor: "#DB5663",
+    borderRadius: 10,
+    width: "10%",
+    height: "80%",
   },
 });
 

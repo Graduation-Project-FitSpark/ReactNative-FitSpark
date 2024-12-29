@@ -38,13 +38,15 @@ import AddAwards from "./Adminuser/AdminActivities/AddAwards";
 import Applicantscoach from "./Adminuser/AdminActivities/Applicantscoach";
 import ApplicantsSpecialist from "./Adminuser/AdminActivities/ApplicantsSpecialist";
 import Requestcoachspecialist from "./Adminuser/AdminActivities/Requestcoachspecialist";
+import Checkout from "./Homescreen/Checkout.jsx";
+import Completshot from "./Homescreen/Completshot.jsx";
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
     <MyProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Adminmanbur">
+        <Stack.Navigator initialRouteName="Menubar">
           {/*Menubar for tranine and Coachmanbur for coach */}
           <Stack.Screen
             name="Menubar"
@@ -119,6 +121,16 @@ export default function App() {
           <Stack.Screen
             name="Detelsfoode"
             component={Detelsfoode}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Checkout"
+            component={Checkout}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Completshot"
+            component={Completshot}
             options={{ headerShown: false }}
           />
           {/*coach from her */}

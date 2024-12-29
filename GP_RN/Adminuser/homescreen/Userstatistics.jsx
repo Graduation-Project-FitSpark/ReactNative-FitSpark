@@ -13,7 +13,7 @@ function Userstatistics() {
   const [specialistChange, setspecialistChange] = useState("");
   const currentDate = new Date();
   const currentMonth = currentDate.getMonth() + 1;
-  const currentYear = currentDate.getFullYear() + 1;
+  const currentYear = currentDate.getFullYear();
   const coach = [
     {
       ID_Coach: 1,
@@ -28,7 +28,7 @@ function Userstatistics() {
       Points: 200,
       Img: null,
       YearsOfExperience: 7,
-      Dateenter: "2025-11-06",
+      Dateenter: "2024-12-06",
       AcceptedDescription: "A",
     },
     {
@@ -44,7 +44,7 @@ function Userstatistics() {
       Points: 0,
       Img: null,
       YearsOfExperience: 7,
-      Dateenter: "2021-05-06",
+      Dateenter: "2024-12-06",
       AcceptedDescription: "A",
     },
     {
@@ -60,8 +60,8 @@ function Userstatistics() {
       Points: 10,
       Img: null,
       YearsOfExperience: 7,
-      Dateenter: "2024-05-06",
-      AcceptedDescription: "P",
+      Dateenter: "2025-5-06",
+      AcceptedDescription: "A",
     },
     {
       ID_Coach: "9eaa7962-2c52-418e-9826-86beb2e6392b",
@@ -76,7 +76,7 @@ function Userstatistics() {
       Points: 0,
       Img: null,
       YearsOfExperience: 7,
-      Dateenter: "2025-12-06",
+      Dateenter: "2024-12-06",
       AcceptedDescription: "A",
     },
     {
@@ -92,7 +92,7 @@ function Userstatistics() {
       Points: 0,
       Img: null,
       YearsOfExperience: 7,
-      Dateenter: "2025-5-06",
+      Dateenter: "2024-12-06",
       AcceptedDescription: "A",
     },
   ];
@@ -224,6 +224,7 @@ function Userstatistics() {
   ];
 
   useEffect(() => {
+    console.log(currentMonth);
     const countcoach = coach.filter((user) => {
       const [year, month, day] = user.Dateenter.split("-");
       return (

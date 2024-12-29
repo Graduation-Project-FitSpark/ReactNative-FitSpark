@@ -12,6 +12,8 @@ const Seaction = ({ seactionname, name, find }) => {
       Price: 22,
       Quantity: 10,
       Description: "A traditional Japanese rice wine with fruity flavors.",
+      Product_Name: "Protein_mahmoud",
+      Size: "large",
     },
     {
       ID_Sale: 2,
@@ -19,6 +21,8 @@ const Seaction = ({ seactionname, name, find }) => {
       Price: 22,
       Quantity: 5,
       Description: "A smooth and rich sake, perfect for pairing with seafood.",
+      Product_Name: "Protein_mahmoud",
+      Size: "large",
     },
     {
       ID_Sale: 3,
@@ -26,6 +30,8 @@ const Seaction = ({ seactionname, name, find }) => {
       Price: 18,
       Quantity: 8,
       Description: "A premium sake with floral aroma and a crisp finish.",
+      Product_Name: "Protein_mahmoud",
+      Size: "large",
     },
     {
       ID_Sale: 4,
@@ -33,6 +39,8 @@ const Seaction = ({ seactionname, name, find }) => {
       Price: 25,
       Quantity: 3,
       Description: "Aged sake with a complex flavor profile and a golden hue.",
+      Product_Name: "Protein_mahmoud",
+      Size: "large",
     },
   ]);
   useEffect(() => {
@@ -45,6 +53,8 @@ const Seaction = ({ seactionname, name, find }) => {
         Price: 100,
         Quantity: 5,
         Description: "mahmoud is better then ahmad , ahmad is hmar ",
+        Product_Name: "Protein_mahmoud",
+        Size: "large",
       },
     ];
 
@@ -73,6 +83,8 @@ const Seaction = ({ seactionname, name, find }) => {
                   Price: category.Price,
                   Quantity: category.Quantity,
                   Description: category.Description,
+                  Product_Name: category.Product_Name,
+                  Size: category.Size,
                 })
               }
             >
@@ -84,7 +96,7 @@ const Seaction = ({ seactionname, name, find }) => {
                   </Text>
                   {category.Price}
                 </Text>
-                <IconIonicons name="heart-outline" size={24} color="gray" />
+                <Text style={styles.samltitle}>{category.Product_Name}</Text>
               </View>
               <View style={styles.imgcontner}>
                 <Image
@@ -104,7 +116,10 @@ const Seaction = ({ seactionname, name, find }) => {
     return elements.length > 0 ? (
       elements
     ) : (
-      <Text>No sake found with the name {seactionname}</Text>
+      <Image
+        source={require("../img/outofstock.png")}
+        style={styles.imgoutofstock}
+      />
     );
   } else {
     const filteredItems = sakeItems.filter((item) => item.Salee_Name === name);
@@ -126,6 +141,8 @@ const Seaction = ({ seactionname, name, find }) => {
                   Price: category.Price,
                   Quantity: category.Quantity,
                   Description: category.Description,
+                  Product_Name: category.Product_Name,
+                  Size: category.Size,
                 })
               }
             >
@@ -136,7 +153,7 @@ const Seaction = ({ seactionname, name, find }) => {
                   </Text>
                   {category.Price}
                 </Text>
-                <IconIonicons name="heart-outline" size={24} color="gray" />
+                <Text style={styles.samltitle}>{category.Product_Name}</Text>
               </View>
               <View style={styles.imgcontner}>
                 <Image
@@ -156,7 +173,10 @@ const Seaction = ({ seactionname, name, find }) => {
     return elements.length > 0 ? (
       elements
     ) : (
-      <Text>No sake found with the name {seactionname}</Text>
+      <Image
+        source={require("../img/outofstock.png")}
+        style={styles.imgoutofstock}
+      />
     );
   }
 };
@@ -183,7 +203,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#333",
   },
-
+  samltitle: {
+    marginTop: 5,
+    fontSize: 10,
+    fontWeight: "bold",
+    color: "#333",
+  },
   iteamcontainer: {
     backgroundColor: "#fff",
     borderRadius: 15,
@@ -205,6 +230,12 @@ const styles = StyleSheet.create({
   price: {
     fontWeight: "bold",
     fontSize: 15,
+  },
+  imgoutofstock: {
+    width: "100%",
+    height: "50%",
+    resizeMode: "contain",
+    opacity: 0.5,
   },
 });
 

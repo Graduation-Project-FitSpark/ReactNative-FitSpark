@@ -1,11 +1,19 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 import IconIonicons from "react-native-vector-icons/Ionicons";
 import { Picker } from "@react-native-picker/picker";
 import { MyContext } from "../MyProvider";
 
 function Iteamshop({ route, navigation }) {
-  const { ID_Sale, Salee_Name, Price, Quantity, Description } = route.params;
+  const {
+    ID_Sale,
+    Salee_Name,
+    Price,
+    Quantity,
+    Description,
+    Product_Name,
+    Size,
+  } = route.params;
   const [selectedValue, setSelectedValue] = useState("Small");
   const [QuantityValue, setQuantityValue] = useState(1);
 
@@ -18,14 +26,23 @@ function Iteamshop({ route, navigation }) {
         Salee_Name: Salee_Name,
         Price: Price,
         Quantity: QuantityValue,
-        Size: selectedValue,
+        Size: Size,
         Description: Description,
+        Product_Name: Product_Name,
       },
     ];
 
     setSharedValue(newItem);
 
     alert("Item added to the bag!");
+  };
+
+  const addQuantityValue = () => {
+    if (QuantityValue + 1 > Quantity) {
+      alert(`Available in stock only ${Quantity}`);
+    } else {
+      setQuantityValue(QuantityValue + 1);
+    }
   };
 
   return (
@@ -53,7 +70,7 @@ function Iteamshop({ route, navigation }) {
 
       <View style={styles.infosection}>
         <View>
-          <Text style={styles.nameofiteam}>A premium sake with floral</Text>
+          <Text style={styles.nameofiteam}>{Product_Name}</Text>
         </View>
         <View style={styles.iteamimg}>
           <Image
@@ -89,35 +106,29 @@ function Iteamshop({ route, navigation }) {
         <View style={styles.selectionSection}>
           <View style={styles.container}>
             <Text style={styles.selection}>Size: </Text>
-            <Picker
-              selectedValue={selectedValue}
-              onValueChange={(itemValue) => setSelectedValue(itemValue)}
-              style={styles.picker}
-            >
-              <Picker.Item label="Large" value="Large" />
-              <Picker.Item label="Medium" value="Medium" />
-              <Picker.Item label="Small" value="Small" />
-            </Picker>
+            <Text style={styles.selection}>{Size}</Text>
           </View>
-
-          <View style={styles.Quantitystyle}>
-            <IconIonicons
-              name="add-circle-outline"
-              size={30}
-              color="#fff"
-              style={styles.addButton}
-              onPress={() => setQuantityValue(QuantityValue + 1)}
-            />
-            <Text style={styles.selection}> {QuantityValue}</Text>
-            <IconIonicons
-              name="remove-circle-outline"
-              size={30}
-              color="#fff"
-              style={styles.addButton}
-              onPress={() => {
-                QuantityValue > 1 && setQuantityValue(QuantityValue - 1);
-              }}
-            />
+          <View>
+            <View style={styles.Quantitystyle}>
+              <IconIonicons
+                name="add-circle-outline"
+                size={30}
+                color="#fff"
+                style={styles.addButton}
+                onPress={() => addQuantityValue()}
+              />
+              <Text style={styles.selection}> {QuantityValue}</Text>
+              <IconIonicons
+                name="remove-circle-outline"
+                size={30}
+                color="#fff"
+                style={styles.addButton}
+                onPress={() => {
+                  QuantityValue > 1 && setQuantityValue(QuantityValue - 1);
+                }}
+              />
+            </View>
+            <Text style={styles.leftQuantity}>olny left {Quantity}!</Text>
           </View>
         </View>
 
@@ -253,9 +264,15 @@ const styles = StyleSheet.create({
   },
   Quantitystyle: {
     flexDirection: "row",
-    justifyContent: "flex-end",
+
     gap: 10,
     width: "50%",
+  },
+  leftQuantity: {
+    fontSize: 13,
+    color: "#DC5664",
+    marginLeft: 20,
+    marginBottom: -20,
   },
   addButton: {
     fontWeight: "bold",
