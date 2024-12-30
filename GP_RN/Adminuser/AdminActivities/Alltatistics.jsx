@@ -9,6 +9,7 @@ import {
 import IconIonicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import Model from "./Modelchart.jsx";
+import LocationsMap from "../homescreen/LocationsMap.jsx";
 
 function AllUserstatistics() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -19,6 +20,7 @@ function AllUserstatistics() {
   const [maxpointSpecialist, setmaxpointSpecialist] = useState();
   const [vlauemaxpointcoach, setvlauemaxpointcoach] = useState();
   const [vlauemaxpointSpecialist, setvlauemaxpointSpecialist] = useState();
+  const [showMap, setShowMap] = useState(false);
 
   const navigation = useNavigation();
 
@@ -393,6 +395,11 @@ function AllUserstatistics() {
             </View>
           </View>
         </View>
+        <View style={styles.container}>
+          <View style={styles.mapContainer}>
+            <LocationsMap />
+          </View>
+        </View>
       </View>
 
       {}
@@ -408,6 +415,27 @@ function AllUserstatistics() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  mapButton: {
+    margin: 10,
+    padding: 10,
+    backgroundColor: "#007BFF",
+    borderRadius: 5,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  mapContainer: {
+    height: 300,
+    margin: 10,
+    borderRadius: 10,
+    overflow: "hidden",
+  },
+
   outerAlltatistics: {
     padding: 16,
     backgroundColor: "#F5F5F5",

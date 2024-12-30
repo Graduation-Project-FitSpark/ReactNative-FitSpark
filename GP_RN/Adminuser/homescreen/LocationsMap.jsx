@@ -56,7 +56,7 @@ const LocationsMap = () => {
 
       <View style={styles.descriptionContainer}>
         <Text style={styles.descriptionText}>
-          Locations of users who signed up with Fitspark
+          Locations of users who signed up with FitSpark
         </Text>
       </View>
     </View>
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
   descriptionContainer: {
     position: "absolute",
-    top: 50,
+    top: 0,
     left: 0,
     right: 0,
     padding: 10,
