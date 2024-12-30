@@ -72,6 +72,8 @@ import Requestcoachspecialist from "./Adminuser/AdminActivities/Requestcoachspec
 import LocationsMap from "./Adminuser/homescreen/LocationsMap.jsx";
 import ProfileAdmin from "./Adminuser/homescreen/ProfileAdmin.jsx";
 import CoachVideos from "./Adminuser/homescreen/CoachVideos.jsx";
+import Checkout from "./Homescreen/Checkout.jsx";
+import Completshot from "./Homescreen/Completshot.jsx";
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -188,6 +190,16 @@ export default function App() {
             <Stack.Screen
               name="SignToGym"
               component={SignToGym}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Checkout"
+              component={Checkout}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Completshot"
+              component={Completshot}
               options={{ headerShown: false }}
             />
             <Stack.Screen

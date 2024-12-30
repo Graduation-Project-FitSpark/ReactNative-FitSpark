@@ -55,6 +55,7 @@ function Userstatistics() {
   }, []);
 
   useEffect(() => {
+    console.log(currentMonth);
     const countcoach = coach.filter((user) => {
       const [year, month, day] = user.Dateenter.split("-");
       return (
