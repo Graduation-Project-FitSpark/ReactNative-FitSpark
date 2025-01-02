@@ -13,6 +13,7 @@ function Iteamshop({ route, navigation }) {
     Description,
     Product_Name,
     Size,
+    Img,
   } = route.params;
   const [selectedValue, setSelectedValue] = useState("Small");
   const [QuantityValue, setQuantityValue] = useState(1);
@@ -75,7 +76,7 @@ function Iteamshop({ route, navigation }) {
         <View style={styles.iteamimg}>
           <Image
             source={{
-              uri: "https://p7.hiclipart.com/preview/548/366/440/dietary-supplement-whey-protein-isolate-optimum-nutrition-gold-standard-100-whey-protein-thumbnail.jpg",
+              uri: `${Img}`,
             }}
             style={styles.image}
           />
@@ -128,7 +129,7 @@ function Iteamshop({ route, navigation }) {
                 }}
               />
             </View>
-            <Text style={styles.leftQuantity}>olny left {Quantity}!</Text>
+            <Text style={styles.leftQuantity}>Only left {Quantity}!</Text>
           </View>
         </View>
 
@@ -167,7 +168,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontFamily: "Verdana",
     marginTop: 5,
   },
   nameofiteam: {

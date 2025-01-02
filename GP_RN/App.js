@@ -74,6 +74,10 @@ import ProfileAdmin from "./Adminuser/homescreen/ProfileAdmin.jsx";
 import CoachVideos from "./Adminuser/homescreen/CoachVideos.jsx";
 import Checkout from "./Homescreen/Checkout.jsx";
 import Completshot from "./Homescreen/Completshot.jsx";
+import SelectShop from "./Adminuser/AdminActivities/SelectShop.jsx";
+import AddItems from "./Adminuser/AdminActivities/Editeuser/AddItem.jsx";
+import AddNewMeals from "./HSpecialist/SpecialistActivities/AddNewMeals.jsx";
+import SalesStatsitics from "./Adminuser/AdminActivities/Editeuser/SalesStatsitics.jsx";
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -263,6 +267,11 @@ export default function App() {
               options={{ headerShown: false }}
             />
             <Stack.Screen
+              name="AddNewMeals"
+              component={AddNewMeals}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
               name="ChatCoach"
               component={ChatCoach}
               options={{ headerShown: false }}
@@ -350,6 +359,21 @@ export default function App() {
             <Stack.Screen
               name="CoachVideos"
               component={CoachVideos}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="SelectShop"
+              component={SelectShop}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="AddItem"
+              component={AddItems}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="SalesStatsitics"
+              component={SalesStatsitics}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>

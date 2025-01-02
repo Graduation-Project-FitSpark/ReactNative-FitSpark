@@ -2,63 +2,21 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import IconIonicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
+import URL from "../enum";
+import axios from "axios";
 const Seaction = ({ seactionname, name, find }) => {
   const navigation = useNavigation();
-  const [sakeItems, setSakeItems] = useState([
-    //هلا هون بتمسح كل اشي
-    {
-      ID_Sale: 1,
-      Salee_Name: "Protein",
-      Price: 22,
-      Quantity: 10,
-      Description: "A traditional Japanese rice wine with fruity flavors.",
-      Product_Name: "Protein_mahmoud",
-      Size: "large",
-    },
-    {
-      ID_Sale: 2,
-      Salee_Name: "Pre workout",
-      Price: 22,
-      Quantity: 5,
-      Description: "A smooth and rich sake, perfect for pairing with seafood.",
-      Product_Name: "Protein_mahmoud",
-      Size: "large",
-    },
-    {
-      ID_Sale: 3,
-      Salee_Name: "Vitamins",
-      Price: 18,
-      Quantity: 8,
-      Description: "A premium sake with floral aroma and a crisp finish.",
-      Product_Name: "Protein_mahmoud",
-      Size: "large",
-    },
-    {
-      ID_Sale: 4,
-      Salee_Name: "Protein",
-      Price: 25,
-      Quantity: 3,
-      Description: "Aged sake with a complex flavor profile and a golden hue.",
-      Product_Name: "Protein_mahmoud",
-      Size: "large",
-    },
-  ]);
+  const [sakeItems, setSakeItems] = useState([]);
   useEffect(() => {
-    //هون بتاخد كل الموجود في تيبل الشوب  وبتعملها ست
-    const newsakeItems = [
-      ...sakeItems,
-      {
-        ID_Sale: 5,
-        Salee_Name: "Pre workout",
-        Price: 100,
-        Quantity: 5,
-        Description: "mahmoud is better then ahmad , ahmad is hmar ",
-        Product_Name: "Protein_mahmoud",
-        Size: "large",
-      },
-    ];
-
-    setSakeItems(newsakeItems);
+    const fetchSales = async () => {
+      try {
+        const response = await axios.get(`${URL}/getAllSales`);
+        setSakeItems(response.data.sales);
+      } catch (error) {
+        console.error("Error fetching sales data:", error);
+      }
+    };
+    fetchSales();
   }, []);
 
   if (find == 1) {
@@ -85,12 +43,12 @@ const Seaction = ({ seactionname, name, find }) => {
                   Description: category.Description,
                   Product_Name: category.Product_Name,
                   Size: category.Size,
+                  Img: category.Img,
                 })
               }
             >
               <View style={styles.tophadercard}>
                 <Text style={styles.price}>
-                  {" "}
                   <Text style={{ color: "#b2f200", fontWeight: "bold" }}>
                     $
                   </Text>
@@ -101,7 +59,7 @@ const Seaction = ({ seactionname, name, find }) => {
               <View style={styles.imgcontner}>
                 <Image
                   source={{
-                    uri: "https://p7.hiclipart.com/preview/548/366/440/dietary-supplement-whey-protein-isolate-optimum-nutrition-gold-standard-100-whey-protein-thumbnail.jpg",
+                    uri: category.Img,
                   }}
                   style={styles.image}
                 />
@@ -143,6 +101,7 @@ const Seaction = ({ seactionname, name, find }) => {
                   Description: category.Description,
                   Product_Name: category.Product_Name,
                   Size: category.Size,
+                  Img: category.Img,
                 })
               }
             >

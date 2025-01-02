@@ -68,10 +68,10 @@ const Navigationdrawercoacj = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.menuItemContainer}
-          onPress={() => navigation.navigate("Competitions")}
+          onPress={() => navigation.navigate("AddNewMeals")}
         >
           <IconIonicons name="flash" size={24} color="#000" />
-          <Text style={styles.menuItem}>Competitions</Text>
+          <Text style={styles.menuItem}>Add Meals</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.menuItemContainer}>
           <IconIonicons name="help-circle" size={24} color="#000" />

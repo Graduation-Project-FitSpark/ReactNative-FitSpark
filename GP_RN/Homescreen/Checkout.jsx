@@ -10,7 +10,9 @@ import {
 import IconIonicons from "react-native-vector-icons/Ionicons";
 import IconFontAwesome from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
-
+import axios from "axios";
+import URL from "../enum";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 function Checkout({ route }) {
   const { Items = [] } = route.params || {};
   const navigation = useNavigation();
@@ -19,8 +21,31 @@ function Checkout({ route }) {
   const [setshowvias, setsetshowvias] = useState(false);
   const [showcash, setshowcash] = useState(false);
   const [showpaypal, setshowpaypal] = useState(false);
-  const [ID_Trainer, setID_Trainer] = useState(10); //الاي دي لحساب المستخدم
+  const [ID_Trainer, setID_Trainer] = useState(0);
+  const [location, setLocation] = useState([]);
+  const [CVC, setCVC] = useState("");
+  const [ExpirationDate, setExpirationDate] = useState("");
+  const [CN, setCN] = useState("");
+  const [name, setName] = useState("");
+
   useEffect(() => {
+    async function getID() {
+      let id = await AsyncStorage.getItem("ID");
+      setID_Trainer(id);
+      const username = await AsyncStorage.getItem("username");
+      const trainerResponse = await axios.post(`${URL}/getTrainerDetails`, {
+        username,
+      });
+
+      setCN(trainerResponse.data.trainer.Card_Number);
+      setCVC(trainerResponse.data.trainer.CVC);
+      setExpirationDate(trainerResponse.data.trainer.Expression_Date);
+      setLocation(trainerResponse.data.trainer.Location);
+      setName(
+        `${trainerResponse.data.trainer.First_Name} ${trainerResponse.data.trainer.Last_Name}`
+      );
+    }
+    getID();
     let calculatedTotal = 0;
     Items.forEach((item) => {
       calculatedTotal += item.Price * item.Quantity;
@@ -31,7 +56,7 @@ function Checkout({ route }) {
   const deliveryCost = 10.0;
   const finalTotal = total + deliveryCost;
 
-  const finalpay = () => {
+  const finalpay = async () => {
     const currentDate = new Date().toISOString();
 
     const updatedItems = Items.map((item) => ({
@@ -39,13 +64,34 @@ function Checkout({ route }) {
       ID_Trainer: ID_Trainer,
       Dateenter: currentDate,
     }));
-    // هي الي رح تتخزن بالتيبل الثانية   updatedItemsال
-    console.log("====================================");
-    console.log();
+
     console.log("====================================");
     console.log("Updated Items with additional properties:", updatedItems);
     console.log("Checkout button pressed");
-    navigation.navigate("Completshot");
+
+    try {
+      const response = await fetch(`${URL}/uploadOrder`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          Items: updatedItems,
+          ID_Trainer: ID_Trainer,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        navigation.navigate("Completshot");
+      } else {
+        throw new Error("Something went wrong while uploading the order.");
+      }
+    } catch (error) {
+      console.error("Error uploading order:", error);
+      alert(error.message);
+    }
   };
 
   return (
@@ -124,6 +170,8 @@ function Checkout({ route }) {
                 style={styles.input}
                 placeholder="John Doe"
                 placeholderTextColor="#999"
+                value={name}
+                onChangeText={setName}
               />
 
               <Text style={styles.label}>CARD NUMBER</Text>
@@ -132,6 +180,8 @@ function Checkout({ route }) {
                 placeholder="•••• •••• •••• 1234"
                 placeholderTextColor="#999"
                 keyboardType="numeric"
+                value={CN}
+                onChangeText={setCN}
               />
 
               <View style={styles.row}>
@@ -142,6 +192,8 @@ function Checkout({ route }) {
                     placeholder="MM/YYYY"
                     placeholderTextColor="#999"
                     keyboardType="numeric"
+                    value={ExpirationDate.split("T")[0]}
+                    onChangeText={setExpirationDate}
                   />
                 </View>
                 <View style={styles.column}>
@@ -151,6 +203,8 @@ function Checkout({ route }) {
                     placeholder="•••"
                     placeholderTextColor="#999"
                     keyboardType="numeric"
+                    value={CVC}
+                    onChangeText={setCVC}
                   />
                 </View>
               </View>

@@ -174,7 +174,6 @@ const styles = StyleSheet.create({
   },
   texthader: {
     fontSize: 30,
-    fontFamily: "Verdana",
   },
   iteamselect: {
     borderRadius: 20,

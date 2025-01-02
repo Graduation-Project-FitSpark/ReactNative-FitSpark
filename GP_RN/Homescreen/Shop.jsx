@@ -20,18 +20,12 @@ function Shop() {
   const [sherchtext, setsherchtext] = React.useState("");
   const navigation = useNavigation();
   const [categories, setCategories] = useState([
-    "Protein", //هون في شرح تفصيلي
-    "Pre workout", //1-لازم نعمل كمان تيبل التيبل لازم تحتوي على الاقسام وبكون بمخزن فيها الالي دي واسم القسم
-    "Vitamins", // بعد ما تعمل التيبل اخذف كل الي موجود في الاريي عشان تعرف ليه هيك بدي اعمل ابعتلي
+    "Protein",
+    "Pre workout",
+    "Vitamins",
     "Equipment",
     "Protein bar",
   ]);
-  useEffect(() => {
-    //هون بتاخد كل الموجود في تيبل الجديدة وبتعملها ست
-    const newCategories = [...categories, "New Category 1", "New Category 2"];
-
-    setCategories(newCategories);
-  }, []);
   _handleSubmitEditing = (text) => {
     setSelectedname(text.charAt(0).toUpperCase() + text.slice(1));
     setShouldFind(0);
@@ -152,7 +146,6 @@ const styles = StyleSheet.create({
     fontSize: 35,
     fontWeight: "bold",
     color: "#333",
-    fontFamily: "Verdana",
     marginTop: 15,
     marginBottom: 20,
     marginLeft: 10,

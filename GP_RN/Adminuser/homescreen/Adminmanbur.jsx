@@ -5,14 +5,14 @@ import Icon from "react-native-vector-icons/Ionicons";
 import Homescreen from "./Homescreen.jsx";
 import Navigationadmin from "./Navigationadmin.jsx";
 import Chosseuser from "../AdminActivities/Chosseuser";
-import LocationsMap from "./LocationsMap.jsx";
+import SelectShop from "../AdminActivities/SelectShop.jsx";
 ////////////////////
 function HomeScreen() {
   return <Homescreen />;
 }
 
 function Trainee() {
-  return <LocationsMap />;
+  return <SelectShop />;
 }
 
 function Server() {
