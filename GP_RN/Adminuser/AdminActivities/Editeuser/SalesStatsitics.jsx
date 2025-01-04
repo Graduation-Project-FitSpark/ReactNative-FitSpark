@@ -31,11 +31,12 @@ function SalesStatsitics() {
   useEffect(() => {
     const fetchSalesData = async () => {
       try {
-        const response = await fetch(`${URL}/getAllSalesTrainers`);
-        const data = await response.json();
-        setSelsData(data.sales);
+        const response1 = await fetch(`${URL}/getAllSalesTrainers`);
+        const data1 = await response1.json();
+        setSelsData(data1.sales);
+
         const response2 = await fetch(`${URL}/getAllSales`);
-        const data2 = await response.json();
+        const data2 = await response2.json();
         setSakeItems(data2.sales);
       } catch (error) {
         console.error("Error fetching sales data:", error);
@@ -56,10 +57,10 @@ function SalesStatsitics() {
         (el) => el.Product_Name === value.Product_Name
       );
       if (element) {
-        element.count_value += value.Quantity_User;
+        element.count_value += value.Quantity;
       }
     });
-
+    console.log(sakeItems);
     const maxValue = Math.max(...count.map((item) => item.count_value));
     const maxProduct = count.find((item) => item.count_value === maxValue);
 
@@ -74,18 +75,18 @@ function SalesStatsitics() {
     let countMonthlyDolor = 0;
 
     selsdata.forEach((item) => {
-      const itemDate = new Date(item.Dateenter);
+      const itemDate = new Date(item.Dateenter.split("T")[0]);
       const itemMonth = itemDate.getMonth() + 1;
       const itemYear = itemDate.getFullYear();
 
       if (itemMonth === currentMonth && itemYear === currentYear) {
-        countMonthly += item.Quantity_User;
-        countMonthlyDolor += item.Price * item.Quantity_User;
+        countMonthly += item.Quantity;
+        countMonthlyDolor += item.Price * item.Quantity;
       }
     });
     setMonthlydolor(countMonthlyDolor);
     setMonthlySales(countMonthly);
-  }, [selsdata]);
+  }, [selsdata, currentMonth, currentYear]);
 
   useEffect(() => {
     if (selectedCurrency === "USD") {
@@ -249,7 +250,7 @@ function SalesStatsitics() {
             <Text style={[styles.tableHeaderCell, styles.Price]}>Price</Text>
             <Text style={styles.tableHeaderCell}>Quantity</Text>
             <Text style={[styles.tableHeaderCell, styles.usernameCell]}>
-              Username
+              Category
             </Text>
             <Text style={[styles.tableHeaderCell, styles.dateenterCell]}>
               Dateenter
@@ -267,12 +268,12 @@ function SalesStatsitics() {
               <Text style={styles.tableCell}>{row.ID_Sale}</Text>
               <Text style={styles.tableCell}>{row.Product_Name}</Text>
               <Text style={[styles.tableCell, styles.Price]}>{row.Price}</Text>
-              <Text style={styles.tableCell}>{row.Quantity_User}</Text>
+              <Text style={styles.tableCell}>{row.Quantity}</Text>
               <Text style={[styles.tableCell, styles.usernameCell]}>
-                {row.Username}
+                {row.Salee_Name}
               </Text>
               <Text style={[styles.tableCell, styles.dateenterCell]}>
-                {row.Dateenter}
+                {row.Dateenter.split("T")[0]}
               </Text>
             </TouchableOpacity>
           ))}
@@ -333,7 +334,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   dateenterCell: {
-    flex: 1.5,
+    flex: 2,
     textAlign: "center",
   },
   Price: {

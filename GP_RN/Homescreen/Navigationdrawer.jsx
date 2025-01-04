@@ -91,7 +91,13 @@ const Navigationdrawer = () => {
           <IconIonicons name="leaf" size={24} color="#000" />
           <Text style={styles.menuItem}>Meals</Text>
         </TouchableOpacity>
-
+        <TouchableOpacity
+          style={styles.menuItemContainer}
+          onPress={() => navigation.navigate("WeeklyPlan")}
+        >
+          <IconIonicons name="pulse" size={24} color="#000" />
+          <Text style={styles.menuItem}>Weekly Plan</Text>
+        </TouchableOpacity>
         <TouchableOpacity style={styles.menuItemContainer}>
           <IconIonicons name="help-circle" size={24} color="#000" />
           <Text style={styles.menuItem}>FAQ</Text>

@@ -271,7 +271,7 @@ function Userstatistics() {
         </View>
         <View style={styles.card}>
           <View style={styles.title}>
-            <Text style={styles.label}>Total User </Text>
+            <Text style={styles.label}>Total Users In FitSpark </Text>
             <View style={[styles.icondiv, { backgroundColor: "#8FBEE0" }]}>
               <IconIonicons name="people" size={16} color="#fff" />
             </View>

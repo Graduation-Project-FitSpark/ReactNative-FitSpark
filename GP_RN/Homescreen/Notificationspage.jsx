@@ -52,9 +52,9 @@ function Notificationspage() {
         </View>
 
         {notifications.map((item) => (
-          <View key={item.id} style={styles.outer}>
+          <View key={item.name} style={styles.outer}>
             <View style={styles.outertem2}>
-              <Text style={styles.item2}>{item.id}</Text>
+              <Text style={styles.item2}>{item.id.split("T")[0]}</Text>
             </View>
             <View style={styles.outeritem}>
               <Text style={styles.item}>{item.name}</Text>

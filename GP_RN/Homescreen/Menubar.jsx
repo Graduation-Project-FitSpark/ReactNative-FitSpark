@@ -36,7 +36,7 @@ export default function Menubar() {
           } else if (route.name === "bars") {
             iconName = focused ? "menu" : "menu-outline";
           } else if (route.name === "Calendar") {
-            iconName = focused ? "calendar" : "calendar-outline";
+            iconName = focused ? "mail-open" : "mail-open-outline";
           } else if (route.name === "Shop") {
             iconName = focused ? "storefront" : "storefront-outline";
           }
@@ -46,8 +46,7 @@ export default function Menubar() {
         tabBarActiveTintColor: "#1c1b29",
         tabBarInactiveTintColor: "#fff",
         tabBarActiveBackgroundColor: "#b2f200",
-        // Rounded tab bar style
-        tabBarItemStyle: {
+         tabBarItemStyle: {
           borderRadius: 15,
           height: 40,
           tabBarShowLabel: true,

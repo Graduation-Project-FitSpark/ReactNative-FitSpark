@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -21,6 +21,7 @@ function Requesttraining() {
 
   const goback = async () => {
     try {
+      console.log(trainerCoachData);
       const response = await fetch(`${URL}/processRequestsCoach`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -75,18 +76,13 @@ function Requesttraining() {
       fetchCoachDetails();
     }, [])
   );
-  useFocusEffect(
-    useCallback(() => {
-      console.log("This is my array");
-      let count = 0;
-      trainerCoachData.filter((item) => {
-        if (item.ID_Coach === IDCoach && item.Accepted === "A") {
-          count++;
-        }
-      });
-      setcounttrner(count);
-    }, [trainerCoachData, IDCoach])
-  );
+  useEffect(() => {
+    const count = trainerCoachData.filter(
+      (item) => item.ID_Coach === IDCoach && item.Accepted === "A"
+    ).length;
+    setcounttrner(count);
+  }, [trainerCoachData, IDCoach]);
+
   const Accept = async (id) => {
     try {
       const response = await fetch(`${URL}/insertCoachPoints`, {
@@ -140,7 +136,7 @@ function Requesttraining() {
             <IconIonicons name="chevron-back-outline" size={25} color="#000" />
           </TouchableOpacity>
           <View style={styles.traineertitle}>
-            <Text style={styles.title}>Request trainer </Text>
+            <Text style={styles.title}>Request traiee </Text>
           </View>
         </View>
         <View style={styles.info}>

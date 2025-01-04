@@ -37,7 +37,7 @@ const ChinUps = () => {
       if (y < prevY - Y_THRESHOLD && isMovingDown) {
         setIsMovingDown(false);
         setChinUpCount(chinUpCount + 1);
-        setCalories(calories + 0.4);
+        setCalories(calories + 0.7);
 
         setTimeout(() => {
           setIsMovingDown(true);

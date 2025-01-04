@@ -82,27 +82,24 @@ const AnalyticsSectionSpecilalist = ({ route }) => {
   });
 
   const bycal = () => {
-    const filteredData = fullTableDatacal.filter(
-      (item) => item.ID_Trainer === ID_Trainer
-    );
-
-    const accumulator = filteredData.map((item) => ({
-      ID_Trainer: item.ID_Trainer,
-      Calories: item.Calories,
-      Username:
-        trainerCoachData.find(
-          (trainer) => trainer.ID_Trainer === item.ID_Trainer
-        )?.Username || "Unknown",
-      day: item.Day,
-    }));
-
-    console.log("Filtered trainerCoachData (m):", accumulator);
+    const groupedData = fullTableDatacal.reduce((acc, item) => {
+      if (item.ID_Trainer === ID_Trainer) {
+        if (!acc[item.Day]) {
+          acc[item.Day] = 0;
+        }
+        acc[item.Day] += item.Calories;
+      }
+      return acc;
+    }, {});
 
     const chartData = {
-      labels: accumulator.map((item) => `${item.day}`),
+      labels: Object.keys(groupedData),
       datasets: [
         {
-          data: accumulator.map((item) => item.Calories),
+          label: "Calories",
+          data: Object.values(groupedData),
+          backgroundColor: "#bbf246",
+          hoverBackgroundColor: "#333333",
         },
       ],
     };
@@ -127,7 +124,7 @@ const AnalyticsSectionSpecilalist = ({ route }) => {
     return (
       <View style={styles.containerbar}>
         <Text style={{ textAlign: "center", fontSize: 20, marginVertical: 10 }}>
-          Weekly Calorie Details for Trainee
+          Calorie Details for Trainee
         </Text>
         <BarChart
           data={filtercharcal}

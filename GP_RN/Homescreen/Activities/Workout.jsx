@@ -21,6 +21,9 @@ function Workout() {
   const [cal, setCal] = useState(0);
   const [steps, setSteps] = useState(0);
   const [meters, setMeters] = useState(0);
+  const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
+  const [level, setLevel] = useState("");
   const today = new Date();
   const navigation = useNavigation();
   const date = new Date();
@@ -35,10 +38,17 @@ function Workout() {
     const fetchTodayCalories = async () => {
       try {
         const ID = await AsyncStorage.getItem("ID");
-
+        const username = await AsyncStorage.getItem("username");
         const response = await axios.post(`${URL}/getTodayCalories`, {
           trainerId: ID,
         });
+        const response2 = await axios.post(`${URL}/getTrainerDetails`, {
+          username: username,
+        });
+        const { Height, Weight, Activity_Level } = response2.data.trainer;
+        setWidth(Weight);
+        setHeight(Height);
+        setLevel(Activity_Level);
         const { Calories, Steps, Distance } = response.data;
 
         setCal(Calories);
@@ -189,19 +199,19 @@ function Workout() {
             <IconIonicons name="chevron-back-outline" size={25} color="#000" />
           </TouchableOpacity>
           <View style={styles.toptitlenamecontener}>
-            <Text style={styles.toptitlename}>Treinar Plan</Text>
+            <Text style={styles.toptitlename}>Trainee Plan</Text>
           </View>
         </View>
         <View style={styles.container1}>
           <View style={styles.calorierogressBox}>
             <View style={styles.calorierogressBoxouter}>
               <View style={styles.caloriesBox}>
-                <Text style={styles.title}>Active calories</Text>
+                <Text style={styles.title}>Calories</Text>
                 <Text style={styles.value}>{cal} Cal</Text>
               </View>
               <View style={styles.caloriesBox2}>
-                <Text style={styles.title}>Active calories</Text>
-                <Text style={styles.value}>{cal} Cal</Text>
+                <Text style={styles.title}>Activity Level</Text>
+                <Text style={styles.value}>{level}</Text>
               </View>
             </View>
 
@@ -214,7 +224,7 @@ function Workout() {
                   <IconIonicons name="barbell-outline" size={20} color="#000" />
                 </TouchableOpacity>
                 <View style={styles.toptitlenamecontener}>
-                  <Text style={styles.ttrininfotitlename}>Trainer </Text>
+                  <Text style={styles.ttrininfotitlename}>Trainee </Text>
                 </View>
               </View>
 
@@ -238,7 +248,7 @@ function Workout() {
               </View>
 
               <Text style={styles.value}>
-                {steps}/{maxsteps}
+                {steps}/{(100000 / (height * 0.415)).toFixed(0)}
               </Text>
             </View>
 

@@ -211,10 +211,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-
     padding: 15,
     alignItems: "center",
     marginVertical: 10,
+    display: "flex",
+    flexDirection: "column",
   },
   text: {
     fontSize: 16,
@@ -229,9 +230,9 @@ const styles = StyleSheet.create({
     borderColor: "#f0f0f0",
   },
   trainerinfodetels: {
-    justifyContent: "center",
-    flexDirection: "row",
-    gap: 10,
+    flex: 1,
+    flexDirection: "column",
+    gap: 5,
   },
   traineertitle: {
     width: "100%",
@@ -266,7 +267,10 @@ const styles = StyleSheet.create({
   },
   acppetorreacject: {
     width: "100%",
-    marginBottom: -40,
+    position: "absolute",
+    top: "95%",
+    left: "15%",
+    marginBottom: 40,
     marginRight: -48,
     flexDirection: "row",
   },
@@ -275,7 +279,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   facek: {
-    width: "60%",
+    width: "55%",
   },
   acppetorreacjectiner: {
     height: "50%",

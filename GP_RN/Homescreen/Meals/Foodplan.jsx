@@ -273,15 +273,71 @@ function Foodplan() {
           })}
       </View>
 
-      <Text style={Foodplanstyle.sectionTitle}>Appetizers</Text>
-      <FlatList
-        data={foodData}
-        renderItem={renderFoodItem}
-        keyExtractor={(item) => item.id.toString()}
-        numColumns={2}
-        contentContainerStyle={Foodplanstyle.listContainer}
-        scrollEnabled={false}
-      />
+      <View>
+        <Text style={Foodplanstyle.sectionTitle}>Appetizers</Text>
+        <View style={Foodplanstyle.Appetizers}>
+          <TouchableOpacity
+            style={[
+              Foodplanstyle.mainMealContainer,
+              { backgroundColor: "#E6BFCF" },
+            ]}
+          >
+            <Image
+              source={{
+                uri: "https://breadsandsweets.com/wp-content/uploads/2022/08/choc-pudding-sq-1-of-1.jpg",
+              }}
+              style={Foodplanstyle.mainMealImage}
+            />
+            <View style={Foodplanstyle.infoContainer}>
+              <Text style={Foodplanstyle.mainMealTitle}>Diet chocolate</Text>
+              <View style={Foodplanstyle.outerinfoItem}>
+                <View style={Foodplanstyle.infoItem}>
+                  <IconIonicons name="time-outline" size={20} color="#FFFFFF" />
+                  <Text style={Foodplanstyle.infoText}>15 min</Text>
+                </View>
+                <View style={Foodplanstyle.infoItem}>
+                  <IconIonicons
+                    name="flame-outline"
+                    size={20}
+                    color="#FFFFFF"
+                  />
+                  <Text style={Foodplanstyle.infoText}>30 Cal</Text>
+                </View>
+              </View>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              Foodplanstyle.mainMealContainer,
+              { backgroundColor: "#AEE6E9" },
+            ]}
+          >
+            <Image
+              source={{
+                uri: "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGdsYXNzJTIwd2F0ZXJ8ZW58MHx8MHx8fDA%3D",
+              }}
+              style={Foodplanstyle.mainMealImage}
+            />
+            <View style={Foodplanstyle.infoContainer}>
+              <Text style={Foodplanstyle.mainMealTitle}>Glass Of Water</Text>
+              <View style={Foodplanstyle.outerinfoItem}>
+                <View style={Foodplanstyle.infoItem}>
+                  <IconIonicons name="time-outline" size={20} color="#FFFFFF" />
+                  <Text style={Foodplanstyle.infoText}>1 min</Text>
+                </View>
+                <View style={Foodplanstyle.infoItem}>
+                  <IconIonicons
+                    name="flame-outline"
+                    size={20}
+                    color="#FFFFFF"
+                  />
+                  <Text style={Foodplanstyle.infoText}>0 Cal</Text>
+                </View>
+              </View>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
     </ScrollView>
   );
 }

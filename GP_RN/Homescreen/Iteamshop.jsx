@@ -30,6 +30,7 @@ function Iteamshop({ route, navigation }) {
         Size: Size,
         Description: Description,
         Product_Name: Product_Name,
+        Img: Img,
       },
     ];
 

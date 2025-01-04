@@ -61,7 +61,7 @@ const Uploading = () => {
       formData.append("video", {
         uri: fileUri,
         type: "video/mp4",
-        name: `${username}_${videoFile.assets[0].name}.mp4`,
+        name: `${username}@@@${videoFile.assets[0].name}.mp4`,
       });
       formData.append("trainName", selectedTrain);
       console.log(formData);

@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   batchContainer: {
     marginBottom: 3,
     flexDirection: "row",
-    gap: 10,
+    gap: 5,
   },
   outer: {
     marginBottom: 10,

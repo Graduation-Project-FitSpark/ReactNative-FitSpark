@@ -80,36 +80,34 @@ function Traineefood({ route }) {
     },
   ]);
 
-  useFocusEffect(
-    useCallback(() => {
-      const fetchSpecialistDetails = async () => {
-        try {
-          const response1 = await fetch(`${URL}/getFoods`, {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-          });
+  useEffect(() => {
+    const fetchSpecialistDetails = async () => {
+      try {
+        const response1 = await fetch(`${URL}/getFoods`, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
 
-          if (!response1.ok) throw new Error(`Failed: ${response1.status}`);
-          const data1 = await response1.json();
-          setfoodData(data1.foods);
+        if (!response1.ok) throw new Error(`Failed: ${response1.status}`);
+        const data1 = await response1.json();
+        setfoodData(data1.foods);
 
-          const response2 = await fetch(`${URL}/getTrainerWeekFoods`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ ID_Trainer: ID_Trainer }),
-          });
+        const response2 = await fetch(`${URL}/getTrainerWeekFoods`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ID_Trainer: ID_Trainer }),
+        });
 
-          if (!response2.ok) throw new Error(`Failed: ${response2.status}`);
-          const data2 = await response2.json();
-          settrainerCoachData(data2);
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        }
-      };
+        if (!response2.ok) throw new Error(`Failed: ${response2.status}`);
+        const data2 = await response2.json();
+        settrainerCoachData(data2);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-      fetchSpecialistDetails();
-    }, [])
-  );
+    fetchSpecialistDetails();
+  }, []);
 
   const [filteredPlan, setFilteredPlan] = useState([]);
 
@@ -226,7 +224,6 @@ function Traineefood({ route }) {
     const newEntry = {
       ID_Trainer,
       ID_Food: selectedexercise.ID_Food,
-
       Day_Of_Week: data.find((d) => d.isSelected)?.Day_Of_Week || "",
       Times: Itemtime,
     };
@@ -329,7 +326,7 @@ function Traineefood({ route }) {
           >
             <View style={styles.modalOverlay}>
               <View style={styles.modalContainer}>
-                <Text style={styles.modalTitle}>Add New Exercise</Text>
+                <Text style={styles.modalTitle}>Add New Meal</Text>
                 <Picker
                   selectedValue={selectedexercise}
                   style={styles.picker}

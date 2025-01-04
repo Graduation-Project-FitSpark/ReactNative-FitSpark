@@ -63,7 +63,7 @@ const Navigationdrawercoacj = () => {
           onPress={() => navigation.navigate("Uploading")}
         >
           <IconIonicons name="arrow-up" size={24} color="#000" />
-          <Text style={styles.menuItem}>Uploading Vidoes</Text>
+          <Text style={styles.menuItem}>Add Excercise</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.menuItemContainer}
@@ -72,13 +72,7 @@ const Navigationdrawercoacj = () => {
           <IconIonicons name="notifications" size={24} color="#000" />
           <Text style={styles.menuItem}>Notifications</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.menuItemContainer}
-          onPress={() => navigation.navigate("Competitions")}
-        >
-          <IconIonicons name="flash" size={24} color="#000" />
-          <Text style={styles.menuItem}>Competitions</Text>
-        </TouchableOpacity>
+
         <TouchableOpacity style={styles.menuItemContainer}>
           <IconIonicons name="help-circle" size={24} color="#000" />
           <Text style={styles.menuItem}>FAQ</Text>

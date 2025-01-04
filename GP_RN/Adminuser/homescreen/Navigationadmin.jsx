@@ -59,13 +59,6 @@ const Navigationadmin = () => {
 
         <TouchableOpacity
           style={styles.menuItemContainer}
-          onPress={() => navigation.navigate("Notification")}
-        >
-          <IconIonicons name="notifications" size={24} color="#000" />
-          <Text style={styles.menuItem}>Notifications</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.menuItemContainer}
           onPress={() => navigation.navigate("AddAwards")}
         >
           <IconIonicons name="medal" size={24} color="#000" />

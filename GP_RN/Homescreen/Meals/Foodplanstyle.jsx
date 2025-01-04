@@ -6,7 +6,11 @@ export const Foodplanstyle = StyleSheet.create({
     padding: 20,
     paddingTop: 40,
   },
-
+  Appetizers: {
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 40,
+  },
   hader: {
     flexDirection: "row",
   },

@@ -32,6 +32,7 @@ function Cart({ navigation }) {
               Size: sharedValue.size,
               Description: sharedValue.description,
               Product_Name: sharedValue.Product_Name,
+              Img: sharedValue.Img,
             },
           ];
 
@@ -131,7 +132,7 @@ function Cart({ navigation }) {
                   <View>
                     <Image
                       source={{
-                        uri: "https://p7.hiclipart.com/preview/548/366/440/dietary-supplement-whey-protein-isolate-optimum-nutrition-gold-standard-100-whey-protein-thumbnail.jpg",
+                        uri: `${item.Img}`,
                       }}
                       style={styles.image}
                     />

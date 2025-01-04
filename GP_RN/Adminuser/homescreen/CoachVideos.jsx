@@ -135,19 +135,18 @@ const CoachVideos = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  videoContainer: {
     flexGrow: 1,
     padding: 20,
     backgroundColor: "#f5f5f5",
+    paddingTop: 50,
   },
   loadingText: {
     fontSize: 18,
     textAlign: "center",
     marginTop: 20,
   },
-  videoContainer: {
-    marginBottom: 20,
-  },
+
   trainName: {
     fontSize: 20,
     fontWeight: "bold",

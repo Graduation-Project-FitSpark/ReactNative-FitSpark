@@ -77,13 +77,29 @@ function EditSpecialistModel({ modalVisible, setModalVisible, iteam }) {
     setModalVisible(false);
     navigation.replace("EditCoach");
   };
-  const send = () => {
-    //هون ببعت نوتفيكشن لليوزر الي الايدي تاعو iteam
-    console.log(notfiction);
-    setnotfiction("");
-    Alert.alert("Notification Sent", `Message: ${notfiction}`, [
-      { text: "OK" },
-    ]);
+  const sendNotification = async (username) => {
+    const currentDate = new Date().toISOString().split("T")[0];
+
+    try {
+      const notificationData = {
+        Description: notfiction,
+        Date: currentDate,
+        Msg_To: username,
+      };
+
+      const response = await axios.post(
+        `${URL}/insertNotification`,
+        notificationData
+      );
+
+      console.log(response.data.message);
+      return response.data.message;
+    } catch (error) {
+      console.error("Error inserting notification:", error);
+      return "Failed to insert notification";
+    }
+    alert(`Notification Sent: ${notification}`);
+    setNotification("");
   };
 
   return (
@@ -147,7 +163,10 @@ function EditSpecialistModel({ modalVisible, setModalVisible, iteam }) {
                 onChangeText={(text) => setnotfiction(text)}
               />
             </View>
-            <TouchableOpacity onPress={send} style={styles.send}>
+            <TouchableOpacity
+              onPress={() => sendNotification(userData.Username)}
+              style={styles.send}
+            >
               <IconIonicons name="send" size={20} color="#fff" />
             </TouchableOpacity>
           </View>

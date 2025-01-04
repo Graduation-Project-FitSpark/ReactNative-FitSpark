@@ -140,6 +140,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     width: "100%",
     height: "100%",
+    marginRight: "10px",
   },
   header: {
     backgroundColor: "#fff",
@@ -174,7 +175,7 @@ const styles = StyleSheet.create({
   batchContainer: {
     marginBottom: 3,
     flexDirection: "row",
-    gap: 10,
+    gap: 1,
   },
   outer: {
     marginBottom: 10,

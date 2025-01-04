@@ -111,7 +111,7 @@ const Profile = ({ route, navigation }) => {
           <Button
             title={isEditing[field] ? "Save" : "Change"}
             onPress={() => toggleEditing(field)}
-            color="#1c1b29"
+            color="#99E895"
           />
         </View>
       ))}

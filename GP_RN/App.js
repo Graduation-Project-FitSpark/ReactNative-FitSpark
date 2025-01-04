@@ -78,6 +78,7 @@ import SelectShop from "./Adminuser/AdminActivities/SelectShop.jsx";
 import AddItems from "./Adminuser/AdminActivities/Editeuser/AddItem.jsx";
 import AddNewMeals from "./HSpecialist/SpecialistActivities/AddNewMeals.jsx";
 import SalesStatsitics from "./Adminuser/AdminActivities/Editeuser/SalesStatsitics.jsx";
+import WeeklyPlan from "./Homescreen/WeeklyPlan.jsx";
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -86,6 +87,7 @@ export default function App() {
       <QuizProvider>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="SignIn">
+            <Stack.Screen name="WeeklyPlan" component={WeeklyPlan} />
             <Stack.Screen name="Uploading" component={Uploading} />
             <Stack.Screen name="ProfileCoach" component={ProfileCoach} />
             <Stack.Screen name="PhysicalTrains" component={PhysicalTrains} />

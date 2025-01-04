@@ -6,6 +6,7 @@ import {
   Image,
   FlatList,
   StyleSheet,
+  TextInput,
 } from "react-native";
 import URL from "../enum";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -117,18 +118,11 @@ const SelectSpecialist = ({ navigation }) => {
         <TextInput
           style={styles.input}
           placeholder="Enter description"
-          value={description}
-          onChangeText={setDescription}
-        />
-      </View>
-      <View style={styles.containerForLabel}>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter description"
           value={Description}
           onChangeText={setDescription}
         />
       </View>
+
       <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
         <Text style={styles.nextButtonText}>Submit</Text>
       </TouchableOpacity>
